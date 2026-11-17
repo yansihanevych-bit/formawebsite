@@ -1,0 +1,187 @@
+import Link from "next/link";
+import type { Metadata } from "next";
+import { t, type Locale } from "@/lib/i18n";
+import { getDict } from "@/dictionaries";
+import { segmentById, type SegmentId } from "@/content/segments";
+import { projectBySlug } from "@/content/projects";
+import { serviceById } from "@/content/services";
+import { faqs, plans } from "@/content/misc";
+import { Pic } from "@/components/ui/Pic";
+import { Reveal } from "@/components/ui/Reveal";
+import { Arrow } from "@/components/ui/Arrow";
+import { SectionHead } from "@/components/ui/SectionHead";
+import { ProjectCard } from "./ProjectCard";
+import { Process } from "./Process";
+import { PricingCards } from "./PricingCards";
+import { FaqList, faqJsonLd } from "./FaqList";
+import { CtaBand } from "./CtaBand";
+import { SegmentTracker } from "./SegmentTracker";
+import { pageMeta, sized } from "@/lib/seo";
+
+export function segmentMeta(id: SegmentId, lang: Locale): Metadata {
+  const s = segmentById(id);
+  return pageMeta(lang, `/${s.slug}`, t(s.title, lang), t(s.lead, lang), sized(s.image.src, 1200));
+}
+
+export function SegmentPage({ id, lang }: { id: SegmentId; lang: Locale }) {
+  const d = getDict(lang);
+  const s = segmentById(id);
+  const cases = s.projects.map(projectBySlug).filter((p) => !!p);
+  const segFaq = faqs.filter((f) => !f.segments || f.segments.includes(id)).slice(0, 6);
+  const segPlans = plans.filter((p) => p.forSegments.includes(id));
+  const startHref = `/${lang}/start?type=${id}`;
+
+  return (
+    <>
+      <SegmentTracker id={id} />
+      {/* Hero */}
+      <section className="relative min-h-[88svh] overflow-hidden bg-ink text-paper">
+        <Pic img={s.image} priority sizes="100vw" className="absolute inset-0" imgClassName="opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/40" />
+        <div className="container-x relative flex min-h-[88svh] flex-col justify-end pb-14 pt-40 md:pb-20">
+          <Reveal>
+            <p className="eyebrow mb-6 text-paper/75">
+              {s.n} · {t(s.label, lang)}
+            </p>
+            <h1 className="max-w-[18ch] font-display text-[clamp(2.4rem,5.6vw,6rem)] font-light leading-[1.02]">{t(s.title, lang)}</h1>
+          </Reveal>
+          <Reveal delay={0.15} className="mt-10 grid gap-8 md:grid-cols-12 md:items-end">
+            <p className="max-w-xl text-lg text-paper/85 md:col-span-6">{t(s.lead, lang)}</p>
+            <div className="flex flex-wrap gap-3 md:col-span-6 md:justify-end">
+              <Link href={startHref} className="btn btn-light">
+                {id === "developers" ? d.segment.b2bCta : d.common.startProject} <Arrow />
+              </Link>
+              <span className="eyebrow self-center text-paper/70">{t(s.priceFrom, lang)}</span>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Pains → outcomes */}
+      <section className="container-x py-24 md:py-36">
+        <div className="grid gap-16 md:grid-cols-12">
+          <Reveal className="md:col-span-4">
+            <p className="eyebrow mb-8 text-stone">{d.segment.painsTitle}</p>
+            <ul className="space-y-5">
+              {s.pains.map((p, k) => (
+                <li key={k} className="flex gap-4 font-display text-xl font-light leading-snug text-ink-2/80 line-through decoration-ochre/60 decoration-1">
+                  {t(p, lang)}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+          <div className="md:col-span-7 md:col-start-6">
+            <p className="eyebrow mb-8 text-stone">{d.segment.outcomesTitle}</p>
+            <div className="border-t border-line">
+              {s.outcomes.map((o, k) => (
+                <Reveal key={k} delay={k * 0.06} className="grid gap-3 border-b border-line py-8 md:grid-cols-[3rem_1fr_1.2fr]">
+                  <span className="font-display text-sm text-ochre">0{k + 1}</span>
+                  <h3 className="font-display text-2xl font-light">{t(o.title, lang)}</h3>
+                  <p className="text-ink-2/75">{t(o.text, lang)}</p>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Developers: two tracks */}
+      {s.tracks && (
+        <section className="bg-ink py-24 text-paper md:py-32">
+          <div className="container-x">
+            <Reveal>
+              <p className="eyebrow mb-5 text-stone">{d.segment.tracksTitle}</p>
+            </Reveal>
+            <div className="mt-10 grid gap-px bg-white/10 md:grid-cols-2">
+              {s.tracks.map((tr, k) => (
+                <Reveal key={tr.id} delay={k * 0.1} className="bg-ink p-8 md:p-14">
+                  <p className="font-display text-sm text-ochre">0{k + 1}</p>
+                  <h3 className="mt-6 font-display text-5xl font-extralight md:text-6xl">{t(tr.title, lang)}</h3>
+                  <p className="mt-4 text-lg text-paper/75">{t(tr.text, lang)}</p>
+                  <ul className="mt-10 space-y-3 border-t border-white/15 pt-6 text-paper/85">
+                    {tr.points.map((p, i) => (
+                      <li key={i} className="flex gap-3">
+                        <span className="text-ochre">+</span>
+                        {t(p, lang)}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href={`${startHref}&track=${tr.id}`} className="btn btn-light mt-10">
+                    {d.segment.b2bCta} <Arrow />
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Cases */}
+      <section className="bg-paper-2/60 py-24 md:py-32">
+        <div className="container-x">
+          <SectionHead
+            eyebrow={d.segment.casesTitle}
+            title={d.home.featuredTitle}
+            aside={
+              <Link href={`/${lang}/projects?s=${id}`} className="btn btn-ghost">
+                {d.common.allProjects} <Arrow />
+              </Link>
+            }
+          />
+          <div className="grid gap-x-8 gap-y-14 md:grid-cols-3">
+            {cases.map((p, k) => (
+              <Reveal key={p!.slug} delay={k * 0.08}>
+                <ProjectCard p={p!} lang={lang} />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services for this segment */}
+      <section className="container-x py-24 md:py-32">
+        <SectionHead eyebrow={d.segment.servicesTitle} title={d.home.servicesTitle} />
+        <div className="grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-3">
+          {s.services.map((sid, k) => {
+            const sv = serviceById(sid);
+            return (
+              <Reveal key={sid} delay={k * 0.05} className="group bg-paper">
+                <Pic img={sv.image} sizes="(min-width: 1024px) 33vw, 50vw" className="aspect-[16/10]" imgClassName="transition-transform duration-[1.2s] group-hover:scale-105" />
+                <div className="p-7">
+                  <p className="eyebrow text-[0.6rem] text-ochre">{sv.n} — {t(sv.timing, lang)}</p>
+                  <h3 className="mt-4 font-display text-2xl font-light">{t(sv.title, lang)}</h3>
+                  <p className="mt-2 text-sm text-stone">{t(sv.short, lang)}</p>
+                </div>
+              </Reveal>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="container-x pb-24 md:pb-32">
+        <SectionHead eyebrow={d.home.processEyebrow} title={d.home.processTitle} />
+        <Process lang={lang} />
+      </section>
+
+      <section className="container-x pb-24 md:pb-32">
+        <SectionHead eyebrow={d.segment.priceTitle} title={d.home.pricingTitle} />
+        <PricingCards items={segPlans} lang={lang} cta={d.pricing.choose} popular={d.pricing.popular} />
+      </section>
+
+      <section className="container-x pb-24 md:pb-32">
+        <div className="grid gap-10 md:grid-cols-12">
+          <Reveal className="md:col-span-4">
+            <p className="eyebrow mb-5 text-stone">{d.segment.faqTitle}</p>
+            <h2 className="h-section">FAQ</h2>
+          </Reveal>
+          <div className="md:col-span-8">
+            <FaqList items={segFaq} lang={lang} />
+          </div>
+        </div>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(segFaq, lang)) }} />
+      </section>
+
+      <CtaBand lang={lang} d={d} defaultType={id} />
+    </>
+  );
+}
