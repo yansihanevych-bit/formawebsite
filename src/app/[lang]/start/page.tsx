@@ -19,16 +19,16 @@ export default async function Page({ params }: PageProps<"/[lang]/start">) {
   const lang = (await params).lang as Locale;
   const d = getDict(lang);
   return (
-    <section className="grid min-h-svh lg:grid-cols-12">
+    <section data-header-solid className="grid min-h-svh lg:grid-cols-12">
       <aside className="relative hidden bg-ink text-paper lg:col-span-4 lg:block">
         <div className="sticky top-0 h-svh">
           <Pic img={IMG.plans} className="absolute inset-0 opacity-40" sizes="33vw" />
           <div className="relative flex h-full flex-col justify-end p-12">
             <p className="eyebrow mb-6 text-paper/60">FORMA BURO</p>
-            <ol className="space-y-3 font-display text-lg font-light text-paper/85">
+            <ol className="space-y-3 font-display text-lg font-normal text-paper/85">
               {d.form.steps.map((s, k) => (
                 <li key={s} className="flex gap-4">
-                  <span className="w-6 text-sm text-ochre">0{k + 1}</span>
+                  <span className="w-6 text-sm text-accent">0{k + 1}</span>
                   {s}
                 </li>
               ))}
@@ -38,8 +38,8 @@ export default async function Page({ params }: PageProps<"/[lang]/start">) {
         </div>
       </aside>
       <div className="container-x pb-24 pt-36 md:pt-44 lg:col-span-8 lg:max-w-none lg:px-16 xl:px-24">
-        <p className="eyebrow mb-6 text-stone">{d.nav.start}</p>
-        <h1 className="font-display text-[clamp(2.4rem,5vw,4.75rem)] font-light leading-[1.02]">{d.form.title}</h1>
+        <p className="eyebrow mb-6 text-muted">{d.nav.start}</p>
+        <h1 className="font-display text-[clamp(2.4rem,5vw,4.75rem)] font-normal leading-[1.02]">{d.form.title}</h1>
         <p className="mb-14 mt-6 max-w-xl text-ink-2/80">{d.form.lead}</p>
         <LeadForm
           lang={lang}

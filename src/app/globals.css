@@ -1,18 +1,21 @@
 @import "tailwindcss";
-@import "@fontsource-variable/montserrat";
+@import "@fontsource-variable/manrope";
 @import "@fontsource-variable/inter";
 
 /* ───────── Design tokens ───────── */
 @theme {
-  --color-paper: #f3f0eb;
-  --color-paper-2: #e9e4dc;
-  --color-ink: #151515;
-  --color-ink-2: #2a2826;
-  --color-stone: #85807a;
-  --color-line: rgb(21 21 21 / 0.12);
-  --color-ochre: #b4683f; /* лигурийская терракота — акцент */
+  /* Палитра из рекомендаций по редизайну */
+  --color-ink: #171918; /* Graphite — тёмный фон и текст */
+  --color-ink-2: #2b2e2c;
+  --color-paper: #f2f0ea; /* Warm white — основной светлый фон */
+  --color-paper-2: #d8d6cf; /* Concrete — вторичные поверхности */
+  --color-concrete: #d8d6cf;
+  --color-stone: #a7aa9c; /* Stone — сдержанный акцент (на тёмном) */
+  --color-accent: #7c806f; /* Stone, затемнённый для текста на светлом */
+  --color-muted: #6c6f66; /* вторичный текст на светлом (контраст AA) */
+  --color-line: rgb(23 25 24 / 0.12);
 
-  --font-display: "Montserrat Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Manrope Variable", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -35,14 +38,14 @@
     color: var(--color-paper);
   }
   :focus-visible {
-    outline: 2px solid var(--color-ochre);
+    outline: 2px solid var(--color-accent);
     outline-offset: 3px;
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    font-weight: 300;
-    letter-spacing: -0.01em;
-    line-height: 1.05;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1;
   }
 }
 
@@ -56,21 +59,32 @@
   /* Мелкий uppercase-лейбл с разрядкой — как ARCHITECTURE в логотипе */
   .eyebrow {
     font-family: var(--font-display);
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.32em;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
   }
+  /* Hero: ~80–110px на десктопе */
   .h-display {
-    font-size: clamp(2.6rem, 7vw, 7.5rem);
-    font-weight: 300;
-    letter-spacing: -0.02em;
-    line-height: 0.98;
+    font-size: clamp(3rem, 7.4vw, 7rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 0.92;
+    text-transform: uppercase;
   }
   .h-section {
-    font-size: clamp(2rem, 4.4vw, 4.25rem);
-    font-weight: 300;
-    letter-spacing: -0.015em;
+    font-size: clamp(2.2rem, 4.8vw, 4.75rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+  }
+  /* Технические микро-подписи (DeLorean): тире + uppercase */
+  .meta {
+    font-family: var(--font-display);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
   }
   .btn {
     display: inline-flex;
@@ -80,11 +94,17 @@
     font-family: var(--font-display);
     font-size: 0.75rem;
     font-weight: 600;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     transition: background-color 0.35s var(--ease-out-expo), color 0.35s var(--ease-out-expo),
       border-color 0.35s var(--ease-out-expo);
     border: 1px solid currentColor;
+  }
+  .btn .arr {
+    transition: transform 0.45s var(--ease-out-expo);
+  }
+  .btn:hover .arr {
+    transform: translate(3px, -3px);
   }
   .btn-solid {
     background: var(--color-ink);
@@ -92,8 +112,8 @@
     border-color: var(--color-ink);
   }
   .btn-solid:hover {
-    background: var(--color-ochre);
-    border-color: var(--color-ochre);
+    background: var(--color-ink-2);
+    border-color: var(--color-ink-2);
   }
   .btn-ghost:hover {
     background: var(--color-ink);
@@ -158,10 +178,6 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
 
-@keyframes kenburns {
-  from { transform: scale(1.04); }
-  to { transform: scale(1.14); }
-}
 @keyframes scrollcue {
   0% { transform: scaleY(0); transform-origin: top; }
   45% { transform: scaleY(1); transform-origin: top; }

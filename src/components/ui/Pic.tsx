@@ -14,7 +14,7 @@ type Props = {
 /** Изображение, заполняющее родителя (родителю нужен размер / aspect-ratio). */
 export function Pic({ img, sizes = "100vw", priority, className = "", imgClassName = "", alt, quality = 75 }: Props) {
   return (
-    <div className={`relative overflow-hidden bg-paper-2 ${className}`}>
+    <div className={`${/\b(absolute|fixed)\b/.test(className) ? "" : "relative"} overflow-hidden bg-paper-2 ${className}`}>
       <Image
         src={img.src}
         alt={alt ?? img.alt}

@@ -77,6 +77,13 @@ export default async function LangLayout({ children, params }: LayoutProps<"/[la
           t={d.nav}
           forWhom={forWhom}
           studio={studio}
+          main={[
+            { n: "", label: d.nav.projects, href: `/${lang}/projects` },
+            { n: "", label: d.nav.forWhom, href: "#menu" },
+            { n: "", label: d.nav.films, href: `/${lang}/films` },
+            { n: "", label: d.nav.pricing, href: `/${lang}/pricing` },
+            { n: "", label: d.nav.faq, href: `/${lang}/faq` },
+          ]}
           contact={{ email: site.email, phone: site.phone, whatsapp: site.whatsapp, area: d.footer.area }}
         />
         <main id="main" className="flex-1">

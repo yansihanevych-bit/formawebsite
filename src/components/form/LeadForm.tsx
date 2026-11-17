@@ -55,14 +55,14 @@ type Props = {
 
 function Label({ children, req, htmlFor }: { children: React.ReactNode; req?: boolean; htmlFor?: string }) {
   return (
-    <label htmlFor={htmlFor} className="eyebrow mb-4 block text-[0.62rem] text-stone">
+    <label htmlFor={htmlFor} className="eyebrow mb-4 block text-[0.62rem] text-muted">
       {children}
-      {req && <span className="text-ochre"> *</span>}
+      {req && <span className="text-accent"> *</span>}
     </label>
   );
 }
 function Err({ show, text }: { show?: boolean; text: string }) {
-  return show ? <p className="mt-2 text-xs text-ochre">{text}</p> : null;
+  return show ? <p className="mt-2 text-xs text-accent">{text}</p> : null;
 }
 function Chips({ opts, value, onPick }: { opts: Opt[]; value: string | string[]; onPick: (id: string) => void }) {
   return (
@@ -251,10 +251,10 @@ export function LeadForm({ lang, t, clientTypes, services, questions, contactEma
       {/* progress */}
       <div className="mb-12">
         <div className="mb-4 flex items-baseline justify-between">
-          <p className="eyebrow text-[0.62rem] text-stone">
+          <p className="eyebrow text-[0.62rem] text-muted">
             {t.stepOf} {step + 1} {t.of} 5 — <span className="text-ink">{t.steps[step]}</span>
           </p>
-          <p className="hidden text-xs text-stone sm:block">{t.draftSaved}</p>
+          <p className="hidden text-xs text-muted sm:block">{t.draftSaved}</p>
         </div>
         <div className="grid grid-cols-5 gap-1.5">
           {t.steps.map((label, k) => (
@@ -316,7 +316,7 @@ export function LeadForm({ lang, t, clientTypes, services, questions, contactEma
                 </div>
                 <div className="max-w-xs">
                   <Label req htmlFor="area">{t.area}</Label>
-                  <input id="area" inputMode="numeric" className="field font-display text-3xl font-light" value={s.area} onChange={(e) => set("area", e.target.value.replace(/[^\d.,]/g, "").replace(",", "."))} placeholder="120" />
+                  <input id="area" inputMode="numeric" className="field font-display text-3xl font-normal" value={s.area} onChange={(e) => set("area", e.target.value.replace(/[^\d.,]/g, "").replace(",", "."))} placeholder="120" />
                   <Err show={errors.area} text={t.required} />
                 </div>
                 <div>
@@ -349,7 +349,7 @@ export function LeadForm({ lang, t, clientTypes, services, questions, contactEma
                 <div>
                   <Label>{t.files}</Label>
                   {uploadsEnabled === false ? (
-                    <p className="border border-dashed border-line p-6 text-sm text-stone">
+                    <p className="border border-dashed border-line p-6 text-sm text-muted">
                       {t.filesUnavailable} <a href={`mailto:${contactEmail}`} className="underline">{contactEmail}</a>
                     </p>
                   ) : (
@@ -361,8 +361,8 @@ export function LeadForm({ lang, t, clientTypes, services, questions, contactEma
                         onFiles(e.dataTransfer.files);
                       }}
                     >
-                      <span className="font-display text-xl font-light">{t.filesDrop}</span>
-                      <span className="text-xs text-stone">{t.filesHint}</span>
+                      <span className="font-display text-xl font-normal">{t.filesDrop}</span>
+                      <span className="text-xs text-muted">{t.filesHint}</span>
                       <input type="file" multiple className="sr-only" accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,.heif,.dwg,.zip" onChange={(e) => onFiles(e.target.files)} disabled={!uploadsEnabled} />
                     </label>
                   )}
@@ -371,16 +371,16 @@ export function LeadForm({ lang, t, clientTypes, services, questions, contactEma
                       {s.files.map((f) => (
                         <li key={f.url} className="flex items-center justify-between gap-4 py-3">
                           <span className="truncate">✓ {f.name}</span>
-                          <span className="flex shrink-0 items-center gap-4 text-stone">
+                          <span className="flex shrink-0 items-center gap-4 text-muted">
                             {(f.size / 1024 / 1024).toFixed(1)} MB
                             <button type="button" onClick={() => set("files", s.files.filter((x) => x.url !== f.url))} aria-label="Remove" className="hover:text-ink">✕</button>
                           </span>
                         </li>
                       ))}
                       {uploading.map((u) => (
-                        <li key={u.name} className="flex items-center justify-between gap-4 py-3 text-stone">
+                        <li key={u.name} className="flex items-center justify-between gap-4 py-3 text-muted">
                           <span className="truncate">{u.name}</span>
-                          <span className={u.error ? "text-ochre" : ""}>{u.error ? "✕" : `${t.uploading} ${Math.round(u.progress)}%`}</span>
+                          <span className={u.error ? "text-accent" : ""}>{u.error ? "✕" : `${t.uploading} ${Math.round(u.progress)}%`}</span>
                         </li>
                       ))}
                     </ul>
@@ -444,17 +444,17 @@ export function LeadForm({ lang, t, clientTypes, services, questions, contactEma
                   <label className="flex cursor-pointer gap-3">
                     <input type="checkbox" checked={s.gdpr} onChange={(e) => set("gdpr", e.target.checked)} className="mt-1 h-4 w-4 shrink-0 accent-ink" />
                     <span>
-                      {t.gdpr} <Link href={`/${lang}/privacy`} target="_blank" className="underline underline-offset-4">{t.privacy}</Link> <span className="text-ochre">*</span>
+                      {t.gdpr} <Link href={`/${lang}/privacy`} target="_blank" className="underline underline-offset-4">{t.privacy}</Link> <span className="text-accent">*</span>
                     </span>
                   </label>
                   <Err show={errors.gdpr} text={t.required} />
-                  <label className="flex cursor-pointer gap-3 text-stone">
+                  <label className="flex cursor-pointer gap-3 text-muted">
                     <input type="checkbox" checked={s.marketing} onChange={(e) => set("marketing", e.target.checked)} className="mt-1 h-4 w-4 shrink-0 accent-ink" />
                     <span>{t.marketing}</span>
                   </label>
                 </div>
                 {failed && (
-                  <p className="text-sm text-ochre" role="alert">
+                  <p className="text-sm text-accent" role="alert">
                     {t.error} <a href={`mailto:${contactEmail}`} className="underline">{contactEmail}</a>
                   </p>
                 )}
@@ -465,7 +465,7 @@ export function LeadForm({ lang, t, clientTypes, services, questions, contactEma
 
         <div className="mt-12 flex items-center justify-between gap-4 border-t border-line pt-8">
           {step > 0 ? (
-            <button type="button" onClick={() => go(step - 1)} className="eyebrow inline-flex items-center gap-3 text-[0.65rem] text-stone hover:text-ink">
+            <button type="button" onClick={() => go(step - 1)} className="eyebrow inline-flex items-center gap-3 text-[0.65rem] text-muted hover:text-ink">
               <Arrow dir="left" /> {t.back}
             </button>
           ) : (

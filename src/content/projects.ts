@@ -23,6 +23,8 @@ export type Project = {
   challenge: L;
   solution: L;
   result: L;
+  /** Планировка и ключевые решения (раздел 03 кейса) */
+  decisions: L[];
   cover: Img;
   hero: Img[];
   before: Img; // исходное состояние / план
@@ -62,6 +64,11 @@ export const projects: Project[] = [
       it: "Un unico ambiente di 62 m² con vista mare da ogni punto; il proprietario ha usato il dossier per chiedere i preventivi.",
       en: "A single 62 m² space with sea views throughout; the owner used the dossier to request quotes.",
     },
+    decisions: [
+      { it: "Demolizione di due tramezzi non portanti", en: "Two non-structural partitions removed" },
+      { it: "Cucina a isola sull'asse della terrazza", en: "Island kitchen aligned with the terrace" },
+      { it: "Aperture a tutta altezza verso il mare", en: "Full-height openings towards the sea" },
+    ],
     cover: IMG.villaPool,
     hero: [IMG.villaPool, IMG.living7, IMG.kitchen3],
     before: IMG.plans,
@@ -99,6 +106,11 @@ export const projects: Project[] = [
       it: "Annuncio aggiornato con render “dopo”: più richieste di visita nelle prime settimane.",
       en: "Listing updated with “after” renders: more viewing requests in the first weeks.",
     },
+    decisions: [
+      { it: "Corridoio eliminato, zona giorno passante", en: "Corridor removed, dual-aspect living room" },
+      { it: "Secondo bagno ricavato dal ripostiglio", en: "Second bathroom carved out of storage" },
+      { it: "Due varianti: bilocale + studio / trilocale", en: "Two options: one-bed + studio / three-room" },
+    ],
     cover: IMG.living5,
     hero: [IMG.living5, IMG.kitchen1, IMG.bedroom2],
     before: IMG.plans,
@@ -136,6 +148,11 @@ export const projects: Project[] = [
       it: "Da 20 a 24 unità vendibili sulla stessa superficie e un kit completo per la campagna.",
       en: "From 20 to 24 sellable units on the same footprint and a complete campaign kit.",
     },
+    decisions: [
+      { it: "Mix tipologico rivisto: più bilocali", en: "Revised unit mix: more one-beds" },
+      { it: "Distribuzioni compatte, meno superfici di passaggio", en: "Compact layouts, less circulation" },
+      { it: "Terrazze più profonde verso valle", en: "Deeper terraces facing the valley" },
+    ],
     cover: IMG.building,
     hero: [IMG.building, IMG.houseCube, IMG.living3],
     before: IMG.sketch,
@@ -172,6 +189,11 @@ export const projects: Project[] = [
       it: "Scenario a due unità confermato prima dell'offerta d'acquisto.",
       en: "Two-unit scenario confirmed before the purchase offer.",
     },
+    decisions: [
+      { it: "Ingresso indipendente dal vicolo", en: "Independent entrance from the alley" },
+      { it: "Scala esistente mantenuta per i piani alti", en: "Existing stair kept for upper floors" },
+      { it: "Tre scenari confrontati con superfici", en: "Three scenarios compared with areas" },
+    ],
     cover: IMG.street,
     hero: [IMG.street, IMG.living10, IMG.bedroom1],
     before: IMG.site,
@@ -209,6 +231,11 @@ export const projects: Project[] = [
       it: "Contratto firmato con l'impresa che ha presentato la proposta visiva.",
       en: "Contract signed with the builder who presented the visual proposal.",
     },
+    decisions: [
+      { it: "Zona giorno aperta sulla terrazza", en: "Living area opened onto the terrace" },
+      { it: "Bagno padronale ridisegnato", en: "Master bathroom redesigned" },
+      { it: "Finiture scelte direttamente sui render", en: "Finishes chosen directly on the renders" },
+    ],
     cover: IMG.living2,
     hero: [IMG.living2, IMG.kitchen1, IMG.bath],
     before: IMG.plans,
@@ -245,6 +272,11 @@ export const projects: Project[] = [
       it: "Progetto presentato a banca e acquirenti; due loft prenotati su carta.",
       en: "Project presented to the bank and buyers; two lofts reserved off-plan.",
     },
+    decisions: [
+      { it: "Cortile interno ricavato al centro", en: "Internal courtyard carved out in the middle" },
+      { it: "Tre loft passanti con doppia altezza", en: "Three dual-aspect double-height lofts" },
+      { it: "Soppalchi per le zone notte", en: "Mezzanines for sleeping areas" },
+    ],
     cover: IMG.living4,
     hero: [IMG.living4, IMG.living9, IMG.office],
     before: IMG.site,

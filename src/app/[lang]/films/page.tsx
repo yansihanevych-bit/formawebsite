@@ -5,7 +5,6 @@ import { films } from "@/content/misc";
 import { Pic } from "@/components/ui/Pic";
 import { Reveal } from "@/components/ui/Reveal";
 import { PageIntro } from "@/components/sections/PageIntro";
-import { CtaBand } from "@/components/sections/CtaBand";
 import { pageMeta } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/films">) {
@@ -34,12 +33,11 @@ export default async function Page({ params }: PageProps<"/[lang]/films">) {
               <span className="eyebrow absolute bottom-4 right-4 bg-ink/80 px-2 py-1 text-[0.58rem] text-paper">{f.duration}</span>
               {!f.videoUrl && <span className="eyebrow absolute left-4 top-4 bg-paper/90 px-2 py-1 text-[0.55rem]">{d.films.soon}</span>}
             </div>
-            <h2 className="mt-5 font-display text-2xl font-light">{t(f.title, lang)}</h2>
-            <p className="mt-1 text-sm text-stone">{t(f.text, lang)}</p>
+            <h2 className="mt-5 font-display text-2xl font-normal">{t(f.title, lang)}</h2>
+            <p className="mt-1 text-sm text-muted">{t(f.text, lang)}</p>
           </Reveal>
         ))}
       </section>
-      <CtaBand lang={lang} d={d} defaultType="developers" />
     </>
   );
 }

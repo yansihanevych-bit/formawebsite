@@ -4,16 +4,36 @@ import { t as tr } from "@/lib/i18n";
 import type { Dict } from "@/dictionaries";
 import { segments } from "@/content/segments";
 import { site } from "@/content/misc";
+import { SplitText } from "@/components/ui/SplitText";
+import { Arrow } from "@/components/ui/Arrow";
 
 export function Footer({ lang, d }: { lang: Locale; d: Dict }) {
   const year = new Date().getFullYear();
   return (
     <footer className="bg-ink text-paper">
-      <div className="container-x pb-10 pt-20 md:pt-28">
+      {/* Финальный экран: крупный контактный блок */}
+      <section className="container-x border-b border-white/15 pb-20 pt-28 md:pb-28 md:pt-40">
+        <p className="meta mb-10 flex items-center gap-3 text-stone">
+          <span className="h-px w-8 bg-stone" />
+          Liguria, Italy · Architecture & visualisation
+        </p>
+        <SplitText lines={[d.home.finalA]} className="font-display text-[clamp(2.4rem,6.4vw,6.5rem)] font-medium uppercase leading-[0.92] tracking-[-0.045em]" />
+        <SplitText lines={[d.home.finalB]} delay={0.2} className="font-display text-[clamp(2.4rem,6.4vw,6.5rem)] font-medium uppercase leading-[0.92] tracking-[-0.045em] text-stone" />
+        <div className="mt-14 flex flex-wrap items-center gap-x-10 gap-y-6">
+          <Link href={`/${lang}/start`} className="btn btn-light">
+            {d.common.startProject} <Arrow />
+          </Link>
+          <a href={`mailto:${site.email}`} className="link-u font-display text-xl font-medium md:text-2xl">
+            {site.email}
+          </a>
+        </div>
+      </section>
+
+      <div className="container-x pb-10 pt-16 md:pt-20">
         <div className="grid gap-14 md:grid-cols-12">
           <div className="md:col-span-5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/full-white.svg" alt="FORMA BURO Architecture" className="w-56 md:w-72" loading="lazy" />
+            <img src="/brand/full-white.svg" alt="FORMA BURO Architecture" className="w-44 md:w-56" loading="lazy" />
             <p className="eyebrow mt-8 text-stone">{d.footer.tagline}</p>
             <p className="mt-2 text-sm text-paper/60">{site.towns.join(" · ")}</p>
           </div>

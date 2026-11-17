@@ -6,18 +6,19 @@ import { IMG } from "@/content/images";
 import { segments } from "@/content/segments";
 import { projects } from "@/content/projects";
 import { services } from "@/content/services";
-import { plans, faqs, site } from "@/content/misc";
+import { plans, faqs } from "@/content/misc";
 import { Hero } from "@/components/sections/Hero";
 import { SegmentList } from "@/components/sections/SegmentList";
 import { BeforeAfter } from "@/components/sections/BeforeAfter";
-import { ProjectCard } from "@/components/sections/ProjectCard";
-import { ServicesAlt } from "@/components/sections/ServicesAlt";
+import { EditorialGrid } from "@/components/sections/Editorial";
+import { ServicesList } from "@/components/sections/ServicesList";
 import { Process } from "@/components/sections/Process";
 import { PricingCards } from "@/components/sections/PricingCards";
 import { FaqList, faqJsonLd } from "@/components/sections/FaqList";
-import { CtaBand } from "@/components/sections/CtaBand";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { Reveal } from "@/components/ui/Reveal";
+import { SplitText } from "@/components/ui/SplitText";
+import { CountUp } from "@/components/ui/CountUp";
 import { Arrow } from "@/components/ui/Arrow";
 import { alternates } from "@/lib/seo";
 
@@ -30,35 +31,39 @@ export async function generateMetadata({ params }: PageProps<"/[lang]">): Promis
 export default async function Home({ params }: PageProps<"/[lang]">) {
   const lang = (await params).lang as Locale;
   const d = getDict(lang);
-  const featured = projects.filter((p) => p.featured).slice(0, 4);
+  const featured = projects.filter((p) => p.featured).slice(0, 3);
   const faqTeaser = faqs.slice(0, 5);
 
   return (
     <>
       <Hero
-        slides={[IMG.villaPool, IMG.living2, IMG.houseDusk, IMG.living7]}
+        image={IMG.villaPool}
         eyebrow={d.home.eyebrow}
-        lines={[d.home.h1a, d.home.h1b, d.home.h1c]}
+        lines={[d.home.h1a, d.home.h1b]}
         sub={d.home.sub}
         primary={{ label: d.common.startProject, href: `/${lang}/start` }}
         secondary={{ label: d.common.viewProjects, href: `/${lang}/projects` }}
         scroll={d.home.scroll}
-        towns={site.towns}
+        meta={[
+          { k: "Concept", v: "48–72h" },
+          { k: lang === "it" ? "Lingue" : "Languages", v: "IT · EN" },
+        ]}
       />
 
-      {/* Stats */}
+      {/* Показатели */}
       <section className="border-b border-line">
-        <div className="container-x grid grid-cols-2 gap-y-10 py-14 md:grid-cols-4 md:py-20">
+        <div className="container-x grid grid-cols-2 md:grid-cols-4">
           {d.home.stats.map((s, k) => (
-            <Reveal key={k} delay={k * 0.06} className="pr-4">
-              <p className="font-display text-4xl font-light md:text-5xl">{s.v}</p>
-              <p className="mt-2 text-sm text-stone">{s.l}</p>
+            <Reveal key={k} delay={k * 0.06} className={`py-12 pr-4 md:py-16 ${k ? "md:border-l md:border-line md:pl-8" : ""}`}>
+              <p className="meta text-muted">0{k + 1}</p>
+              <CountUp value={s.v} className="mt-6 block whitespace-nowrap font-display text-4xl font-medium tracking-tight sm:text-5xl md:text-6xl" />
+              <p className="mt-3 text-sm text-muted">{s.l}</p>
             </Reveal>
           ))}
         </div>
       </section>
 
-      {/* Segments */}
+      {/* Аудитории */}
       <section className="container-x py-24 md:py-36">
         <SectionHead eyebrow={d.home.segmentsEyebrow} title={d.home.segmentsTitle} />
         <SegmentList
@@ -73,86 +78,79 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         />
       </section>
 
-      {/* Featured projects */}
-      <section className="bg-paper-2/60 py-24 md:py-36">
-        <div className="container-x">
-          <SectionHead
-            eyebrow={d.home.featuredEyebrow}
-            title={d.home.featuredTitle}
-            aside={
-              <Link href={`/${lang}/projects`} className="btn btn-ghost">
-                {d.common.allProjects} <Arrow />
-              </Link>
-            }
-          />
-          <div className="grid gap-x-8 gap-y-16 md:grid-cols-12">
-            {featured.map((p, k) => (
-              <Reveal
-                key={p.slug}
-                delay={(k % 2) * 0.1}
-                className={k % 4 === 0 ? "md:col-span-7" : k % 4 === 1 ? "md:col-span-5 md:mt-32" : k % 4 === 2 ? "md:col-span-5" : "md:col-span-7 md:-mt-24"}
-              >
-                <ProjectCard
-                  p={p}
-                  lang={lang}
-                  ratio={k % 4 === 0 || k % 4 === 3 ? "aspect-[4/3]" : "aspect-[4/5]"}
-                  sizes="(min-width: 768px) 55vw, 100vw"
-                />
-              </Reveal>
-            ))}
-          </div>
-        </div>
+      {/* Selected projects — редакционная галерея */}
+      <section className="container-x pb-24 md:pb-36">
+        <SectionHead
+          eyebrow={d.home.featuredEyebrow}
+          title={d.home.featuredTitle}
+          aside={
+            <Link href={`/${lang}/projects`} className="btn btn-ghost">
+              {d.common.allProjects} <Arrow />
+            </Link>
+          }
+        />
+        <EditorialGrid items={featured} lang={lang} />
       </section>
 
       {/* Before / after */}
-      <section className="container-x py-24 md:py-36">
-        <div className="mb-12 grid gap-8 md:mb-16 md:grid-cols-12">
-          <Reveal className="md:col-span-7">
-            <p className="eyebrow mb-5 text-stone">{d.home.baEyebrow}</p>
-            <h2 className="h-section max-w-[20ch]">{d.home.baTitle}</h2>
-          </Reveal>
-          <Reveal delay={0.1} className="self-end md:col-span-4 md:col-start-9">
-            <p className="text-ink-2/80">{d.home.baText}</p>
-          </Reveal>
-        </div>
-        <Reveal>
-          <BeforeAfter before={IMG.plans} after={IMG.living7} labels={{ before: d.common.before, after: d.common.after, drag: d.common.drag }} />
-        </Reveal>
-      </section>
-
-      {/* Services */}
-      <section className="container-x pb-24 md:pb-36">
-        <SectionHead eyebrow={d.home.servicesEyebrow} title={d.home.servicesTitle} />
-        <ServicesAlt items={services} lang={lang} />
-      </section>
-
-      {/* Why */}
       <section className="bg-ink py-24 text-paper md:py-36">
         <div className="container-x">
+          <div className="mb-12 grid gap-8 md:mb-16 md:grid-cols-12">
+            <div className="md:col-span-8">
+              <p className="meta mb-6 text-stone">— {d.home.baEyebrow}</p>
+              <SplitText lines={[d.home.baTitle]} className="h-section max-w-[20ch]" />
+            </div>
+            <Reveal delay={0.1} className="self-end md:col-span-4">
+              <p className="text-paper/70">{d.home.baText}</p>
+            </Reveal>
+          </div>
           <Reveal>
-            <p className="eyebrow mb-5 text-stone">{d.home.whyEyebrow}</p>
-            <h2 className="h-section max-w-[16ch]">{d.home.whyTitle}</h2>
+            <BeforeAfter before={IMG.plans} after={IMG.living7} labels={{ before: d.common.before, after: d.common.after, drag: d.common.drag }} />
           </Reveal>
-          <div className="mt-16 grid gap-px bg-white/10 md:mt-24 md:grid-cols-2 lg:grid-cols-4">
+        </div>
+      </section>
+
+      {/* What we do */}
+      <section id="services" className="container-x scroll-mt-24 py-24 md:py-36">
+        <ServicesList
+          eyebrow={d.home.servicesEyebrow}
+          title={d.home.servicesTitle}
+          lead={d.home.servicesLead}
+          deliverables={d.home.deliverables}
+          items={services.map((s) => ({
+            id: s.id,
+            n: s.n,
+            title: t(s.title, lang),
+            short: t(s.short, lang),
+            body: t(s.body, lang),
+            includes: s.includes.map((x) => t(x, lang)),
+            timing: t(s.timing, lang),
+            image: s.image,
+          }))}
+        />
+      </section>
+
+      {/* Почему мы */}
+      <section className="border-y border-line">
+        <div className="container-x py-24 md:py-32">
+          <SectionHead eyebrow={d.home.whyEyebrow} title={d.home.whyTitle} />
+          <div className="grid md:grid-cols-2 lg:grid-cols-4">
             {d.home.why.map((w, k) => (
-              <Reveal key={k} delay={k * 0.06} className="bg-ink p-8 md:p-10">
-                <span className="font-display text-sm text-ochre">0{k + 1}</span>
-                <h3 className="mt-10 font-display text-2xl font-light">{w.t}</h3>
-                <p className="mt-3 text-sm text-paper/65">{w.d}</p>
+              <Reveal key={k} delay={k * 0.06} className={`border-t border-ink py-8 lg:pr-8 ${k ? "lg:border-l lg:border-t lg:pl-8" : ""}`}>
+                <p className="meta text-accent">0{k + 1}</p>
+                <h3 className="mt-8 font-display text-2xl font-medium tracking-tight">{w.t}</h3>
+                <p className="mt-3 text-sm text-muted">{w.d}</p>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Process */}
-      <section className="container-x py-24 md:py-36">
-        <SectionHead eyebrow={d.home.processEyebrow} title={d.home.processTitle} />
-        <Process lang={lang} />
-      </section>
+      {/* How it works */}
+      <Process lang={lang} eyebrow={d.home.processEyebrow} title={d.home.processTitle} />
 
       {/* Pricing */}
-      <section className="container-x pb-24 md:pb-36">
+      <section className="container-x py-24 md:py-36">
         <SectionHead
           eyebrow={d.home.pricingEyebrow}
           title={d.home.pricingTitle}
@@ -168,21 +166,19 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       {/* FAQ */}
       <section className="container-x pb-24 md:pb-36">
         <div className="grid gap-10 md:grid-cols-12">
-          <Reveal className="md:col-span-4">
-            <p className="eyebrow mb-5 text-stone">{d.home.faqEyebrow}</p>
-            <h2 className="h-section">FAQ</h2>
+          <div className="md:col-span-4">
+            <p className="meta mb-6 text-muted">— {d.home.faqEyebrow}</p>
+            <SplitText lines={["FAQ"]} className="h-section" />
             <Link href={`/${lang}/faq`} className="btn btn-ghost mt-10">
               {d.common.seeAll} <Arrow />
             </Link>
-          </Reveal>
+          </div>
           <div className="md:col-span-8">
             <FaqList items={faqTeaser} lang={lang} />
           </div>
         </div>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(faqTeaser, lang)) }} />
       </section>
-
-      <CtaBand lang={lang} d={d} />
     </>
   );
 }

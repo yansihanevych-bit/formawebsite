@@ -96,15 +96,15 @@ export function ConsentManager({ t, lang, gtmId }: { t: T; lang: string; gtmId?:
           <div className="mt-5 space-y-3 border-t border-white/15 pt-5 text-sm">
             <label className="flex items-center justify-between gap-4 opacity-60">
               {t.necessary}
-              <input type="checkbox" checked disabled className="h-4 w-4 accent-ochre" />
+              <input type="checkbox" checked disabled className="h-4 w-4 accent-accent" />
             </label>
             <label className="flex cursor-pointer items-center justify-between gap-4">
               {t.analytics}
-              <input type="checkbox" checked={a} onChange={(e) => setA(e.target.checked)} className="h-4 w-4 accent-ochre" />
+              <input type="checkbox" checked={a} onChange={(e) => setA(e.target.checked)} className="h-4 w-4 accent-accent" />
             </label>
             <label className="flex cursor-pointer items-center justify-between gap-4">
               {t.marketing}
-              <input type="checkbox" checked={m} onChange={(e) => setM(e.target.checked)} className="h-4 w-4 accent-ochre" />
+              <input type="checkbox" checked={m} onChange={(e) => setM(e.target.checked)} className="h-4 w-4 accent-accent" />
             </label>
           </div>
         )}

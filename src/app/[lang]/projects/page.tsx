@@ -3,10 +3,8 @@ import { t } from "@/lib/i18n";
 import { getDict } from "@/dictionaries";
 import { projects } from "@/content/projects";
 import { segments } from "@/content/segments";
-import { ProjectCard } from "@/components/sections/ProjectCard";
 import { ProjectsFilter } from "@/components/sections/ProjectsFilter";
 import { PageIntro } from "@/components/sections/PageIntro";
-import { CtaBand } from "@/components/sections/CtaBand";
 import { pageMeta } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/projects">) {
@@ -25,10 +23,10 @@ export default async function Page({ params }: PageProps<"/[lang]/projects">) {
         <ProjectsFilter
           allLabel={d.projects.all}
           filters={segments.map((s) => ({ id: s.id, label: t(s.label, lang) }))}
-          items={projects.map((p) => ({ slug: p.slug, segments: p.segments, node: <ProjectCard p={p} lang={lang} /> }))}
+          items={projects}
+          lang={lang}
         />
       </section>
-      <CtaBand lang={lang} d={d} />
     </>
   );
 }

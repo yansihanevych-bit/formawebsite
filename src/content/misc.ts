@@ -163,31 +163,36 @@ export const films: Film[] = [
 ];
 
 /* ───────── Process ───────── */
-export const processSteps: { title: L; text: L; time: L }[] = [
+export const processSteps: { title: L; text: L; time: L; image: Img }[] = [
   {
-    title: { it: "Inviate i materiali", en: "Send your material" },
-    text: { it: "Planimetria, misure o foto tramite il modulo.", en: "Plan, measurements or photos via the form." },
+    title: { it: "Materiali", en: "Material" },
+    text: { it: "Inviate planimetria, misure o foto tramite il modulo. Bastano pochi minuti.", en: "Send your plan, measurements or photos via the form. It takes a few minutes." },
     time: { it: "5 minuti", en: "5 minutes" },
+    image: IMG.plans,
   },
   {
-    title: { it: "Preventivo fisso", en: "Fixed quote" },
-    text: { it: "Vi rispondiamo con prezzo e tempi certi.", en: "We reply with a firm price and timing." },
+    title: { it: "Preventivo", en: "Proposal" },
+    text: { it: "Analizziamo il materiale e rispondiamo con prezzo fisso e tempi certi.", en: "We review the material and reply with a fixed price and firm timing." },
     time: { it: "entro 24 ore", en: "within 24 hours" },
+    image: IMG.office,
   },
   {
-    title: { it: "Concept planimetrico", en: "Layout concept" },
-    text: { it: "Varianti di distribuzione con misure reali.", en: "Layout options with real dimensions." },
+    title: { it: "Concept", en: "Concept" },
+    text: { it: "Varianti di distribuzione con misure reali, verificate su struttura e impianti.", en: "Layout options with real dimensions, checked against structure and services." },
     time: { it: "48–72 ore", en: "48–72 hours" },
+    image: IMG.sketch,
   },
   {
-    title: { it: "3D e render", en: "3D and renders" },
-    text: { it: "Modello e immagini fotorealistiche.", en: "Model and photorealistic images." },
+    title: { it: "Visualizzazione", en: "Visualisation" },
+    text: { it: "Modello 3D e render fotorealistici costruiti sul concept approvato.", en: "3D model and photorealistic renders built on the approved concept." },
     time: { it: "3–5 giorni", en: "3–5 days" },
+    image: IMG.living2,
   },
   {
-    title: { it: "Presentazione", en: "Presentation" },
-    text: { it: "Dossier PDF pronto da inviare.", en: "A PDF dossier ready to send." },
+    title: { it: "Consegna", en: "Delivery" },
+    text: { it: "Dossier PDF, immagini per portali e social, pronti da inviare.", en: "PDF dossier, portal and social images, ready to send." },
     time: { it: "+1–2 giorni", en: "+1–2 days" },
+    image: IMG.living7,
   },
 ];
 

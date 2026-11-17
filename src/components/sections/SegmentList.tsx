@@ -28,14 +28,14 @@ export function SegmentList({ items }: { items: Item[] }) {
               }}
               className="group grid grid-cols-[3rem_1fr_auto] items-center gap-4 py-7 md:py-9"
             >
-              <span className="eyebrow text-[0.65rem] text-stone">{it.n}</span>
+              <span className="eyebrow text-[0.65rem] text-muted">{it.n}</span>
               <span>
-                <span className="block font-display text-[clamp(1.5rem,2.8vw,2.6rem)] font-light leading-tight transition-transform duration-500 group-hover:translate-x-2">
+                <span className="block font-display text-[clamp(1.5rem,2.8vw,2.6rem)] font-normal leading-tight transition-transform duration-500 group-hover:translate-x-2">
                   {it.who}
                 </span>
-                <span className="mt-1 block text-sm text-stone">{it.title}</span>
+                <span className="mt-1 block text-sm text-muted">{it.title}</span>
               </span>
-              <Arrow className="transition-transform duration-500 group-hover:translate-x-1 group-hover:text-ochre" />
+              <Arrow className="transition-transform duration-500 group-hover:translate-x-1 group-hover:text-accent" />
             </Link>
           </li>
         ))}

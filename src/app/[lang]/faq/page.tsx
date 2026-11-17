@@ -3,7 +3,6 @@ import { getDict } from "@/dictionaries";
 import { faqs } from "@/content/misc";
 import { PageIntro } from "@/components/sections/PageIntro";
 import { FaqList, faqJsonLd } from "@/components/sections/FaqList";
-import { CtaBand } from "@/components/sections/CtaBand";
 import { pageMeta } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/faq">) {
@@ -24,7 +23,6 @@ export default async function Page({ params }: PageProps<"/[lang]/faq">) {
         </div>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(faqs, lang)) }} />
       </section>
-      <CtaBand lang={lang} d={d} />
     </>
   );
 }
