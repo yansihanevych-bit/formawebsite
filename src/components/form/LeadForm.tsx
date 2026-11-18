@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { upload } from "@vercel/blob/client";
 import type { Dict } from "@/dictionaries";
+import { locales, localeNames, t as tl, type L, type Locale } from "@/lib/i18n";
 import { Arrow } from "@/components/ui/Arrow";
 import { track } from "@/lib/analytics";
 import { getAttribution, getSegment } from "@/lib/attribution";
@@ -45,11 +46,11 @@ const COUNTRIES = ["Italia", "France", "Monaco", "Switzerland", "Germany", "Unit
 const MESSENGERS = ["WhatsApp", "Telegram", "Signal", "Viber"];
 
 type Props = {
-  lang: "it" | "en" | "ru";
+  lang: Locale;
   t: Dict["form"];
   clientTypes: Opt[];
   services: Opt[];
-  questions: Record<string, { it: string; en: string; ru: string }[]>;
+  questions: Record<string, L[]>;
   contactEmail: string;
 };
 
@@ -223,7 +224,7 @@ export function LeadForm({ lang, t, clientTypes, services, questions, contactEma
     const payload = {
       ...s,
       area: Number(s.area),
-      answers: qs.map((q, k) => ({ q: q[lang], a: s.answers[k] || "" })).filter((x) => x.a),
+      answers: qs.map((q, k) => ({ q: tl(q, lang), a: s.answers[k] || "" })).filter((x) => x.a),
       page: location.pathname + location.search,
       attribution: getAttribution(),
       hp,
@@ -395,7 +396,7 @@ export function LeadForm({ lang, t, clientTypes, services, questions, contactEma
                     <Label>{t.questions}</Label>
                     {qs.map((q, k) => (
                       <div key={k}>
-                        <label htmlFor={`q${k}`} className="mb-1 block text-sm">{q[lang]}</label>
+                        <label htmlFor={`q${k}`} className="mb-1 block text-sm">{tl(q, lang)}</label>
                         <input id={`q${k}`} className="field" value={s.answers[k] || ""} onChange={(e) => set("answers", { ...s.answers, [k]: e.target.value })} />
                       </div>
                     ))}
@@ -438,7 +439,7 @@ export function LeadForm({ lang, t, clientTypes, services, questions, contactEma
                 </div>
                 <div>
                   <Label>{t.language}</Label>
-                  <Chips opts={[{ id: "it", label: "Italiano" }, { id: "en", label: "English" }, { id: "ru", label: "Русский" }]} value={s.language} onPick={(id) => set("language", id)} />
+                  <Chips opts={locales.map((l) => ({ id: l, label: localeNames[l] }))} value={s.language} onPick={(id) => set("language", id)} />
                 </div>
                 <div className="space-y-4 border-t border-line pt-8 text-sm">
                   <label className="flex cursor-pointer gap-3">

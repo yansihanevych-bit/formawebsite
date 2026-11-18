@@ -19,11 +19,11 @@ export default async function Page({ params }: PageProps<"/[lang]/pricing">) {
   return (
     <>
       <PageIntro eyebrow={d.home.pricingEyebrow} title={d.pricing.title} lead={d.pricing.lead} />
-      <section className="container-x pb-24 md:pb-32">
+      <section data-tone="milk" className="container-x pb-24 md:pb-32">
         <PricingCards items={plans} lang={lang} cta={d.pricing.choose} popular={d.pricing.popular} />
       </section>
       <Process lang={lang} eyebrow={d.home.processEyebrow} title={d.home.processTitle} />
-      <section className="container-x pb-24 md:pb-32">
+      <section data-tone="milk" className="container-x pb-24 md:pb-32">
         <FaqList items={faqs.filter((_, k) => [1, 4, 6].includes(k))} lang={lang} />
       </section>
     </>

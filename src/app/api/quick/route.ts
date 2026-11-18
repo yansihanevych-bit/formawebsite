@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { pick, type Locale } from "@/lib/i18n";
 import { quickSchema, type Quick } from "@/lib/quick";
 import { deliver, newLeadId, rateLimited } from "@/lib/deliver";
 
@@ -21,9 +22,9 @@ function team(q: Quick, id: string) {
 }
 
 function client(q: Quick, id: string) {
-  const x = (it: string, en: string, ru: string) => ({ it, en, ru })[q.language];
+  const x = (it: string, en: string, ru: string) => pick(q.language as Locale, it, en, ru);
   const c = q.calc;
-  const subject = x(`Richiesta ricevuta (${id}) — FORMA BURO`, `Request received (${id}) — FORMA BURO`, `Заявка получена (${id}) — FORMA BURO`);
+  const subject = x("Richiesta ricevuta ({id}) — FORMA BURO", "Request received ({id}) — FORMA BURO", "Заявка получена ({id}) — FORMA BURO").replace("{id}", id);
   const html = `<div style="font-family:Arial,sans-serif;color:#171918;max-width:560px;line-height:1.6">
     <p style="letter-spacing:.3em;font-size:11px;text-transform:uppercase;color:#9c5235">FORMA BURO · Architecture</p>
     <h2 style="font-weight:400">${x("Grazie", "Thank you", "Спасибо")}, ${esc(q.name.split(" ")[0])}.</h2>

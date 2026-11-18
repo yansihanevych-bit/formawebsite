@@ -1,3 +1,4 @@
+import { pick, type Locale } from "./i18n";
 import type { Lead } from "./lead";
 
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
@@ -44,13 +45,13 @@ export function teamEmail(l: Lead, meta: { id: string; score: number; qualified:
 }
 
 export function clientEmail(l: Lead, id: string) {
-  const x = (it: string, en: string, ru: string) => ({ it, en, ru })[l.language];
+  const x = (it: string, en: string, ru: string) => pick(l.language as Locale, it, en, ru);
   const first = esc(l.name.split(" ")[0]);
-  const subject = x(`Abbiamo ricevuto la vostra richiesta (${id}) — FORMA BURO`, `We've received your request (${id}) — FORMA BURO`, `Мы получили вашу заявку (${id}) — FORMA BURO`);
+  const subject = x("Abbiamo ricevuto la vostra richiesta ({id}) — FORMA BURO", "We've received your request ({id}) — FORMA BURO", "Мы получили вашу заявку ({id}) — FORMA BURO").replace("{id}", id);
   const html = `
   <div style="font-family:Arial,sans-serif;color:#171918;max-width:560px;line-height:1.6">
     <p style="letter-spacing:.3em;font-size:11px;text-transform:uppercase;color:#7c806f">FORMA BURO · Architecture</p>
-    <h2 style="font-weight:400;font-size:26px">${x(`Grazie, ${first}.`, `Thank you, ${first}.`, `Спасибо, ${first}.`)}</h2>
+    <h2 style="font-weight:400;font-size:26px">${x("Grazie, {first}.", "Thank you, {first}.", "Спасибо, {first}.").replace("{first}", first)}</h2>
     <p>${x("Abbiamo ricevuto la vostra richiesta e i file allegati.", "We've received your request and attached files.", "Мы получили вашу заявку и приложенные файлы.")}</p>
     <p>${x(
       "<b>Cosa succede ora:</b> entro 24 ore lavorative vi inviamo un preventivo fisso con tempi di consegna. Se servono altre informazioni vi contatteremo.",

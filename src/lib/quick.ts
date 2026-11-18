@@ -1,3 +1,4 @@
+import { locales } from "./i18n";
 import { z } from "zod";
 import { DELIVERABLES, PROPERTY, RENDER_QTY, ROLES } from "./calc";
 
@@ -12,7 +13,7 @@ export const quickSchema = z.object({
   budget: z.string().max(60).optional().default(""),
   message: z.string().max(4000).optional().default(""),
   files: z.array(z.object({ url: z.string().url(), name: z.string().max(200), size: z.number().nonnegative() })).max(5).default([]),
-  language: z.enum(["it", "en", "ru"]),
+  language: z.enum(locales),
   gdpr: z.literal(true),
   calc: z
     .object({

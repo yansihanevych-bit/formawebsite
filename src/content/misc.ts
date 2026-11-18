@@ -48,7 +48,7 @@ export const plans: Plan[] = [
     note: { it: "per immobile · 6–8 giorni", en: "per property · 6–8 days", ru: "за объект · 6–8 дней" },
     features: [
       { it: "Tutto Concept + Render", en: "Everything in Concept + Render", ru: "Всё из Concept + Render" },
-      { it: "Presentazione PDF IT/EN/RU brandizzata", en: "Branded IT/EN/RU PDF presentation", ru: "Брендированная PDF-презентация IT/EN/RU" },
+      { it: "Presentazione PDF IT/EN/UK/RU brandizzata", en: "Branded IT/EN/UK/RU PDF presentation", ru: "Брендированная PDF-презентация IT/EN/UK/RU" },
       { it: "Formati per portali e social", en: "Portal and social formats", ru: "Форматы для порталов и соцсетей" },
       { it: "Reel verticale 15–30 s", en: "15–30 s vertical reel", ru: "Вертикальный рилс 15–30 с" },
     ],

@@ -5,23 +5,25 @@ import { getDict } from "@/dictionaries";
 import { IMG } from "@/content/images";
 import { segments } from "@/content/segments";
 import { projects } from "@/content/projects";
-import { services, serviceById } from "@/content/services";
+import { services } from "@/content/services";
 import { plans, faqs } from "@/content/misc";
 import { studio } from "@/content/studio";
 import { Hero } from "@/components/sections/Hero";
 import { SegmentList } from "@/components/sections/SegmentList";
 import { BeforeAfter } from "@/components/sections/BeforeAfter";
-import { PortfolioRail, type RailItem } from "@/components/sections/PortfolioRail";
+import { ProjectStack } from "@/components/sections/ProjectStack";
+import { ProjectIcon } from "@/components/ui/ProjectIcon";
 import { Manifesto } from "@/components/sections/Manifesto";
 import { Founder } from "@/components/sections/Founder";
-import { ServicesList } from "@/components/sections/ServicesList";
+import { ServicesBlocks } from "@/components/sections/ServicesBlocks";
+import { Calculator } from "@/components/form/Calculator";
+import { site } from "@/content/misc";
 import { Process } from "@/components/sections/Process";
 import { PricingCards } from "@/components/sections/PricingCards";
 import { FaqList, faqJsonLd } from "@/components/sections/FaqList";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { Reveal } from "@/components/ui/Reveal";
 import { SplitText } from "@/components/ui/SplitText";
-import { CalcCta } from "@/components/sections/CalcCta";
 import { Arrow } from "@/components/ui/Arrow";
 import { alternates } from "@/lib/seo";
 
@@ -36,18 +38,8 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   const d = getDict(lang);
   const faqTeaser = faqs.slice(0, 5);
 
-  const rail: RailItem[] = projects.map((p) => ({
-    slug: p.slug,
-    href: `/${lang}/projects/${p.slug}`,
-    title: t(p.title, lang),
-    location: p.location,
-    type: t(p.propertyType, lang).split("·")[0].trim(),
-    year: p.year,
-    area: p.area,
-    services: p.services.map((s) => t(serviceById(s).title, lang)).join(" · "),
-    img: p.cover,
-    imgAlt: p.gallery[1],
-  }));
+  const featured = projects.slice(0, 4);
+  const rest = projects.slice(4);
   const heroSet = ["attico-porto-vecchio", "villa-mare-bordighera", "appartamento-corso-imperatrice"].map((slug) => projects.find((p) => p.slug === slug)!);
 
   return (
@@ -63,7 +55,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         scroll={d.home.scroll}
         meta={[
           { k: "Concept", v: "48–72h" },
-          { k: d.home.langs, v: "IT·EN·RU" },
+          { k: d.home.langs, v: "IT·EN·UK·RU" },
         ]}
       />
 
@@ -81,7 +73,46 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
 
       <Founder c={d.home.about} ctaHref={`/${lang}/start`} />
 
-      <PortfolioRail items={rail} eyebrow={d.home.featuredEyebrow} title={d.home.featuredTitle} allLabel={d.common.allProjects} allHref={`/${lang}/projects`} />
+      {/* Портфолио: светлая редакционная подача P7 */}
+      <section data-tone="milk" className="py-24 md:py-40">
+        <div className="container-x">
+          <SectionHead
+            eyebrow={d.home.featuredEyebrow}
+            title={d.home.featuredTitle}
+            aside={
+              <Link href={`/${lang}/projects`} className="btn btn-ghost">
+                {d.common.allProjects} <Arrow />
+              </Link>
+            }
+          />
+          <ProjectStack items={featured} lang={lang} labels={d.explorer} />
+
+          {/* остальные проекты — индекс строками */}
+          <div className="mt-24 md:mt-40">
+            <p className="meta mb-6 flex items-center gap-3 text-muted">
+              <span className="text-accent">+</span> {d.common.otherProjects}
+            </p>
+            <ul className="border-t border-ink">
+              {rest.map((p, k) => (
+                <li key={p.slug}>
+                  <Link
+                    href={`/${lang}/projects/${p.slug}`}
+                    data-cursor="View project"
+                    className="group grid grid-cols-[2.5rem_minmax(0,1fr)_auto] items-center gap-4 border-b border-line py-5 transition-colors hover:bg-paper-2 md:grid-cols-[4rem_2.5rem_minmax(0,2fr)_minmax(0,1fr)_5rem_3rem] md:py-6"
+                  >
+                    <span className="meta text-muted">{String(featured.length + k + 1).padStart(2, "0")}</span>
+                    <ProjectIcon slug={p.slug} className="hidden h-8 w-8 text-muted transition-colors group-hover:text-accent md:block" />
+                    <span className="min-w-0 font-display text-lg uppercase leading-tight transition-transform duration-500 group-hover:translate-x-2 md:text-2xl">{t(p.title, lang)}</span>
+                    <span className="hidden text-sm text-muted md:block">{p.location}</span>
+                    <span className="hidden text-sm tabular-nums text-muted md:block">{p.year}</span>
+                    <span className="justify-self-end text-lg transition-transform duration-500 group-hover:rotate-45" aria-hidden>↗</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
 
       {/* Для кого */}
       <section data-tone="sand" className="py-24 md:py-36">
@@ -100,31 +131,27 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         </div>
       </section>
 
-      {/* От чертежа к рендеру: шторка следует за прокруткой */}
-      <section data-tone="milk" className="py-24 md:py-36">
-        <div className="container-x">
-          <div className="mb-12 grid gap-8 md:mb-16 md:grid-cols-12">
-            <div className="md:col-span-8">
-              <p className="meta mb-6 flex items-center gap-3 text-muted">
-                <span className="text-accent">+</span> {d.home.baEyebrow}
-              </p>
-              <SplitText lines={[d.home.baTitle]} className="h-section max-w-[22ch]" />
-            </div>
-            <Reveal delay={0.1} className="self-end md:col-span-4">
-              <p className="text-muted">{d.home.baText}</p>
-            </Reveal>
+      {/* До / после: большой интерактивный слайдер на всю ширину */}
+      <section data-tone="walnut" className="py-24 md:py-36">
+        <div className="container-x mb-12 grid gap-8 md:mb-16 md:grid-cols-12">
+          <div className="md:col-span-8">
+            <p className="meta mb-6 flex items-center gap-3 text-muted">
+              <span className="text-accent">+</span> {d.home.baEyebrow}
+            </p>
+            <SplitText lines={[d.home.baTitle]} className="h-section max-w-[22ch]" />
           </div>
-          <BeforeAfter scrub before={IMG.plans} after={IMG.living5} labels={{ before: d.common.before, after: d.common.after, drag: d.common.drag }} />
+          <Reveal delay={0.1} className="self-end md:col-span-4">
+            <p className="text-muted">{d.home.baText}</p>
+          </Reveal>
         </div>
+        <BeforeAfter big scrub before={IMG.plans} after={IMG.living5} labels={{ before: d.common.before, after: d.common.after, drag: d.common.drag }} />
       </section>
 
-      {/* Услуги + почему мы */}
-      <section id="services" data-tone="olive" className="scroll-mt-24 py-24 md:py-36">
+      {/* Услуги: цветные композиции */}
+      <section id="services" data-tone="milk" className="scroll-mt-24 py-24 md:py-36">
         <div className="container-x">
-          <ServicesList
-            eyebrow={d.home.servicesEyebrow}
-            title={d.home.servicesTitle}
-            lead={d.home.servicesLead}
+          <SectionHead eyebrow={d.home.servicesEyebrow} title={d.home.servicesTitle} aside={<p className="max-w-xs text-muted">{d.home.servicesLead}</p>} />
+          <ServicesBlocks
             deliverables={d.home.deliverables}
             items={services.map((s) => ({
               id: s.id,
@@ -137,10 +164,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               image: s.image,
             }))}
           />
-          <div className="mt-28 grid gap-px md:mt-40 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-24 grid gap-px md:mt-32 md:grid-cols-2 lg:grid-cols-4">
             {d.home.why.map((w, k) => (
-              <Reveal key={k} delay={k * 0.06} className={`border-t border-ink/40 py-8 lg:pr-8 ${k ? "lg:border-l lg:pl-8" : ""}`}>
-                <span className="h-numeral text-outline text-5xl">{String(k + 1).padStart(2, "0")}</span>
+              <Reveal key={k} delay={k * 0.06} className={`border-t border-ink py-8 lg:pr-8 ${k ? "lg:border-l lg:border-l-line lg:pl-8" : ""}`}>
+                <span className="h-numeral text-outline text-5xl [--outline:var(--color-accent)]">{String(k + 1).padStart(2, "0")}</span>
                 <h3 className="mt-8 font-display text-lg uppercase leading-tight">{w.t}</h3>
                 <p className="mt-3 text-sm text-muted">{w.d}</p>
               </Reveal>
@@ -151,7 +178,17 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
 
       <Process lang={lang} eyebrow={d.home.processEyebrow} title={d.home.processTitle} tone="sand" />
 
-      <CalcCta lang={lang} t={d.calcCta} />
+      {/* Калькулятор — интерактивный инструмент прямо на главной */}
+      <section id="calculator" data-tone="olive" className="scroll-mt-24 py-24 md:py-36">
+        <div className="container-x">
+          <SectionHead
+            eyebrow={d.nav.calculator}
+            title={d.calcCta.title}
+            aside={<p className="max-w-xs text-muted">{d.calc.lead}</p>}
+          />
+          <Calculator lang={lang} t={d.calc} ff={d.ff} formT={d.form} email={site.email} />
+        </div>
+      </section>
 
       {/* Цены + вопросы */}
       <section data-tone="milk" className="py-24 md:py-36">

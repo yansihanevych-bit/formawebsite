@@ -11,6 +11,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Arrow } from "@/components/ui/Arrow";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { EditorialCard } from "./Editorial";
+import { SWATCH } from "@/lib/swatch";
 import { Process } from "./Process";
 import { PricingCards } from "./PricingCards";
 import { FaqList, faqJsonLd } from "./FaqList";
@@ -34,7 +35,7 @@ export function SegmentPage({ id, lang }: { id: SegmentId; lang: Locale }) {
     <>
       <SegmentTracker id={id} />
       {/* Hero */}
-      <section data-hero-dark className="relative min-h-[88svh] overflow-hidden bg-graphite text-warm">
+      <section data-hero-dark data-tone="walnut" className="relative min-h-[88svh] overflow-hidden bg-graphite text-warm">
         <Pic img={s.image} priority sizes="100vw" className="absolute inset-0" imgClassName="opacity-80" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/40" />
         <div className="container-x relative flex min-h-[88svh] flex-col justify-end pb-14 pt-40 md:pb-20">
@@ -57,7 +58,7 @@ export function SegmentPage({ id, lang }: { id: SegmentId; lang: Locale }) {
       </section>
 
       {/* Pains → outcomes */}
-      <section className="container-x py-24 md:py-36">
+      <section data-tone="milk" className="container-x py-24 md:py-36">
         <div className="grid gap-16 md:grid-cols-12">
           <Reveal className="md:col-span-4">
             <p className="eyebrow mb-8 text-muted">{d.segment.painsTitle}</p>
@@ -73,9 +74,9 @@ export function SegmentPage({ id, lang }: { id: SegmentId; lang: Locale }) {
             <p className="eyebrow mb-8 text-muted">{d.segment.outcomesTitle}</p>
             <div className="border-t border-line">
               {s.outcomes.map((o, k) => (
-                <Reveal key={k} delay={k * 0.06} className="grid gap-3 border-b border-line py-8 md:grid-cols-[3rem_1fr_1.2fr]">
-                  <span className="font-display text-sm text-accent">0{k + 1}</span>
-                  <h3 className="font-display text-2xl font-normal">{t(o.title, lang)}</h3>
+                <Reveal key={k} delay={k * 0.06} className="grid gap-3 border-b border-line py-8 md:grid-cols-[3rem_minmax(0,1fr)_minmax(0,1.2fr)]">
+                  <span className="h-numeral text-outline text-4xl leading-none [--outline:var(--color-accent)]">0{k + 1}</span>
+                  <h3 className="font-display text-xl uppercase leading-tight md:text-2xl">{t(o.title, lang)}</h3>
                   <p className="text-ink-2/75">{t(o.text, lang)}</p>
                 </Reveal>
               ))}
@@ -86,7 +87,7 @@ export function SegmentPage({ id, lang }: { id: SegmentId; lang: Locale }) {
 
       {/* Developers: two tracks */}
       {s.tracks && (
-        <section className="bg-graphite py-24 text-warm md:py-32">
+        <section data-tone="walnut" className="bg-graphite py-24 text-warm md:py-32">
           <div className="container-x">
             <Reveal>
               <p className="eyebrow mb-5 text-muted">{d.segment.tracksTitle}</p>
@@ -116,7 +117,7 @@ export function SegmentPage({ id, lang }: { id: SegmentId; lang: Locale }) {
       )}
 
       {/* Cases */}
-      <section className="bg-paper-2/60 py-24 md:py-32">
+      <section data-tone="sand" className="py-24 md:py-32">
         <div className="container-x">
           <SectionHead
             eyebrow={d.segment.casesTitle}
@@ -138,18 +139,21 @@ export function SegmentPage({ id, lang }: { id: SegmentId; lang: Locale }) {
       </section>
 
       {/* Services for this segment */}
-      <section className="container-x py-24 md:py-32">
+      <section data-tone="milk" className="container-x py-24 md:py-32">
         <SectionHead eyebrow={d.segment.servicesTitle} title={d.home.servicesTitle} />
-        <div className="grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {s.services.map((sid, k) => {
             const sv = serviceById(sid);
             return (
-              <Reveal key={sid} delay={k * 0.05} className="group bg-paper">
-                <Pic img={sv.image} sizes="(min-width: 1024px) 33vw, 50vw" className="aspect-[16/10]" imgClassName="transition-transform duration-[1.2s] group-hover:scale-105" />
-                <div className="p-7">
-                  <p className="eyebrow text-[0.6rem] text-accent">{sv.n} — {t(sv.timing, lang)}</p>
-                  <h3 className="mt-4 font-display text-2xl font-normal">{t(sv.title, lang)}</h3>
-                  <p className="mt-2 text-sm text-muted">{t(sv.short, lang)}</p>
+              <Reveal key={sid} delay={k * 0.05} className={`group flex flex-col ${SWATCH[k % SWATCH.length].bg} ${SWATCH[k % SWATCH.length].fg}`}>
+                <div className="flex items-start justify-between p-6 md:p-7">
+                  <span className="h-numeral text-5xl leading-none">{sv.n}</span>
+                  <span className="meta opacity-70">{t(sv.timing, lang)}</span>
+                </div>
+                <Pic img={sv.image} sizes="(min-width: 1024px) 33vw, 50vw" className="mx-6 aspect-[16/10] md:mx-7" imgClassName="transition-transform duration-[1.2s] group-hover:scale-105" />
+                <div className="p-6 md:p-7">
+                  <h3 className="font-display text-xl uppercase leading-tight md:text-2xl">{t(sv.title, lang)}</h3>
+                  <p className="mt-3 text-sm opacity-80">{t(sv.short, lang)}</p>
                 </div>
               </Reveal>
             );
@@ -159,12 +163,12 @@ export function SegmentPage({ id, lang }: { id: SegmentId; lang: Locale }) {
 
       <Process lang={lang} eyebrow={d.home.processEyebrow} title={d.home.processTitle} />
 
-      <section className="container-x pb-24 md:pb-32">
+      <section data-tone="milk" className="container-x pb-24 md:pb-32">
         <SectionHead eyebrow={d.segment.priceTitle} title={d.home.pricingTitle} />
         <PricingCards items={segPlans} lang={lang} cta={d.pricing.choose} popular={d.pricing.popular} />
       </section>
 
-      <section className="container-x pb-24 md:pb-32">
+      <section data-tone="milk" className="container-x pb-24 md:pb-32">
         <div className="grid gap-10 md:grid-cols-12">
           <Reveal className="md:col-span-4">
             <p className="eyebrow mb-5 text-muted">{d.segment.faqTitle}</p>

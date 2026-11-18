@@ -34,8 +34,8 @@ export function Hero({ images, eyebrow, lines, sub, primary, secondary, scroll, 
   const [i, setI] = useState(0);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const imgY = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "18%"]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "-30%"]);
-  const fade = useTransform(scrollYProgress, [0, 0.65], [1, reduce ? 1 : 0]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "0%"]);
+  const fade = useTransform(scrollYProgress, [0.35, 0.8], [1, reduce ? 1 : 0]);
 
   useEffect(() => {
     if (!ready || reduce || images.length < 2) return;

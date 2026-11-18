@@ -77,7 +77,7 @@ export const services: Service[] = [
     },
     includes: [
       { it: "Layout brandizzabile (anche con il vostro logo)", en: "Brandable layout (with your logo too)", ru: "Макет под ваш бренд (и с вашим логотипом)" },
-      { it: "Versione IT / EN / RU", en: "IT / EN / RU version", ru: "Версии IT / EN / RU" },
+      { it: "Versione IT / EN / UK / RU", en: "IT / EN / UK / RU version", ru: "Версии IT / EN / UK / RU" },
       { it: "Ottimizzata per email e stampa", en: "Optimised for email and print", ru: "Оптимизировано для email и печати" },
     ],
     timing: { it: "+1–2 giorni", en: "+1–2 days", ru: "+1–2 дня" },

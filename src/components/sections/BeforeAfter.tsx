@@ -17,7 +17,7 @@ const NOTES = [
   { x: 60, y: 22, w: 0, label: "↔ 120" },
 ];
 
-export function BeforeAfter({ before, after, labels, scrub = false }: { before: Img; after: Img; labels: { before: string; after: string; drag: string }; scrub?: boolean }) {
+export function BeforeAfter({ before, after, labels, scrub = false, big = false }: { before: Img; after: Img; labels: { before: string; after: string; drag: string }; scrub?: boolean; big?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const target = useRef(50);
   const current = useRef(50);
@@ -78,7 +78,7 @@ export function BeforeAfter({ before, after, labels, scrub = false }: { before: 
   return (
     <div
       ref={ref}
-      className="group relative aspect-[4/3] w-full cursor-ew-resize touch-pan-y select-none overflow-hidden bg-paper-2 md:aspect-[16/8]"
+      className={`group relative w-full cursor-ew-resize touch-pan-y select-none overflow-hidden bg-paper-2 ${big ? "aspect-[4/5] sm:aspect-[4/3] md:aspect-auto md:h-[88svh] md:min-h-[560px]" : "aspect-[4/3] md:aspect-[16/8]"}`}
       onPointerDown={(e) => {
         (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
         fromPointer(e.clientX);
@@ -109,11 +109,26 @@ export function BeforeAfter({ before, after, labels, scrub = false }: { before: 
         </svg>
       </div>
       <Corners tone="warm" className="absolute inset-2 z-10" />
-      <span className="meta absolute left-4 top-4 bg-warm px-3 py-2 text-graphite md:left-6 md:top-6">{labels.before}</span>
-      <span className="meta absolute bottom-4 right-4 bg-graphite px-3 py-2 text-warm md:bottom-6 md:right-6">{labels.after}</span>
+      {big ? (
+        <>
+          <span className="pointer-events-none absolute bottom-4 left-4 font-display text-[clamp(1.6rem,5vw,5rem)] uppercase leading-none text-warm [text-shadow:0_2px_24px_rgba(0,0,0,.45)] md:bottom-8 md:left-8" style={{ opacity: pos > 18 ? 1 : 0.15, transition: "opacity .4s" }}>
+            {labels.before}
+          </span>
+          <span className="pointer-events-none absolute bottom-4 right-4 font-display text-[clamp(1.6rem,5vw,5rem)] uppercase leading-none text-warm [text-shadow:0_2px_24px_rgba(0,0,0,.45)] md:bottom-8 md:right-8" style={{ opacity: pos < 82 ? 1 : 0.15, transition: "opacity .4s" }}>
+            {labels.after}
+          </span>
+          <span className="meta absolute left-4 top-4 bg-warm px-3 py-2 tabular-nums text-graphite md:left-8 md:top-8">{Math.round(pos)}%</span>
+        </>
+      ) : (
+        <>
+          <span className="meta absolute left-4 top-4 bg-warm px-3 py-2 text-graphite md:left-6 md:top-6">{labels.before}</span>
+          <span className="meta absolute bottom-4 right-4 bg-graphite px-3 py-2 text-warm md:bottom-6 md:right-6">{labels.after}</span>
+        </>
+      )}
       <div className="pointer-events-none absolute inset-y-0" style={{ left: `${pos}%` }}>
         <div className="absolute inset-y-0 -left-px w-[2px] bg-warm" />
-        <div className="absolute left-0 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-1.5 rounded-full border border-white/60 bg-warm/20 text-warm backdrop-blur-md">
+        <div className={`absolute left-0 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-1.5 rounded-full border text-warm backdrop-blur-md transition-transform duration-300 group-active:scale-90 ${big ? "h-24 w-24 border-white/70 bg-rosso/70 md:h-32 md:w-32" : "h-16 w-16 border-white/60 bg-warm/20"}`}>
+          {big && <span className="meta absolute -bottom-7 whitespace-nowrap text-warm">{labels.drag}</span>}
           <svg viewBox="0 0 8 12" className="h-3 w-2" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden><path d="M7 1L2 6l5 5" /></svg>
           <svg viewBox="0 0 8 12" className="h-3 w-2" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden><path d="M1 1l5 5-5 5" /></svg>
         </div>

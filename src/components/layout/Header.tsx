@@ -1,10 +1,10 @@
 "use client";
 import Link from "next/link";
+import { LangSwitch } from "./LangSwitch";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import type { Locale } from "@/lib/i18n";
-import { locales } from "@/lib/i18n";
 import { track } from "@/lib/analytics";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { AnnounceBar } from "./AnnounceBar";
@@ -101,19 +101,7 @@ export function Header({ lang, t, forWhom, studio, main, announce, contact }: Pr
 
             <div className="flex items-center gap-3 sm:gap-4 md:gap-6">
               <ThemeToggle labels={{ light: t.light, dark: t.dark }} />
-              <nav aria-label="Language" className="meta flex gap-2 sm:gap-2.5">
-                {locales.map((l) => (
-                  <Link
-                    key={l}
-                    href={swap(l)}
-                    hrefLang={l}
-                    onClick={() => (document.cookie = `fb_locale=${l}; Path=/; Max-Age=31536000; SameSite=Lax`)}
-                    className={l === lang ? "opacity-100" : "opacity-45 hover:opacity-100"}
-                  >
-                    {l.toUpperCase()}
-                  </Link>
-                ))}
-              </nav>
+              <LangSwitch lang={lang} href={swap} light={light} />
               <Link
                 href={`/${lang}/start`}
                 onClick={() => track("cta_click", { position: "header" })}

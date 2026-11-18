@@ -1,4 +1,4 @@
-import type { Locale } from "@/lib/i18n";
+import { tr, type Locale } from "@/lib/i18n";
 
 const it = {
   meta: {
@@ -68,7 +68,7 @@ const it = {
       lineB: "progetto",
       role: "Fondatore · Architetto e visualizer",
       text: "Seguo personalmente ogni progetto di FORMA BURO: dalla prima pianta all'ultimo fotogramma. Unisco il pensiero architettonico al linguaggio dell'immagine e del film, perché un immobile si vende quando si riesce già a viverlo.",
-      text2: "Lavoro con agenzie, costruttori, developer e privati tra Liguria e Costa Azzurra — in italiano, inglese e russo.",
+      text2: "Lavoro con agenzie, costruttori, developer e privati tra Liguria e Costa Azzurra — in italiano, inglese, ucraino e russo.",
       skills: ["Architettura", "Render", "Film"],
       film: "Concept film · Aurora Boutique Hotel, Italia 2026",
       soundOn: "Audio on",
@@ -77,7 +77,7 @@ const it = {
       pause: "Pausa",
       cta: "Parliamo del vostro progetto",
     },
-    announce: ["200+ progetti", "20 anni di esperienza", "3 lingue: IT · EN · RU", "Team di architetti e visualizer", "Concept in 48–72 ore", "Riviera di Ponente e Costa Azzurra"],
+    announce: ["200+ progetti", "20 anni di esperienza", "4 lingue: IT · EN · UK · RU", "Team di architetti e visualizer", "Concept in 48–72 ore", "Riviera di Ponente e Costa Azzurra"],
     segmentsEyebrow: "Per chi lavoriamo",
     segmentsTitle: "Scegliete il vostro percorso",
     featuredEyebrow: "Progetti selezionati",
@@ -101,7 +101,7 @@ const it = {
     stats: [
       { v: "48–72h", l: "per il primo concept" },
       { v: "5", l: "servizi in un unico flusso" },
-      { v: "IT·EN·RU", l: "presentazioni in tre lingue" },
+      { v: "IT·EN·UK·RU", l: "presentazioni in quattro lingue" },
       { v: "10+", l: "comuni della Riviera, e oltre" },
     ],
     processEyebrow: "Come funziona",
@@ -392,7 +392,7 @@ const en: Dict = {
       lineB: "project",
       role: "Founder · Architect & visualiser",
       text: "I personally lead every FORMA BURO project, from the first floor plan to the last frame. I combine architectural thinking with the language of images and film, because a property sells when people can already picture living in it.",
-      text2: "I work with agencies, builders, developers and private clients across Liguria and the Côte d'Azur — in Italian, English and Russian.",
+      text2: "I work with agencies, builders, developers and private clients across Liguria and the Côte d'Azur — in Italian, English, Ukrainian and Russian.",
       skills: ["Architecture", "Render", "Film"],
       film: "Concept film · Aurora Boutique Hotel, Italy 2026",
       soundOn: "Sound on",
@@ -401,7 +401,7 @@ const en: Dict = {
       pause: "Pause",
       cta: "Let's talk about your project",
     },
-    announce: ["200+ projects", "20 years of experience", "3 languages: IT · EN · RU", "A team of architects and visualisers", "Concept in 48–72 hours", "Western Riviera & Côte d'Azur"],
+    announce: ["200+ projects", "20 years of experience", "4 languages: IT · EN · UK · RU", "A team of architects and visualisers", "Concept in 48–72 hours", "Western Riviera & Côte d'Azur"],
     segmentsEyebrow: "Who we work with",
     segmentsTitle: "Choose your path",
     featuredEyebrow: "Selected projects",
@@ -425,7 +425,7 @@ const en: Dict = {
     stats: [
       { v: "48–72h", l: "to the first concept" },
       { v: "5", l: "services in one workflow" },
-      { v: "IT·EN·RU", l: "presentations in three languages" },
+      { v: "IT·EN·UK·RU", l: "presentations in four languages" },
       { v: "10+", l: "Riviera towns, and beyond" },
     ],
     processEyebrow: "How it works",
@@ -715,7 +715,7 @@ const ru: Dict = {
       lineB: "проектом",
       role: "Основатель · Архитектор и визуализатор",
       text: "Я лично веду каждый проект FORMA BURO — от первой планировки до последнего кадра. Соединяю архитектурное мышление с языком изображения и кино: объект продаётся, когда в нём уже хочется жить.",
-      text2: "Работаю с агентствами, строителями, девелоперами и частными клиентами в Лигурии и на Лазурном берегу — на итальянском, английском и русском.",
+      text2: "Работаю с агентствами, строителями, девелоперами и частными клиентами в Лигурии и на Лазурном берегу — на итальянском, английском, украинском и русском.",
       skills: ["Архитектура", "Рендер", "Фильмы"],
       film: "Концепт-фильм · Aurora Boutique Hotel, Италия 2026",
       soundOn: "Со звуком",
@@ -724,7 +724,7 @@ const ru: Dict = {
       pause: "Пауза",
       cta: "Обсудить ваш проект",
     },
-    announce: ["200+ проектов", "20 лет опыта", "3 языка: IT · EN · RU", "Команда архитекторов и визуализаторов", "Концепция за 48–72 часа", "Западная Ривьера и Лазурный берег"],
+    announce: ["200+ проектов", "20 лет опыта", "4 языка: IT · EN · UK · RU", "Команда архитекторов и визуализаторов", "Концепция за 48–72 часа", "Западная Ривьера и Лазурный берег"],
     segmentsEyebrow: "С кем мы работаем",
     segmentsTitle: "Выберите свой путь",
     featuredEyebrow: "Избранные проекты",
@@ -748,7 +748,7 @@ const ru: Dict = {
     stats: [
       { v: "48–72h", l: "до первой концепции" },
       { v: "5", l: "услуг в одном процессе" },
-      { v: "IT·EN·RU", l: "презентации на трёх языках" },
+      { v: "IT·EN·UK·RU", l: "презентации на четырёх языках" },
       { v: "10+", l: "городов Ривьеры и не только" },
     ],
     processEyebrow: "Как мы работаем",
@@ -969,7 +969,14 @@ const ru: Dict = {
   notFound: { title: "Страница не найдена", text: "Такой страницы нет или она перемещена.", home: "На главную" },
 };
 
-const dicts: Record<Locale, Dict> = { it, en, ru };
+/** uk/pl/de собираются из английского словаря через переводы (src/dictionaries/tr) */
+function translate<T>(v: T, l: Locale): T {
+  if (typeof v === "string") return tr(v, l) as T;
+  if (Array.isArray(v)) return v.map((x) => translate(x, l)) as T;
+  if (v && typeof v === "object") return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, translate(x, l)])) as T;
+  return v;
+}
+const dicts: Record<Locale, Dict> = { it, en, ru, uk: translate(en, "uk"), pl: translate(en, "pl"), de: translate(en, "de") };
 export const getDict = (l: Locale) => dicts[l];
 export type { Dict };
 

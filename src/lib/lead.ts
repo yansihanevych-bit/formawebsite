@@ -1,3 +1,4 @@
+import { locales } from "./i18n";
 import { z } from "zod";
 
 const touch = z
@@ -41,7 +42,7 @@ export const leadSchema = z.object({
   phone: z.string().max(40).optional().default(""),
   messenger: z.string().max(30).optional().default(""),
   messengerHandle: z.string().max(80).optional().default(""),
-  language: z.enum(["it", "en", "ru"]),
+  language: z.enum(locales),
   gdpr: z.literal(true),
   marketing: z.boolean().default(false),
   plan: z.string().max(40).optional().default(""),

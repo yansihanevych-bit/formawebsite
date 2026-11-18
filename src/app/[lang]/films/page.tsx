@@ -18,8 +18,8 @@ export default async function Page({ params }: PageProps<"/[lang]/films">) {
   const d = getDict(lang);
   return (
     <>
-      <PageIntro eyebrow="Films" title={d.films.title} lead={d.films.lead} />
-      <section className="container-x grid gap-x-8 gap-y-16 pb-28 md:grid-cols-2 md:pb-40">
+      <PageIntro tone="walnut" eyebrow={d.nav.films} title={d.films.title} lead={d.films.lead} />
+      <section data-tone="walnut" className="container-x grid gap-x-8 gap-y-16 pb-28 md:grid-cols-2 md:pb-40">
         {films.map((f, k) => (
           <Reveal key={k} delay={(k % 2) * 0.1} className={k % 2 ? "md:mt-24" : ""}>
             {/* TODO: заменить постер на <video> / Mux, когда будут ролики (поле videoUrl) */}

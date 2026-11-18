@@ -378,7 +378,7 @@ html.lenis, html.lenis body { height: auto; }
   to { transform: translateX(-50%); }
 }
 .announce-track {
-  animation: announce 38s linear infinite;
+  animation: announce 80s linear infinite;
 }
 @media (prefers-reduced-motion: reduce) {
   .announce-track { animation: none; }
@@ -444,3 +444,9 @@ h1, h2, h3, .h-display, .h-section, .font-display {
 @media (max-width: 639px) {
   h1, h2, h3, .h-display, .h-section, .font-display { hyphens: auto; }
 }
+@media (max-width: 639px) {
+  /* последняя страховка для очень длинных слов (PL/DE/UK) в широком Unbounded */
+  h1, h2, h3, .h-display, .h-section { overflow-wrap: anywhere; }
+}
+
+.announce-track:hover { animation-play-state: paused; }

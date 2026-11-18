@@ -25,53 +25,61 @@ export function Manifesto({ lineA, lineB, manifestoTitle, manifesto, intro, numb
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y1 = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["12%", "-18%"]);
-  const y2 = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["30%", "-30%"]);
+  const y1 = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["4%", "-4%"]);
+  const y2 = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["22%", "-22%"]);
 
   return (
     <section ref={ref} data-tone="milk" className="relative overflow-hidden py-24 md:py-40">
       <div className="container-x relative">
-        <SplitText lines={[lineA]} className="h-display" />
-        <div className="relative">
-          <SplitText lines={[lineB]} delay={0.12} className="h-display relative z-10 text-accent md:pl-[14vw]" />
-          {/* вертикальный кадр поверх заголовка — своя скорость прокрутки */}
-          <motion.div style={{ y: y1 }} className="pointer-events-none absolute right-[4%] top-[35%] z-0 hidden w-[17vw] max-w-[300px] md:block">
-            <MaskImage img={image} sizes="22vw" className="aspect-[4/5]" />
+        <SplitText lines={[lineA]} className="h-display !text-[clamp(2.2rem,7.6vw,8.5rem)] !leading-[0.9]" />
+        <SplitText lines={[lineB]} delay={0.12} className="h-display relative z-10 !text-[clamp(2.2rem,7.6vw,8.5rem)] !leading-[0.9] text-accent md:pl-[14vw]" />
+
+        {/* крупный кадр на 2/3 ширины + вертикальный кадр, наезжающий сверху */}
+        <div className="relative mt-14 grid gap-6 md:mt-24 md:grid-cols-12">
+          <motion.div style={{ y: y1 }} className="md:col-span-8">
+            <MaskImage img={image} sizes="(min-width: 768px) 66vw, 100vw" quality={85} className="aspect-[16/11]" />
+            <p className="meta mt-3 flex justify-between text-muted">
+              <span>( {image.alt.replace("Render — ", "")} )</span>
+              <span>FORMA BURO · Liguria</span>
+            </p>
+          </motion.div>
+          <motion.div style={{ y: y2 }} className="hidden md:col-span-4 md:-mt-40 md:block">
+            <MaskImage img={image2} sizes="30vw" className="aspect-[3/4]" delay={0.15} />
           </motion.div>
         </div>
 
-        <div className="mt-16 grid gap-12 md:mt-28 md:grid-cols-12">
-          <div className="md:col-span-4">
-            <p className="flex items-center gap-3 text-accent">
-              <span className="text-2xl leading-none">+</span>
+        {/* манифест крупным текстом + подводка */}
+        <div className="mt-20 grid gap-10 md:mt-32 md:grid-cols-12">
+          <div className="md:col-span-3">
+            <p className="meta flex items-center gap-3 text-muted">
+              <span className="text-accent">+</span> {manifestoTitle}
             </p>
-            <h3 className="mt-4 font-display text-2xl uppercase leading-none md:text-3xl">{manifestoTitle}</h3>
+          </div>
+          <div className="md:col-span-9">
+            <Reveal>
+              <p className="font-display text-[clamp(1.35rem,2.7vw,2.6rem)] leading-[1.18] tracking-[-0.01em]">{manifesto}</p>
+            </Reveal>
             <Reveal delay={0.1}>
-              <p className="mt-6 max-w-sm text-lg leading-relaxed">{manifesto}</p>
-              <p className="mt-5 max-w-sm text-sm text-muted">{intro}</p>
-              <Link href={more.href} className="meta link-u mt-8 inline-flex items-center gap-2">
-                {more.label} →
-              </Link>
+              <div className="mt-10 grid gap-8 md:grid-cols-2">
+                <p className="text-muted">{intro}</p>
+                <Link href={more.href} className="btn btn-ghost self-start md:justify-self-end">
+                  {more.label} <span aria-hidden className="arr">→</span>
+                </Link>
+              </div>
             </Reveal>
           </div>
-          {/* второй кадр — смещён относительно сетки */}
-          <motion.div style={{ y: y2 }} className="relative md:col-span-3 md:col-start-6 md:-mt-10">
-            <MaskImage img={image2} sizes="(min-width: 768px) 24vw, 100vw" className="aspect-[3/4]" delay={0.15} />
-            <p className="meta mt-3 text-muted">( {image2.alt.replace("Render — ", "")} )</p>
-          </motion.div>
-          <div className="grid grid-cols-2 gap-x-6 gap-y-10 self-end md:col-span-3 md:col-start-10">
-            {numbers.map((n, k) => (
-              <Reveal key={k} delay={k * 0.08}>
-                <CountUp value={n.v} className="h-numeral block text-5xl md:text-6xl" />
-                <p className="meta mt-3 text-muted">{n.l}</p>
-              </Reveal>
-            ))}
-          </div>
+        </div>
+
+        {/* цифры — типографская полоса */}
+        <div className="mt-20 grid grid-cols-2 border-y border-ink md:mt-28 md:grid-cols-4">
+          {numbers.map((n, k) => (
+            <Reveal key={k} delay={k * 0.08} className={`py-8 md:py-10 ${k % 2 ? "border-l border-line pl-5 md:pl-8" : k ? "md:border-l md:border-line md:pl-8" : ""}`}>
+              <CountUp value={n.v} className="h-numeral block text-[clamp(2.8rem,6vw,6rem)] leading-none" />
+              <p className="meta mt-4 text-muted">{n.l}</p>
+            </Reveal>
+          ))}
         </div>
       </div>
-      {/* фоновые «плавающие» метки чертежа */}
-      <span aria-hidden className="pointer-events-none absolute left-[46%] top-24 hidden text-3xl text-accent/40 md:block">+</span>
-      <span aria-hidden className="pointer-events-none absolute bottom-28 left-[8%] hidden text-3xl text-accent/40 md:block">+</span>
     </section>
   );
 }

@@ -10,7 +10,7 @@ export default async function Page({ params }: PageProps<"/[lang]/thank-you">) {
   const lang = (await params).lang as Locale;
   const d = getDict(lang);
   return (
-    <section className="container-x flex min-h-[80svh] flex-col justify-center pb-24 pt-40">
+    <section data-tone="sand" className="container-x flex min-h-[80svh] flex-col justify-center pb-24 pt-40">
       <ThankYouEvent />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/brand/mark-ink.svg" alt="" className="mb-10 w-14 dark:invert" />

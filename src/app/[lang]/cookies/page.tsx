@@ -1,4 +1,4 @@
-import type { Locale } from "@/lib/i18n";
+import { pick, type Locale } from "@/lib/i18n";
 import { Legal } from "@/components/sections/Legal";
 
 export const metadata = { title: "Cookie" };
@@ -6,7 +6,7 @@ export const metadata = { title: "Cookie" };
 // TODO: заменить на юридически проверенный текст / iubenda cookie policy.
 export default async function Page({ params }: PageProps<"/[lang]/cookies">) {
   const lang = (await params).lang as Locale;
-  const x = (it: string, en: string, ru: string) => ({ it, en, ru })[lang];
+  const x = (it: string, en: string, ru: string) => pick(lang as Locale, it, en, ru);
   return (
     <Legal title={x("Cookie policy", "Cookie policy", "Политика cookie")} updated={x("Bozza — da validare", "Draft — to be validated", "Черновик — требует проверки")}>
       <h2>{x("Cookie tecnici (sempre attivi)", "Technical cookies (always on)", "Технические cookie (всегда включены)")}</h2>

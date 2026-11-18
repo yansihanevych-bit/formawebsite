@@ -17,7 +17,7 @@ export const studio = {
   numbers: [
     { v: "200+", l: { it: "progetti", en: "projects", ru: "проектов" } as L },
     { v: "20", l: { it: "anni di esperienza", en: "years of experience", ru: "лет опыта" } as L },
-    { v: "3", l: { it: "lingue di lavoro", en: "working languages", ru: "рабочих языка" } as L },
+    { v: "4", l: { it: "lingue di lavoro", en: "working languages", ru: "рабочих языка" } as L },
     { v: "48h", l: { it: "primo concept", en: "first concept", ru: "первая концепция" } as L },
   ],
   principles: [

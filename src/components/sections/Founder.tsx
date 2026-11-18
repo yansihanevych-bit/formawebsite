@@ -76,98 +76,102 @@ export function Founder({ c, ctaHref }: { c: FounderCopy; ctaHref: string }) {
     }
   };
 
-  return (
-    <section ref={ref} id="about" data-tone="sand" className="relative overflow-hidden py-24 md:py-40">
-      <div className="container-x">
-        <p className="eyebrow flex items-center gap-3 text-ink">
-          <span className="text-accent">+</span> {c.eyebrow}
-        </p>
-        <div className="mt-8">
-          <SplitText lines={[c.lineA]} className="h-display" />
-          <SplitText lines={[c.lineB]} delay={0.12} className="h-display text-accent md:pl-[22vw]" />
-        </div>
-
-        <div className="mt-16 grid gap-12 md:mt-24 md:grid-cols-12 md:gap-6">
-          {/* портрет */}
-          <motion.figure style={{ y: yPhoto }} className="group relative md:col-span-4">
-            <div className="relative">
-              <MaskImage img={PORTRAIT(c.role)} sizes="(min-width: 768px) 33vw, 100vw" quality={85} className="aspect-[4/5] bg-graphite" imgClassName="object-[50%_30%]" />
-              <Corners tone="warm" />
-            </div>
-            <figcaption className="meta mt-3 flex justify-between text-muted">
-              <span>( Founder )</span>
-              <span>FORMA BURO</span>
-            </figcaption>
-          </motion.figure>
-
-          {/* текст */}
-          <div className="min-w-0 md:col-span-4 md:col-start-6 md:self-center">
-            <Reveal>
-              <p className="meta text-accent">{c.role}</p>
-              <p className="mt-6 text-lg leading-relaxed md:text-xl">{c.text}</p>
-              <p className="mt-5 text-sm text-muted">{c.text2}</p>
-            </Reveal>
-            <ul className="mt-10 border-t border-ink">
-              {c.skills.map((s, k) => (
-                <Reveal as="li" key={s} delay={0.08 * k} className="flex items-baseline gap-5 border-b border-line py-4">
-                  <span className="h-numeral text-outline text-3xl [--outline:var(--color-accent)]">0{k + 1}</span>
-                  <span className="font-display text-xl uppercase md:text-2xl">{s}</span>
-                </Reveal>
-              ))}
-            </ul>
-            <Magnetic className="mt-10 inline-block">
-              <Link href={ctaHref} data-cursor="Explore" className="btn btn-solid">
-                {c.cta} <span aria-hidden className="arr">→</span>
-              </Link>
-            </Magnetic>
-          </div>
-
-          {/* вертикальный фильм */}
-          <motion.figure style={{ y: yFilm }} className="md:col-span-3 md:col-start-10">
-            <div className="group relative mx-auto aspect-[9/16] w-full max-w-[340px] overflow-hidden bg-graphite md:max-w-none">
-              <video
-                ref={video}
-                src="/founder/aurora-film.mp4"
-                poster="/founder/aurora-poster.jpg"
-                muted
-                loop
-                playsInline
-                preload="none"
-                onPlay={() => setPlaying(true)}
-                onPause={() => setPlaying(false)}
-                onClick={toggle}
-                aria-label={c.film}
-                data-cursor={playing ? c.pause : c.play}
-                className="absolute inset-0 h-full w-full cursor-pointer object-cover"
-              />
-              <Corners tone="warm" />
-              {!playing && (
-                <button
-                  type="button"
-                  onClick={toggle}
-                  aria-label={c.play}
-                  className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-rosso text-warm transition-transform duration-500 hover:scale-110"
-                >
-                  <svg viewBox="0 0 12 12" className="ml-1 h-4 w-4" fill="currentColor" aria-hidden>
-                    <path d="M2 1l9 5-9 5z" />
-                  </svg>
-                </button>
-              )}
-              <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 bg-gradient-to-t from-black/70 to-transparent p-3 pt-10">
-                <button type="button" onClick={toggle} className="meta border border-white/40 px-2.5 py-1.5 text-white transition-colors hover:bg-white hover:text-graphite">
-                  {playing ? c.pause : c.play}
-                </button>
-                <button type="button" onClick={toggleSound} aria-pressed={!muted} className="meta flex items-center gap-2 border border-white/40 px-2.5 py-1.5 text-white transition-colors hover:bg-white hover:text-graphite">
-                  <span className={`inline-block h-1.5 w-1.5 ${muted ? "bg-white/50" : "bg-accent"}`} />
-                  {muted ? c.soundOn : c.soundOff}
-                </button>
-              </div>
-            </div>
-            <figcaption className="meta mt-3 text-muted">( {c.film} )</figcaption>
-          </motion.figure>
+  const film = (
+    <figure className="w-full">
+      <div className="group relative mx-auto aspect-[9/16] w-full max-w-[320px] overflow-hidden bg-graphite lg:max-w-none">
+        <video
+          ref={video}
+          src="/founder/aurora-film.mp4"
+          poster="/founder/aurora-poster.jpg"
+          muted
+          loop
+          playsInline
+          preload="none"
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
+          onClick={toggle}
+          aria-label={c.film}
+          data-cursor={playing ? c.pause : c.play}
+          className="absolute inset-0 h-full w-full cursor-pointer object-cover"
+        />
+        <Corners tone="warm" />
+        {!playing && (
+          <button
+            type="button"
+            onClick={toggle}
+            aria-label={c.play}
+            className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-rosso text-warm transition-transform duration-500 hover:scale-110"
+          >
+            <svg viewBox="0 0 12 12" className="ml-1 h-4 w-4" fill="currentColor" aria-hidden>
+              <path d="M2 1l9 5-9 5z" />
+            </svg>
+          </button>
+        )}
+        <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 bg-gradient-to-t from-black/70 to-transparent p-3 pt-10">
+          <button type="button" onClick={toggle} className="meta border border-white/40 px-2.5 py-1.5 text-white transition-colors hover:bg-white hover:text-graphite">
+            {playing ? c.pause : c.play}
+          </button>
+          <button type="button" onClick={toggleSound} aria-pressed={!muted} className="meta flex items-center gap-2 border border-white/40 px-2.5 py-1.5 text-white transition-colors hover:bg-white hover:text-graphite">
+            <span className={`inline-block h-1.5 w-1.5 ${muted ? "bg-white/50" : "bg-accent"}`} />
+            {muted ? c.soundOn : c.soundOff}
+          </button>
         </div>
       </div>
-      <span aria-hidden className="pointer-events-none absolute right-[6%] top-28 hidden text-3xl text-accent/40 md:block">+</span>
+      <figcaption className="meta mt-3 text-muted">( {c.film} )</figcaption>
+    </figure>
+  );
+
+  return (
+    <section ref={ref} id="about" data-tone="walnut" className="relative overflow-hidden py-24 md:py-36 lg:py-44">
+      <div className="container-x grid gap-12 lg:grid-cols-12 lg:gap-x-6 lg:gap-y-0">
+        {/* заголовок поверх портрета: инверсия через mix-blend */}
+        <div className="relative z-10 lg:col-span-9 lg:col-start-4 lg:row-start-1 lg:pt-[6vh]">
+          <p className="eyebrow mb-6 flex items-center gap-3">
+            <span className="text-accent">+</span> {c.eyebrow}
+          </p>
+          <SplitText lines={[c.lineA]} className="h-display !text-[clamp(2.4rem,8.4vw,9.5rem)] !leading-[0.88]" />
+          <SplitText lines={[c.lineB]} delay={0.12} className="h-display !text-[clamp(2.4rem,8.4vw,9.5rem)] !leading-[0.88] text-accent md:pl-[16vw]" />
+        </div>
+
+        {/* портрет: выходит за левый край сетки, вертикальная подпись по кромке */}
+        <motion.figure style={{ y: yPhoto }} className="group relative lg:col-span-5 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:-ml-[clamp(1.25rem,4vw,4rem)]">
+          <div className="relative">
+            <MaskImage img={PORTRAIT(c.role)} sizes="(min-width: 1024px) 42vw, 100vw" quality={85} className="aspect-[4/5] bg-graphite" imgClassName="object-[50%_30%]" />
+            <Corners tone="warm" />
+          </div>
+          <span className="meta absolute -right-7 top-0 hidden origin-top-left translate-x-full whitespace-nowrap text-muted [writing-mode:vertical-rl] lg:block">
+            ( Founder — FORMA BURO )
+          </span>
+          <figcaption className="meta mt-3 text-muted lg:hidden">( Founder — FORMA BURO )</figcaption>
+        </motion.figure>
+
+        {/* текст */}
+        <div className="min-w-0 lg:col-span-4 lg:col-start-7 lg:row-start-2 lg:pt-16">
+          <Reveal>
+            <p className="meta text-accent">{c.role}</p>
+            <p className="mt-6 font-display text-[clamp(1.1rem,1.6vw,1.5rem)] leading-snug">“{c.text}”</p>
+            <p className="mt-6 text-sm text-muted">{c.text2}</p>
+          </Reveal>
+          <ul className="mt-10 grid grid-cols-3 border-t border-line">
+            {c.skills.map((s, k) => (
+              <Reveal as="li" key={s} delay={0.08 * k} className={`py-4 ${k ? "border-l border-line pl-4" : ""}`}>
+                <span className="h-numeral text-outline block text-3xl [--outline:var(--color-accent)]">0{k + 1}</span>
+                <span className="mt-2 block font-display text-xs uppercase sm:text-sm">{s}</span>
+              </Reveal>
+            ))}
+          </ul>
+          <Magnetic className="mt-10 inline-block">
+            <Link href={ctaHref} data-cursor="Explore" className="btn btn-light">
+              {c.cta} <span aria-hidden className="arr">→</span>
+            </Link>
+          </Magnetic>
+        </div>
+
+        {/* вертикальный фильм — смещён вниз относительно текста */}
+        <motion.div style={{ y: yFilm }} className="lg:col-span-2 lg:col-start-11 lg:row-start-2 lg:mt-40">
+          {film}
+        </motion.div>
+      </div>
     </section>
   );
 }

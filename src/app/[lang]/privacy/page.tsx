@@ -1,4 +1,4 @@
-import type { Locale } from "@/lib/i18n";
+import { pick, type Locale } from "@/lib/i18n";
 import { Legal } from "@/components/sections/Legal";
 import { site } from "@/content/misc";
 
@@ -7,7 +7,7 @@ export const metadata = { title: "Privacy" };
 // TODO: заменить на юридически проверенный текст (iubenda или юрист). Ниже — структура-заглушка по GDPR.
 export default async function Page({ params }: PageProps<"/[lang]/privacy">) {
   const lang = (await params).lang as Locale;
-  const x = (it: string, en: string, ru: string) => ({ it, en, ru })[lang];
+  const x = (it: string, en: string, ru: string) => pick(lang as Locale, it, en, ru);
   return (
     <Legal title={x("Informativa privacy", "Privacy notice", "Политика конфиденциальности")} updated={x("Bozza — da validare", "Draft — to be validated", "Черновик — требует проверки")}>
       <h2>{x("Titolare del trattamento", "Data controller", "Оператор данных")}</h2>

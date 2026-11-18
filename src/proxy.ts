@@ -4,12 +4,14 @@ import { defaultLocale, locales } from "@/lib/i18n";
 function pickLocale(req: NextRequest) {
   const saved = req.cookies.get("fb_locale")?.value;
   if (saved && (locales as readonly string[]).includes(saved)) return saved;
-  const al = (req.headers.get("accept-language") || "").toLowerCase();
-  // Рынок — Италия: итальянский по умолчанию, английский только если браузер явно не итальянский
-  const first = al.split(",")[0];
-  if (al && !al.startsWith("it")) {
-    if (/^(ru|uk|be|kk)/.test(first)) return "ru";
-    if (first.startsWith("en")) return "en";
+  // первый язык браузера, который у нас есть; иначе — английский (основная версия)
+  const langs = (req.headers.get("accept-language") || "")
+    .toLowerCase()
+    .split(",")
+    .map((x) => x.split(";")[0].trim().slice(0, 2));
+  for (const l of langs) {
+    if ((locales as readonly string[]).includes(l)) return l;
+    if (l === "be" || l === "kk") return "ru";
   }
   return defaultLocale;
 }

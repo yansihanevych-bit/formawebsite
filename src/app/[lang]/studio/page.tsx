@@ -52,7 +52,7 @@ export default async function Page({ params }: PageProps<"/[lang]/studio">) {
         <SectionHead eyebrow={d.studioPage.principles} title={d.home.whyTitle} />
         <div className="grid gap-px bg-line md:grid-cols-3">
           {studio.principles.map((p, k) => (
-            <Reveal key={k} delay={k * 0.08} className="group relative bg-paper-2/50 p-8 md:p-10">
+            <Reveal key={k} delay={k * 0.08} className="group relative min-w-0 bg-paper-2/50 p-6 sm:p-8 md:p-10">
               <Corners />
               <p className="meta text-accent">0{k + 1}</p>
               <h3 className="mt-10 font-display text-2xl uppercase leading-tight">{t(p.t, lang)}</h3>
