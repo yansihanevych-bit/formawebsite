@@ -1,6 +1,6 @@
 # forma-buro.com
 
-Сайт FORMA BURO — Express Architectural Concepts (Лигурия). Next.js 16 · Tailwind 4 · IT/EN.
+Сайт FORMA BURO — Express Architectural Concepts (Лигурия). Next.js 16 · Tailwind 4 · IT / EN / RU · светлая и тёмная темы.
 ТЗ: [`docs/TZ.md`](docs/TZ.md).
 
 ## Запуск
@@ -26,14 +26,20 @@ npm run build && npm start   # прод-сборка
 
 | Что | Файл |
 |---|---|
-| Тексты интерфейса IT/EN | `src/dictionaries/index.ts` |
+| Тексты интерфейса IT/EN/RU, полоска с фактами (`home.announce`) | `src/dictionaries/index.ts` |
 | Кейсы | `src/content/projects.ts` |
 | Сегменты / посадочные | `src/content/segments.ts` |
 | Услуги | `src/content/services.ts` |
 | Цены, FAQ, фильмы, процесс, **контакты** | `src/content/misc.ts` |
-| **Картинки-заглушки** | `src/content/images.ts` |
+| Изображения: рендеры по проектам (`WORK`) и для секций (`IMG`) | `src/content/images.ts`, файлы — `public/work/<проект>/` |
 | Доп. вопросы формы по сегментам | `src/dictionaries/index.ts` → `segmentQuestions` |
 | Логотип | `public/brand/*.svg` (трассировка PNG), favicon `src/app/icon.svg` |
+| Студия: текст, цифры, команда | `src/content/studio.ts` |
+| Журнал: статьи | `src/content/journal.ts` |
+| Статус, тип и координаты проектов (карта) | `src/content/projects.ts` → `status`, `kind`, `coords` |
+| Калькулятор: коэффициенты цен и сроков | `src/lib/calc.ts` |
+| Короткие заявки (футер, калькулятор) | `src/app/api/quick/route.ts` |
+| Чертёж в Hero (заменить на реальный) | `src/components/sections/Blueprint.tsx` |
 | Приём заявки | `src/app/api/lead/route.ts` (+ `src/lib/lead.ts` схема и скоринг, `src/lib/email.ts` письма) |
 | Загрузка файлов | `src/app/api/upload/route.ts` (Vercel Blob, до 10 файлов × 50 MB) |
 | Cookie-баннер + GTM (Consent Mode v2, basic) | `src/components/analytics/Consent.tsx` |
@@ -51,11 +57,16 @@ npm run build && npm start   # прод-сборка
 
 ## TODO перед запуском
 
-- [ ] Заменить фото-заглушки (Unsplash) на реальные кейсы — `src/content/images.ts`, затем убрать `images.unsplash.com` из `next.config.ts`
+- [x] Рендеры FORMA BURO вместо заглушек (`public/work/`). Эскизы «до» (`sketch.jpg`) сгенерированы из рендеров — при наличии реальных фото «до» заменить файлы
 - [ ] Реальные тексты кейсов — `src/content/projects.ts` (сейчас демонстрационные)
 - [ ] Контакты, телефон, WhatsApp, Telegram, адрес, **P.IVA** — `site` в `src/content/misc.ts`
 - [ ] Утвердить цены и сроки (`plans`, `processSteps`, статистика на главной)
 - [ ] Privacy / Cookie policy — юридически проверенный текст (iubenda или юрист)
 - [ ] Видео для раздела Films (поле `videoUrl`)
 - [ ] Resend + домен, Blob store, GTM-контейнер
-- [ ] Посмотреть isto.ae (не открылся при подготовке ТЗ)
+- [ ] Подтвердить факты в полоске над шапкой: 200+ проектов, 20 лет опыта — `home.announce` в словаре
+- [ ] Утвердить коэффициенты калькулятора — `src/lib/calc.ts`
+- [ ] Заменить стилизованный чертёж в Hero на реальный план проекта — `Blueprint.tsx`
+- [ ] Вычитать русские и итальянские тексты носителем языка
+- [ ] Команда (имена/фото) на странице «Студия», реальные статьи в журнале
+- [ ] Проверить координаты проектов на карте

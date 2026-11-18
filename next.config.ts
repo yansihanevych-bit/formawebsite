@@ -7,10 +7,6 @@ const nextConfig: NextConfig = {
   images: {
     qualities: [60, 75, 85],
     formats: ["image/avif", "image/webp"],
-    remotePatterns: [
-      // Временные тематические заглушки (Unsplash). Удалить после замены на реальные фото / Sanity CDN.
-      { protocol: "https", hostname: "images.unsplash.com", pathname: "/photo-**", search: "" },
-    ],
   },
   turbopack: {
     rules: {
