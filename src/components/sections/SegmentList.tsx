@@ -41,18 +41,19 @@ export function SegmentList({ items }: { items: Item[] }) {
               <span aria-hidden className={`absolute -bottom-px left-0 h-px w-full origin-left bg-accent transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)] ${on ? "scale-x-100" : "scale-x-0"}`} />
               <Link
                 href={it.href}
+                data-cursor="Explore"
                 onMouseEnter={() => setActive(k)}
                 onFocus={() => setActive(k)}
                 onClick={() => {
                   rememberSegment(it.id);
                   track("segment_select", { client_type: it.id, position: "home_list" });
                 }}
-                className={`group grid grid-cols-[2.5rem_1fr_auto] items-center gap-4 py-7 transition-opacity duration-500 md:grid-cols-[4rem_1fr_1fr_auto] md:py-9 ${
+                className={`group grid grid-cols-[2.5rem_minmax(0,1fr)_auto] items-center gap-4 py-7 transition-opacity duration-500 md:grid-cols-[4rem_1fr_1fr_auto] md:py-9 ${
                   active !== null && !on ? "md:opacity-40" : ""
                 }`}
               >
                 <span className={`meta transition-colors duration-300 ${on ? "text-accent" : "text-muted"}`}>{it.n}</span>
-                <span className={`block font-display text-[clamp(1.5rem,3.4vw,3.25rem)] font-medium leading-none tracking-tight transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)] ${on ? "translate-x-3" : ""}`}>
+                <span className={`block font-display text-[clamp(1.2rem,2.6vw,2.6rem)] uppercase leading-none transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)] ${on ? "translate-x-3" : ""}`}>
                   {it.who}
                 </span>
                 <span className="col-start-2 text-sm text-muted md:col-start-3 md:pl-8">{it.title}</span>

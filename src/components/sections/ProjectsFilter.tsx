@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import type { Project } from "@/content/projects";
 import type { Dict } from "@/dictionaries";
 import { t, type Locale } from "@/lib/i18n";
-import { EditorialGrid } from "./Editorial";
+import { ProjectStack } from "./ProjectStack";
 import { ProjectsMap } from "./ProjectsMap";
 import { ProjectIcon } from "@/components/ui/ProjectIcon";
 
@@ -135,7 +135,9 @@ export function ProjectsFilter({
 
       {shown.length === 0 && <p className="py-20 text-center text-muted">{tx.empty}</p>}
 
-      {view === "grid" && shown.length > 0 && <EditorialGrid key={JSON.stringify(f)} items={shown} lang={lang} />}
+      {view === "grid" && shown.length > 0 && (
+        <ProjectStack key={JSON.stringify(f)} items={shown} lang={lang} labels={{ location: tx.location, area: tx.area, year: tx.year, status: tx.status, completed: tx.completed, inProgress: tx.inProgress }} />
+      )}
 
       {view === "list" && shown.length > 0 && (
         <div className="border-t border-ink">
@@ -150,14 +152,14 @@ export function ProjectsFilter({
           </div>
           {shown.map((p, k) => (
             <motion.div key={p.slug} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: k * 0.04 }}>
-              <Link href={`/${lang}/projects/${p.slug}`} className="group grid grid-cols-[3rem_1fr] items-center gap-4 border-b border-line py-4 transition-colors hover:bg-concrete/25 md:grid-cols-[3rem_2fr_1fr_1fr_6rem_6rem_7rem]">
+              <Link href={`/${lang}/projects/${p.slug}`} className="group grid grid-cols-[3rem_minmax(0,1fr)] items-center gap-4 border-b border-line py-4 transition-colors hover:bg-concrete/25 lg:grid-cols-[3rem_2fr_1fr_1fr_6rem_6rem_7rem]">
                 <ProjectIcon slug={p.slug} className="h-10 w-10 transition-colors group-hover:text-accent" />
                 <span className="font-display text-xl font-medium tracking-tight transition-transform duration-500 group-hover:translate-x-2">{t(p.title, lang)}</span>
-                <span className="col-start-2 text-sm text-muted md:col-start-auto">{p.location}</span>
-                <span className="hidden text-sm md:block">{t(p.propertyType, lang).split("·")[0]}</span>
-                <span className="hidden text-sm tabular-nums md:block">{p.area.toLocaleString(lang)}</span>
-                <span className="hidden text-sm tabular-nums md:block">{p.year}</span>
-                <span className={`meta hidden md:block ${p.status === "completed" ? "text-muted" : "text-accent"}`}>{p.status === "completed" ? tx.completed : tx.inProgress}</span>
+                <span className="col-start-2 text-sm text-muted lg:col-start-auto">{p.location}</span>
+                <span className="hidden text-sm lg:block">{t(p.propertyType, lang).split("·")[0]}</span>
+                <span className="hidden text-sm tabular-nums lg:block">{p.area.toLocaleString(lang)}</span>
+                <span className="hidden text-sm tabular-nums lg:block">{p.year}</span>
+                <span className={`meta hidden lg:block ${p.status === "completed" ? "text-muted" : "text-accent"}`}>{p.status === "completed" ? tx.completed : tx.inProgress}</span>
               </Link>
             </motion.div>
           ))}

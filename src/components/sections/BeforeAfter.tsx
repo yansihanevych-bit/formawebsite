@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useInView, useReducedMotion } from "motion/react";
+import { useInView, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
 import type { Img } from "@/content/images";
 import { Corners } from "@/components/ui/Corners";
 
@@ -17,7 +17,7 @@ const NOTES = [
   { x: 60, y: 22, w: 0, label: "↔ 120" },
 ];
 
-export function BeforeAfter({ before, after, labels }: { before: Img; after: Img; labels: { before: string; after: string; drag: string } }) {
+export function BeforeAfter({ before, after, labels, scrub = false }: { before: Img; after: Img; labels: { before: string; after: string; drag: string }; scrub?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const target = useRef(50);
   const current = useRef(50);
@@ -50,13 +50,23 @@ export function BeforeAfter({ before, after, labels }: { before: Img; after: Img
     idle.current = setTimeout(() => setMoving(false), 900);
   }, []);
 
-  // демонстрация при первом появлении: 50 → 30 → 70 → 50
+  // scrub: пока пользователь не взял шторку, она «проявляет» рендер по мере прокрутки (чертёж → визуализация)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 85%", "end 35%"] });
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    if (!scrub || touched.current || reduce) return;
+    target.current = 92 - v * 84; // 92% → 8%
+    setMoving(true);
+    clearTimeout(idle.current);
+    idle.current = setTimeout(() => setMoving(false), 700);
+  });
+
+  // демонстрация при первом появлении: 50 → 30 → 70 → 50 (если не scrub)
   useEffect(() => {
-    if (!inView || reduce) return;
+    if (!inView || reduce || scrub) return;
     const seq = [30, 70, 50];
     const timers = seq.map((v, i) => setTimeout(() => !touched.current && nudge(v), 300 + i * 650));
     return () => timers.forEach(clearTimeout);
-  }, [inView, reduce, nudge]);
+  }, [inView, reduce, nudge, scrub]);
 
   const fromPointer = (clientX: number) => {
     const r = ref.current?.getBoundingClientRect();

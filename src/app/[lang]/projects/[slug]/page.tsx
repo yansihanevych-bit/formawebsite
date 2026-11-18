@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { locales, t, type Locale } from "@/lib/i18n";
@@ -74,9 +75,9 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
 
   return (
     <>
-      {/* Hero: крупное фото с mask reveal + заголовок */}
-      <section data-hero-dark className="relative h-[86svh] min-h-[560px] overflow-hidden bg-graphite text-warm">
-        <MaskImage img={p.hero[0]} priority sizes="100vw" quality={85} className="absolute inset-0" />
+      {/* Hero: кадр на весь экран — совпадает с раскрытием карточки (переход карточка → кейс) */}
+      <section data-hero-dark data-tone="walnut" className="relative h-[100svh] min-h-[600px] overflow-hidden bg-graphite text-warm">
+        <Image src={p.cover.src} alt={p.cover.alt} fill priority sizes="100vw" quality={85} className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-black/40" />
         <div className="container-x relative flex h-full flex-col justify-end pb-10 md:pb-14">
           <Link href={`/${lang}/projects`} className="meta mb-8 inline-flex items-center gap-3 text-warm/70 hover:text-warm">
@@ -86,7 +87,7 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
             <ProjectIcon slug={p.slug} className="h-10 w-10 text-warm" />
             <p className="meta text-warm/70">— {p.location} · {t(p.propertyType, lang)} · {p.status === "completed" ? d.explorer.completed : d.explorer.inProgress}</p>
           </div>
-          <SplitText as="h1" lines={[t(p.title, lang)]} onMount delay={0.4} className="h-display max-w-[16ch] normal-case" />
+          <SplitText as="h1" lines={[t(p.title, lang)]} onMount delay={0.4} className="h-display max-w-[18ch]" />
           <dl className="mt-10 grid grid-cols-2 gap-6 border-t border-white/20 pt-6 md:grid-cols-6">
             {facts.map(([k, v]) => (
               <div key={k}>
@@ -99,7 +100,7 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
       </section>
 
       {/* 01 — Исходное состояние и задача */}
-      <CaseSection n="01" title={d.projects.s1}>
+      <CaseSection n="01" title={d.projects.s1} tone="milk">
         <div className="grid gap-10 md:grid-cols-12">
           <div className="text-lg leading-relaxed text-ink-2 md:col-span-6">
             <ReadMore labels={{ more: d.common.readMore, less: d.common.readLess }} more={<p className="pt-5 text-muted">{t(p.more, lang)}</p>}>
@@ -115,23 +116,23 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
       </CaseSection>
 
       {/* 02 — Архитектурная концепция */}
-      <CaseSection n="02" title={d.projects.s2} dark>
+      <CaseSection n="02" title={d.projects.s2} tone="walnut">
         <div className="grid gap-10 md:grid-cols-12">
           <MaskImage img={p.hero[1] ?? p.after} sizes="(min-width: 768px) 58vw, 100vw" className="aspect-[16/11] md:col-span-7" />
           <div className="md:col-span-4 md:col-start-9 md:self-end">
-            <p className="meta text-stone">{d.projects.solution}</p>
+            <p className="meta text-accent">{d.projects.solution}</p>
             <p className="mt-4 font-display text-2xl font-medium leading-snug tracking-tight md:text-3xl">{t(p.solution, lang)}</p>
           </div>
         </div>
       </CaseSection>
 
       {/* 03 — Планировка и ключевые решения */}
-      <CaseSection n="03" title={d.projects.s3}>
+      <CaseSection n="03" title={d.projects.s3} tone="sand">
         <div className="grid gap-10 md:grid-cols-12">
           <MaskImage img={p.before} sizes="(min-width: 768px) 50vw, 100vw" className="aspect-[16/10] md:col-span-6" />
           <ol className="border-t border-ink md:col-span-5 md:col-start-8">
             {p.decisions.map((x, k) => (
-              <Reveal as="li" key={k} delay={k * 0.08} className="grid grid-cols-[3rem_1fr] gap-4 border-b border-line py-6">
+              <Reveal as="li" key={k} delay={k * 0.08} className="grid grid-cols-[3rem_minmax(0,1fr)] gap-4 border-b border-line py-6">
                 <span className="meta pt-1.5 text-accent">0{k + 1}</span>
                 <span className="font-display text-xl font-medium leading-snug tracking-tight md:text-2xl">{t(x, lang)}</span>
               </Reveal>
@@ -141,17 +142,17 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
       </CaseSection>
 
       {/* 04 — 3D-визуализация */}
-      <CaseSection n="04" title={d.projects.s4}>
+      <CaseSection n="04" title={d.projects.s4} tone="milk">
         <Gallery images={p.gallery} labels={{ enlarge: d.common.enlarge, close: d.common.close, prev: d.common.prev, next: d.common.next }} />
       </CaseSection>
 
       {/* 05 — Before / After */}
-      <CaseSection n="05" title={d.projects.s5}>
+      <CaseSection n="05" title={d.projects.s5} tone="olive">
         <BeforeAfter before={p.before} after={p.after} labels={{ before: d.common.before, after: d.common.after, drag: d.common.drag }} />
       </CaseSection>
 
       {/* 06 — Результат и состав работ */}
-      <CaseSection n="06" title={d.projects.s6}>
+      <CaseSection n="06" title={d.projects.s6} tone="milk">
         <div className="grid gap-10 md:grid-cols-12">
           <p className="font-display text-[clamp(1.8rem,3.2vw,3rem)] font-medium leading-[1.05] tracking-tight md:col-span-7">{t(p.result, lang)}</p>
           <div className="md:col-span-4 md:col-start-9">
@@ -172,7 +173,7 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
       </CaseSection>
 
       {/* Other projects */}
-      <section className="border-t border-line py-20 md:py-28">
+      <section data-tone="sand" className="py-20 md:py-28">
         <div className="container-x">
           <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
             <h2 className="h-section">{d.common.otherProjects}</h2>

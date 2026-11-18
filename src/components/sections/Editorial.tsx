@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { ProjectLink } from "@/components/ui/ProjectLink";
 import type { Project } from "@/content/projects";
 import { t, type Locale } from "@/lib/i18n";
 import { MaskImage } from "@/components/ui/MaskImage";
@@ -22,11 +22,11 @@ const sizes: Record<Size, string> = {
 };
 
 /** Карточка проекта: hover — zoom ~4% и раскрытие доп. информации */
-export function EditorialCard({ p, lang, size, priority, cursor = "View Dossier" }: { p: Project; lang: Locale; size: Size; priority?: boolean; cursor?: string }) {
+export function EditorialCard({ p, lang, size, priority, cursor = "View project" }: { p: Project; lang: Locale; size: Size; priority?: boolean; cursor?: string }) {
   const overlay = size === "full";
   return (
-    <Link href={`/${lang}/projects/${p.slug}`} className="group block">
-      <div className={`relative ${ratio[size]}`} data-cursor={cursor}>
+    <ProjectLink href={`/${lang}/projects/${p.slug}`} className="group block" cursor={cursor}>
+      <div className={`relative ${ratio[size]}`} data-pt-img>
         <MaskImage img={size === "narrow" ? (p.gallery.find((g) => g.h > g.w) ?? p.cover) : p.cover} sizes={sizes[size]} priority={priority} className="absolute inset-0" imgClassName="transition-transform duration-[1.4s] ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-[1.03]" />
         <Corners tone="warm" className="absolute inset-2 z-10" />
         {overlay && <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/65 via-black/0 to-black/0" />}
@@ -39,7 +39,7 @@ export function EditorialCard({ p, lang, size, priority, cursor = "View Dossier"
           ) : (
             <span />
           )}
-          <span className="meta hidden shrink-0 translate-y-2 bg-warm px-3 py-2 text-graphite md:inline-block opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+          <span className="meta hidden max-w-[45%] truncate translate-y-2 bg-warm px-3 py-2 text-graphite md:inline-block opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
             {p.services.map((s) => t(serviceById(s).title, lang).split(" ")[0]).join(" · ")}
           </span>
         </div>
@@ -71,7 +71,7 @@ export function EditorialCard({ p, lang, size, priority, cursor = "View Dossier"
           <dd className="meta text-muted">{t(p.turnaround, lang)}</dd>
         </div>
       </dl>
-    </Link>
+    </ProjectLink>
   );
 }
 

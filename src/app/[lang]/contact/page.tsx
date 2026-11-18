@@ -35,9 +35,9 @@ export default async function Page({ params }: PageProps<"/[lang]/contact">) {
         <div className="grid gap-10 md:grid-cols-12">
           <dl className="border-t border-ink md:col-span-7">
             {rows.map(([k, v, href]) => (
-              <div key={k + v} className="grid grid-cols-[8rem_1fr] items-baseline gap-4 border-b border-line py-5 md:grid-cols-[12rem_1fr]">
+              <div key={k + v} className="grid grid-cols-[5.5rem_minmax(0,1fr)] items-baseline gap-4 border-b border-line py-5 sm:grid-cols-[8rem_minmax(0,1fr)] md:grid-cols-[12rem_minmax(0,1fr)]">
                 <dt className="meta text-muted">{k}</dt>
-                <dd className="font-display text-xl font-medium tracking-tight md:text-2xl">
+                <dd className="min-w-0 font-display text-base font-medium tracking-tight [overflow-wrap:anywhere] sm:text-xl md:text-2xl">
                   {href ? (
                     <a href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noopener" className="link-u">
                       {v}
@@ -49,7 +49,7 @@ export default async function Page({ params }: PageProps<"/[lang]/contact">) {
               </div>
             ))}
           </dl>
-          <div className="group relative flex flex-col justify-between gap-8 border border-ink p-8 md:col-span-4 md:col-start-9">
+          <div className="group relative flex min-w-0 flex-col justify-between gap-8 border border-ink p-8 md:col-span-4 md:col-start-9">
             <Corners />
             <p className="font-display text-2xl font-medium tracking-tight">{d.home.ctaText}</p>
             <div className="flex flex-col gap-3">

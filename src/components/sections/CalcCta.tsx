@@ -9,8 +9,8 @@ import { Reveal } from "@/components/ui/Reveal";
 /** Блок-переход к калькулятору в стиле инженерного чертежа */
 export function CalcCta({ lang, t }: { lang: Locale; t: Dict["calcCta"] }) {
   return (
-    <section className="container-x pb-24 md:pb-36">
-      <div className="group relative overflow-hidden border border-ink/80 p-8 md:p-14">
+    <section data-tone="rosso" className="container-x py-24 md:py-36">
+      <div className="group relative overflow-hidden border border-ink/60 p-8 md:p-14">
         <Corners />
         {/* сетка чертежа */}
         <div
@@ -21,7 +21,7 @@ export function CalcCta({ lang, t }: { lang: Locale; t: Dict["calcCta"] }) {
         <div className="relative grid gap-10 md:grid-cols-12 md:items-end">
           <div className="md:col-span-8">
             <p className="meta mb-6 flex items-center gap-3 text-muted">
-              <span className="whitespace-nowrap text-accent">[ ∑ ]</span> {t.eyebrow}
+              <span className="whitespace-nowrap">[ ∑ ]</span> {t.eyebrow}
             </p>
             <SplitText lines={[t.title]} className="h-section max-w-[18ch]" />
             <Reveal delay={0.15}>
@@ -34,7 +34,7 @@ export function CalcCta({ lang, t }: { lang: Locale; t: Dict["calcCta"] }) {
             </Link>
           </div>
         </div>
-        <DrawLine className="relative mt-12 !bg-accent" />
+        <DrawLine className="relative mt-12" strong />
         <div className="meta relative mt-3 flex justify-between text-muted">
           <span>30 m²</span>
           <span>€ · m² · days</span>

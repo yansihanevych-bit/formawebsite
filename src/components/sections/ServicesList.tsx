@@ -15,7 +15,7 @@ export function ServicesList({ items, eyebrow, title, lead, deliverables }: { it
 
   return (
     <div className="grid gap-12 md:grid-cols-12 md:gap-10">
-      <div className="md:col-span-5">
+      <div className="min-w-0 md:col-span-5">
         <div className="md:sticky md:top-28">
           <p className="meta mb-6 text-muted">— {eyebrow}</p>
           <SplitText lines={[title]} className="h-section uppercase" />
@@ -38,7 +38,7 @@ export function ServicesList({ items, eyebrow, title, lead, deliverables }: { it
         </div>
       </div>
 
-      <ul className="border-t border-ink md:col-span-7 md:col-start-6">
+      <ul className="min-w-0 border-t border-ink md:col-span-7 md:col-start-6">
         {items.map((s, k) => {
           const isOpen = open === k;
           return (
@@ -48,10 +48,10 @@ export function ServicesList({ items, eyebrow, title, lead, deliverables }: { it
                 onClick={() => setOpen(isOpen ? null : k)}
                 aria-expanded={isOpen}
                 aria-controls={`svc-${s.id}`}
-                className="group grid w-full grid-cols-[3rem_1fr_auto] items-baseline gap-4 py-7 text-left md:py-9"
+                className="group grid w-full grid-cols-[2.5rem_minmax(0,1fr)_auto] items-baseline gap-3 sm:grid-cols-[3rem_minmax(0,1fr)_auto] sm:gap-4 py-7 text-left md:py-9"
               >
                 <span className="meta text-muted">{s.n}</span>
-                <span className={`font-display text-[clamp(1.6rem,3vw,2.75rem)] font-medium leading-none tracking-tight transition-all duration-500 ${active === k ? "translate-x-2" : "opacity-60 group-hover:opacity-100"}`}>
+                <span className={`min-w-0 break-words font-display text-[clamp(1.05rem,2.4vw,2.25rem)] uppercase leading-none transition-all duration-500 ${active === k ? "translate-x-2" : "opacity-60 group-hover:opacity-100"}`}>
                   {s.title}
                 </span>
                 <span className="relative mt-2 h-3.5 w-3.5 shrink-0" aria-hidden>
@@ -69,7 +69,7 @@ export function ServicesList({ items, eyebrow, title, lead, deliverables }: { it
                     transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     className="overflow-hidden"
                   >
-                    <div className="grid gap-8 pb-10 pl-16 md:grid-cols-2">
+                    <div className="grid gap-8 pb-10 pl-0 sm:pl-16 md:grid-cols-2">
                       <div className="relative aspect-[4/3] overflow-hidden bg-paper-2 md:hidden">
                         <Image src={s.image.src} alt={s.image.alt} fill sizes="100vw" className="object-cover" />
                       </div>

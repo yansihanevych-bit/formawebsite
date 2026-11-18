@@ -36,48 +36,48 @@ export default async function Page({ params }: PageProps<"/[lang]/studio">) {
         </div>
       </section>
 
-      <section className="border-y border-line">
+      <section data-tone="olive" className="py-6">
         <div className="container-x grid grid-cols-2 md:grid-cols-4">
           {studio.numbers.map((n, k) => (
             <Reveal key={k} delay={k * 0.06} className={`py-12 pr-4 md:py-16 ${k ? "md:border-l md:border-line md:pl-8" : ""}`}>
               <p className="meta text-muted">0{k + 1}</p>
-              <CountUp value={n.v} className="mt-6 block font-display text-5xl font-medium tracking-tight md:text-6xl" />
+              <CountUp value={n.v} className="h-numeral mt-6 block text-6xl md:text-8xl" />
               <p className="mt-3 text-sm text-muted">{t(n.l, lang)}</p>
             </Reveal>
           ))}
         </div>
       </section>
 
-      <section className="container-x py-24 md:py-32">
+      <section data-tone="sand" className="container-x py-24 md:py-32">
         <SectionHead eyebrow={d.studioPage.principles} title={d.home.whyTitle} />
         <div className="grid gap-px bg-line md:grid-cols-3">
           {studio.principles.map((p, k) => (
-            <Reveal key={k} delay={k * 0.08} className="group relative bg-paper p-8 md:p-10">
+            <Reveal key={k} delay={k * 0.08} className="group relative bg-paper-2/50 p-8 md:p-10">
               <Corners />
               <p className="meta text-accent">0{k + 1}</p>
-              <h3 className="mt-10 font-display text-3xl font-medium tracking-tight">{t(p.t, lang)}</h3>
+              <h3 className="mt-10 font-display text-2xl uppercase leading-tight">{t(p.t, lang)}</h3>
               <p className="mt-4 text-muted">{t(p.d, lang)}</p>
             </Reveal>
           ))}
         </div>
       </section>
 
-      <section className="container-x pb-24 md:pb-32">
+      <section data-tone="milk" className="container-x py-24 md:py-32">
         <SectionHead eyebrow={d.studioPage.team} title={d.studioPage.team} aside={<p className="meta text-muted">{d.studioPage.teamNote}</p>} />
         <ul className="border-t border-ink">
           {studio.team.map((m, k) => (
-            <Reveal as="li" key={k} delay={k * 0.05} className="grid grid-cols-[3rem_1fr_auto] items-baseline gap-4 border-b border-line py-6">
+            <Reveal as="li" key={k} delay={k * 0.05} className="grid grid-cols-[3rem_minmax(0,1fr)_auto] items-baseline gap-4 border-b border-line py-6">
               <span className="meta text-muted">0{k + 1}</span>
-              <span className="font-display text-2xl font-medium tracking-tight md:text-3xl">{t(m.role, lang)}</span>
+              <span className="font-display text-xl uppercase leading-tight md:text-3xl">{t(m.role, lang)}</span>
               <span className="meta text-muted">{m.name}</span>
             </Reveal>
           ))}
         </ul>
       </section>
 
-      <Process lang={lang} eyebrow={d.home.processEyebrow} title={d.home.processTitle} />
+      <Process lang={lang} eyebrow={d.home.processEyebrow} title={d.home.processTitle} tone="sand" />
 
-      <section className="container-x pb-24 md:pb-32">
+      <section data-tone="walnut" className="container-x py-24 md:py-32">
         <div className="grid gap-4 md:grid-cols-3">
           {studio.gallery.map((g, k) => (
             <MaskImage key={g.src} img={g} delay={k * 0.1} sizes="(min-width: 768px) 30vw, 100vw" className="aspect-[4/5]" />

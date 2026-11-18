@@ -7,11 +7,13 @@ import { site } from "@/content/misc";
 import { SplitText } from "@/components/ui/SplitText";
 import { Arrow } from "@/components/ui/Arrow";
 import { FooterForm } from "@/components/form/FooterForm";
+import { Magnetic } from "@/components/ui/Magnetic";
+import { BigWordmark } from "./BigWordmark";
 
 export function Footer({ lang, d }: { lang: Locale; d: Dict }) {
   const year = new Date().getFullYear();
   return (
-    <footer className="bg-graphite text-warm">
+    <footer data-tone="walnut" className="relative overflow-hidden bg-graphite text-warm">
       {/* Финальный экран: крупный контактный блок + форма заявки */}
       <section id="contact" className="container-x scroll-mt-24 border-b border-white/15 pb-20 pt-28 md:pb-28 md:pt-40">
         <p className="meta mb-10 flex items-center gap-3 text-stone">
@@ -20,12 +22,14 @@ export function Footer({ lang, d }: { lang: Locale; d: Dict }) {
         </p>
         <div className="grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-6">
-            <SplitText lines={[d.home.finalA]} className="font-display text-[clamp(2.2rem,5vw,5rem)] font-medium uppercase leading-[0.92] tracking-[-0.045em]" />
-            <SplitText lines={[d.home.finalB]} delay={0.2} className="font-display text-[clamp(2.2rem,5vw,5rem)] font-medium uppercase leading-[0.92] tracking-[-0.045em] text-stone" />
+            <SplitText lines={[d.home.finalA]} className="h-display !text-[clamp(1.9rem,4.6vw,4.75rem)]" />
+            <SplitText lines={[d.home.finalB]} delay={0.2} className="h-display !text-[clamp(1.9rem,4.6vw,4.75rem)] text-stone" />
             <div className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-6">
-              <Link href={`/${lang}/start`} className="btn btn-light">
-                {d.common.startProject} <Arrow />
-              </Link>
+              <Magnetic>
+                <Link href={`/${lang}/start`} className="btn btn-light">
+                  {d.common.startProject} <Arrow />
+                </Link>
+              </Magnetic>
               <a href={`mailto:${site.email}`} className="link-u font-display text-xl font-medium">
                 {site.email}
               </a>
@@ -89,6 +93,7 @@ export function Footer({ lang, d }: { lang: Locale; d: Dict }) {
           </span>
         </div>
       </div>
+      <BigWordmark />
     </footer>
   );
 }

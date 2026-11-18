@@ -93,9 +93,9 @@ export function SegmentPage({ id, lang }: { id: SegmentId; lang: Locale }) {
             </Reveal>
             <div className="mt-10 grid gap-px bg-white/10 md:grid-cols-2">
               {s.tracks.map((tr, k) => (
-                <Reveal key={tr.id} delay={k * 0.1} className="bg-graphite p-8 md:p-14">
+                <Reveal key={tr.id} delay={k * 0.1} className="min-w-0 bg-graphite p-6 sm:p-8 md:p-14">
                   <p className="font-display text-sm text-accent">0{k + 1}</p>
-                  <h3 className="mt-6 font-display text-5xl font-normal md:text-6xl">{t(tr.title, lang)}</h3>
+                  <h3 className="mt-6 break-words font-display text-[clamp(2rem,9vw,3.75rem)] font-normal">{t(tr.title, lang)}</h3>
                   <p className="mt-4 text-lg text-warm/75">{t(tr.text, lang)}</p>
                   <ul className="mt-10 space-y-3 border-t border-white/15 pt-6 text-warm/85">
                     {tr.points.map((p, i) => (

@@ -7,9 +7,10 @@ import { Header, type NavItem } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
 import { CustomCursor } from "@/components/ui/CustomCursor";
-import { AmbientShift } from "@/components/ui/AmbientShift";
+import { ToneController } from "@/components/ui/ToneController";
+import { Preloader } from "@/components/layout/Preloader";
 import { ConsentDefaults, ConsentManager } from "@/components/analytics/Consent";
-import { themeInitScript } from "@/lib/theme";
+import { preloaderInitScript, themeInitScript } from "@/lib/theme";
 import { segments } from "@/content/segments";
 import { site } from "@/content/misc";
 import { alternates, sized } from "@/lib/seo";
@@ -79,14 +80,15 @@ export default async function LangLayout({ children, params }: LayoutProps<"/[la
   return (
     <html lang={lang} className="h-full" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript + preloaderInitScript }} />
         <ConsentDefaults />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body className="flex min-h-full flex-col">
         <SmoothScroll />
         <CustomCursor />
-        <AmbientShift />
+        <ToneController />
+        <Preloader />
         <Header
           lang={lang}
           t={d.nav}
@@ -94,12 +96,10 @@ export default async function LangLayout({ children, params }: LayoutProps<"/[la
           studio={studio}
           announce={d.home.announce}
           main={[
-            { n: "", label: d.nav.projects, href: `/${lang}/projects` },
-            { n: "", label: d.nav.forWhom, href: "#menu" },
-            { n: "", label: d.nav.studioPage, href: `/${lang}/studio` },
-            { n: "", label: d.nav.pricing, href: `/${lang}/pricing` },
-            { n: "", label: d.nav.calculator, href: `/${lang}/calculator` },
-            { n: "", label: d.nav.journal, href: `/${lang}/journal` },
+            { n: "01", label: d.nav.projects, href: `/${lang}/projects` },
+            { n: "02", label: d.nav.studioPage, href: `/${lang}/studio` },
+            { n: "03", label: d.nav.pricing, href: `/${lang}/pricing` },
+            { n: "04", label: d.nav.calculator, href: `/${lang}/calculator` },
           ]}
           contact={{ email: site.email, phone: site.phone, whatsapp: site.whatsapp, area: d.footer.area }}
         />

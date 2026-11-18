@@ -1,5 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
 import { useFinePointer } from "@/lib/useFinePointer";
 
@@ -9,7 +10,24 @@ import { useFinePointer } from "@/lib/useFinePointer";
  */
 export function CustomCursor() {
   const fine = useFinePointer();
+  const pathname = usePathname();
   const [label, setLabel] = useState<string | null>(null);
+  const last = useRef({ x: -100, y: -100 });
+
+  // смена страницы: метку прячем; при прокрутке — пересчитываем элемент под курсором
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- сброс при навигации
+    setLabel(null);
+  }, [pathname]);
+  useEffect(() => {
+    if (!fine) return;
+    const onScroll = () => {
+      const el = document.elementFromPoint(last.current.x, last.current.y)?.closest<HTMLElement>("[data-cursor]");
+      setLabel(el ? el.dataset.cursor || "" : null);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [fine]);
   const [coords, setCoords] = useState("X 0000 · Y 0000");
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
@@ -21,6 +39,7 @@ export function CustomCursor() {
     document.documentElement.classList.add("custom-cursor");
     let target: HTMLElement | null = null;
     const onMove = (e: PointerEvent) => {
+      last.current = { x: e.clientX, y: e.clientY };
       x.set(e.clientX);
       y.set(e.clientY);
       const el = (e.target as HTMLElement).closest<HTMLElement>("[data-cursor]");

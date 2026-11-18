@@ -11,7 +11,7 @@ import { SplitText } from "@/components/ui/SplitText";
  * Десктоп: слева закреплены визуал и вертикальная линия прогресса, справа прокручиваются этапы
  * (активный — opacity 1, остальные — 0.35). Мобильный: тот же список, у каждого этапа своё фото.
  */
-export function Process({ lang, eyebrow, title }: { lang: Locale; eyebrow: string; title: string }) {
+export function Process({ lang, eyebrow, title, tone = "sand" }: { lang: Locale; eyebrow: string; title: string; tone?: string }) {
   const listRef = useRef<HTMLOListElement>(null);
   const stepRefs = useRef<(HTMLLIElement | null)[]>([]);
   const [active, setActive] = useState(0);
@@ -33,10 +33,12 @@ export function Process({ lang, eyebrow, title }: { lang: Locale; eyebrow: strin
   }, []);
 
   return (
-    <section className="container-x py-24 md:py-36">
+    <section data-tone={tone} className="container-x py-24 md:py-36">
       <div className="mb-14 md:mb-20">
-        <p className="meta mb-6 text-muted">— {eyebrow}</p>
-        <SplitText lines={[title]} className="h-section max-w-[16ch] uppercase" />
+        <p className="meta mb-6 flex items-center gap-3 text-muted">
+          <span className="text-accent">+</span> {eyebrow}
+        </p>
+        <SplitText lines={[title]} className="h-section max-w-[18ch]" />
       </div>
 
       <div className="grid gap-10 lg:grid-cols-12">
@@ -92,7 +94,7 @@ export function Process({ lang, eyebrow, title }: { lang: Locale; eyebrow: strin
               <p className="meta text-accent">
                 0{k + 1} · {t(s.time, lang)}
               </p>
-              <h3 className="mt-4 font-display text-4xl font-medium tracking-tight md:text-5xl">{t(s.title, lang)}</h3>
+              <h3 className="mt-4 font-display text-3xl uppercase leading-none md:text-5xl">{t(s.title, lang)}</h3>
               <p className="mt-4 max-w-md text-lg text-muted">{t(s.text, lang)}</p>
             </li>
           ))}

@@ -1,14 +1,17 @@
 import { Resend } from "resend";
+import { sendTelegram } from "@/lib/telegram";
 
 type Mail = { subject: string; html: string };
 
 /**
- * Доставка заявки: лог (всегда) → webhook CRM (если задан) → письма (если задан Resend).
+ * Доставка заявки: лог (всегда) → Telegram (если задан бот) → webhook CRM (если задан) → письма (если задан Resend).
  * Лог в Vercel — страховка, чтобы заявка не потерялась ни при каких сбоях.
  */
 export async function deliver(record: Record<string, unknown> & { id: string }, team: Mail, client?: { to: string; mail: Mail }, replyTo?: string) {
   console.log("[lead]", JSON.stringify(record));
   const results: Record<string, string> = {};
+
+  results.telegram = await sendTelegram(record);
 
   if (process.env.CRM_WEBHOOK_URL) {
     try {
@@ -36,7 +39,7 @@ export async function deliver(record: Record<string, unknown> & { id: string }, 
       console.error("[lead] email failed", record.id, e);
     }
   } else {
-    console.warn("[lead] RESEND_API_KEY / LEADS_EMAIL_TO не заданы — заявка только в логах", record.id);
+    if (results.telegram !== "ok") console.warn("[lead] Telegram и почта не доставили заявку — она есть в логах Vercel", record.id);
   }
   return results;
 }
