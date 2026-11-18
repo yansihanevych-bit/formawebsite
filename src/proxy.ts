@@ -6,7 +6,11 @@ function pickLocale(req: NextRequest) {
   if (saved && (locales as readonly string[]).includes(saved)) return saved;
   const al = (req.headers.get("accept-language") || "").toLowerCase();
   // Рынок — Италия: итальянский по умолчанию, английский только если браузер явно не итальянский
-  if (al && !al.startsWith("it") && al.split(",")[0].startsWith("en")) return "en";
+  const first = al.split(",")[0];
+  if (al && !al.startsWith("it")) {
+    if (/^(ru|uk|be|kk)/.test(first)) return "ru";
+    if (first.startsWith("en")) return "en";
+  }
   return defaultLocale;
 }
 

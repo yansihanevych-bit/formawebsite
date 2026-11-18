@@ -41,7 +41,7 @@ export const leadSchema = z.object({
   phone: z.string().max(40).optional().default(""),
   messenger: z.string().max(30).optional().default(""),
   messengerHandle: z.string().max(80).optional().default(""),
-  language: z.enum(["it", "en"]),
+  language: z.enum(["it", "en", "ru"]),
   gdpr: z.literal(true),
   marketing: z.boolean().default(false),
   plan: z.string().max(40).optional().default(""),
@@ -61,7 +61,7 @@ export function scoreLead(l: Lead) {
   else s += 10;
   if (l.files.length) s += 25;
   if (l.area >= 150) s += 10;
-  if (["€ 1.000–3.000", "€ 1,000–3,000", "> € 3.000", "> € 3,000"].includes(l.budget)) s += 20;
+  if (["€ 1.000–3.000", "€ 1,000–3,000", "€ 1 000–3 000", "> € 3.000", "> € 3,000", "> € 3 000"].includes(l.budget)) s += 20;
   else if (l.budget.startsWith("€ 500")) s += 10;
   if (l.phone || l.messengerHandle) s += 10;
   if (l.comment.length > 40) s += 5;

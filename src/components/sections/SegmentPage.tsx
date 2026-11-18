@@ -34,23 +34,23 @@ export function SegmentPage({ id, lang }: { id: SegmentId; lang: Locale }) {
     <>
       <SegmentTracker id={id} />
       {/* Hero */}
-      <section data-hero-dark className="relative min-h-[88svh] overflow-hidden bg-ink text-paper">
+      <section data-hero-dark className="relative min-h-[88svh] overflow-hidden bg-graphite text-warm">
         <Pic img={s.image} priority sizes="100vw" className="absolute inset-0" imgClassName="opacity-80" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/40" />
         <div className="container-x relative flex min-h-[88svh] flex-col justify-end pb-14 pt-40 md:pb-20">
           <Reveal>
-            <p className="eyebrow mb-6 text-paper/75">
+            <p className="eyebrow mb-6 text-warm/75">
               {s.n} · {t(s.label, lang)}
             </p>
             <h1 className="max-w-[16ch] font-display text-[clamp(2.4rem,5.6vw,5.75rem)] font-medium leading-[0.95] tracking-[-0.04em]">{t(s.title, lang)}</h1>
           </Reveal>
           <Reveal delay={0.15} className="mt-10 grid gap-8 md:grid-cols-12 md:items-end">
-            <p className="max-w-xl text-lg text-paper/85 md:col-span-6">{t(s.lead, lang)}</p>
+            <p className="max-w-xl text-lg text-warm/85 md:col-span-6">{t(s.lead, lang)}</p>
             <div className="flex flex-wrap gap-3 md:col-span-6 md:justify-end">
               <Link href={startHref} className="btn btn-light">
                 {id === "developers" ? d.segment.b2bCta : d.common.startProject} <Arrow />
               </Link>
-              <span className="eyebrow self-center text-paper/70">{t(s.priceFrom, lang)}</span>
+              <span className="eyebrow self-center text-warm/70">{t(s.priceFrom, lang)}</span>
             </div>
           </Reveal>
         </div>
@@ -86,18 +86,18 @@ export function SegmentPage({ id, lang }: { id: SegmentId; lang: Locale }) {
 
       {/* Developers: two tracks */}
       {s.tracks && (
-        <section className="bg-ink py-24 text-paper md:py-32">
+        <section className="bg-graphite py-24 text-warm md:py-32">
           <div className="container-x">
             <Reveal>
               <p className="eyebrow mb-5 text-muted">{d.segment.tracksTitle}</p>
             </Reveal>
             <div className="mt-10 grid gap-px bg-white/10 md:grid-cols-2">
               {s.tracks.map((tr, k) => (
-                <Reveal key={tr.id} delay={k * 0.1} className="bg-ink p-8 md:p-14">
+                <Reveal key={tr.id} delay={k * 0.1} className="bg-graphite p-8 md:p-14">
                   <p className="font-display text-sm text-accent">0{k + 1}</p>
                   <h3 className="mt-6 font-display text-5xl font-normal md:text-6xl">{t(tr.title, lang)}</h3>
-                  <p className="mt-4 text-lg text-paper/75">{t(tr.text, lang)}</p>
-                  <ul className="mt-10 space-y-3 border-t border-white/15 pt-6 text-paper/85">
+                  <p className="mt-4 text-lg text-warm/75">{t(tr.text, lang)}</p>
+                  <ul className="mt-10 space-y-3 border-t border-white/15 pt-6 text-warm/85">
                     {tr.points.map((p, i) => (
                       <li key={i} className="flex gap-3">
                         <span className="text-accent">+</span>

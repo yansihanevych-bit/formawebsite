@@ -20,12 +20,12 @@ export default async function Page({ params }: PageProps<"/[lang]/start">) {
   const d = getDict(lang);
   return (
     <section data-header-solid className="grid min-h-svh lg:grid-cols-12">
-      <aside className="relative hidden bg-ink text-paper lg:col-span-4 lg:block">
+      <aside className="relative hidden bg-graphite text-warm lg:col-span-4 lg:block">
         <div className="sticky top-0 h-svh">
           <Pic img={IMG.plans} className="absolute inset-0 opacity-40" sizes="33vw" />
           <div className="relative flex h-full flex-col justify-end p-12">
-            <p className="eyebrow mb-6 text-paper/60">FORMA BURO</p>
-            <ol className="space-y-3 font-display text-lg font-normal text-paper/85">
+            <p className="eyebrow mb-6 text-warm/60">FORMA BURO</p>
+            <ol className="space-y-3 font-display text-lg font-normal text-warm/85">
               {d.form.steps.map((s, k) => (
                 <li key={s} className="flex gap-4">
                   <span className="w-6 text-sm text-accent">0{k + 1}</span>
@@ -33,7 +33,7 @@ export default async function Page({ params }: PageProps<"/[lang]/start">) {
                 </li>
               ))}
             </ol>
-            <p className="mt-10 text-sm text-paper/60">{d.home.ctaText}</p>
+            <p className="mt-10 text-sm text-warm/60">{d.home.ctaText}</p>
           </div>
         </div>
       </aside>

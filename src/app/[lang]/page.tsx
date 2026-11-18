@@ -19,6 +19,7 @@ import { SectionHead } from "@/components/ui/SectionHead";
 import { Reveal } from "@/components/ui/Reveal";
 import { SplitText } from "@/components/ui/SplitText";
 import { CountUp } from "@/components/ui/CountUp";
+import { CalcCta } from "@/components/sections/CalcCta";
 import { Arrow } from "@/components/ui/Arrow";
 import { alternates } from "@/lib/seo";
 
@@ -37,7 +38,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   return (
     <>
       <Hero
-        image={IMG.villaPool}
+        image={IMG.hero}
         eyebrow={d.home.eyebrow}
         lines={[d.home.h1a, d.home.h1b]}
         sub={d.home.sub}
@@ -46,7 +47,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         scroll={d.home.scroll}
         meta={[
           { k: "Concept", v: "48–72h" },
-          { k: lang === "it" ? "Lingue" : "Languages", v: "IT · EN" },
+          { k: d.home.langs, v: "IT · EN · RU" },
         ]}
       />
 
@@ -93,7 +94,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       </section>
 
       {/* Before / after */}
-      <section className="bg-ink py-24 text-paper md:py-36">
+      <section className="bg-graphite py-24 text-warm md:py-36">
         <div className="container-x">
           <div className="mb-12 grid gap-8 md:mb-16 md:grid-cols-12">
             <div className="md:col-span-8">
@@ -101,11 +102,11 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               <SplitText lines={[d.home.baTitle]} className="h-section max-w-[20ch]" />
             </div>
             <Reveal delay={0.1} className="self-end md:col-span-4">
-              <p className="text-paper/70">{d.home.baText}</p>
+              <p className="text-warm/70">{d.home.baText}</p>
             </Reveal>
           </div>
           <Reveal>
-            <BeforeAfter before={IMG.plans} after={IMG.living7} labels={{ before: d.common.before, after: d.common.after, drag: d.common.drag }} />
+            <BeforeAfter before={IMG.plans} after={IMG.living5} labels={{ before: d.common.before, after: d.common.after, drag: d.common.drag }} />
           </Reveal>
         </div>
       </section>
@@ -148,6 +149,9 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
 
       {/* How it works */}
       <Process lang={lang} eyebrow={d.home.processEyebrow} title={d.home.processTitle} />
+
+      {/* Переход к калькулятору */}
+      <CalcCta lang={lang} t={d.calcCta} />
 
       {/* Pricing */}
       <section className="container-x py-24 md:py-36">

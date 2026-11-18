@@ -6,18 +6,21 @@ import { AnimatePresence, motion } from "motion/react";
 import type { Locale } from "@/lib/i18n";
 import { locales } from "@/lib/i18n";
 import { track } from "@/lib/analytics";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { AnnounceBar } from "./AnnounceBar";
 
 export type NavItem = { n: string; label: string; href: string; img?: string };
 type Props = {
   lang: Locale;
-  t: { start: string; menu: string; close: string; forWhom: string; studio: string; skip: string };
+  t: { start: string; menu: string; close: string; forWhom: string; studio: string; skip: string; light: string; dark: string };
   forWhom: NavItem[];
   studio: NavItem[];
   main: NavItem[];
+  announce: string[];
   contact: { email: string; phone: string; whatsapp: string; area: string };
 };
 
-export function Header({ lang, t, forWhom, studio, main, contact }: Props) {
+export function Header({ lang, t, forWhom, studio, main, announce, contact }: Props) {
   const [open, setOpen] = useState(false);
   const [hover, setHover] = useState<string | undefined>(forWhom[0]?.img);
   const [scrolled, setScrolled] = useState(false);
@@ -62,6 +65,7 @@ export function Header({ lang, t, forWhom, studio, main, contact }: Props) {
         {t.skip}
       </a>
       <header className="fixed inset-x-0 top-0 z-50">
+        <AnnounceBar items={announce} hidden={scrolled} />
         <div
           className={`transition-all duration-500 ease-[cubic-bezier(.16,1,.3,1)] ${
             panel ? "mx-2 mt-2 border border-line bg-paper/75 text-ink backdrop-blur-xl md:mx-4 md:mt-3" : light ? "border border-transparent text-white" : "border border-transparent text-ink"
@@ -69,15 +73,20 @@ export function Header({ lang, t, forWhom, studio, main, contact }: Props) {
         >
           <div className={`container-x flex items-center justify-between gap-6 transition-[padding] duration-500 ${panel ? "py-3" : "py-6 md:py-7"}`}>
             <Link href={`/${lang}`} aria-label="FORMA BURO — home" className="block shrink-0">
+              {/* светлый логотип поверх тёмного Hero и в тёмной теме, тёмный — на светлых страницах */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={light ? "/brand/wordmark-white.svg" : "/brand/wordmark-ink.svg"}
+                src="/brand/wordmark-white.svg"
                 alt="FORMA BURO"
-                className={`h-auto transition-[width] duration-500 ${panel ? "w-24 md:w-28" : "w-28 md:w-36"}`}
+                className={`h-auto transition-[width] duration-500 ${panel ? "w-24 md:w-28" : "w-28 md:w-36"} ${light ? "" : "hidden dark:block"}`}
               />
+              {!light && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src="/brand/wordmark-ink.svg" alt="" aria-hidden className={`h-auto transition-[width] duration-500 dark:hidden ${panel ? "w-24 md:w-28" : "w-28 md:w-36"}`} />
+              )}
             </Link>
 
-            <nav aria-label="Main" className="hidden items-center gap-8 lg:flex">
+            <nav aria-label="Main" className="hidden items-center gap-7 xl:flex">
               {main.map((it) => {
                 const active = pathname === it.href || (it.href !== `/${lang}` && pathname.startsWith(it.href));
                 return it.href === "#menu" ? (
@@ -93,7 +102,8 @@ export function Header({ lang, t, forWhom, studio, main, contact }: Props) {
               })}
             </nav>
 
-            <div className="flex items-center gap-5 md:gap-6">
+            <div className="flex items-center gap-4 md:gap-6">
+              <ThemeToggle labels={{ light: t.light, dark: t.dark }} />
               <nav aria-label="Language" className="meta flex gap-2.5">
                 {locales.map((l) => (
                   <Link
@@ -111,7 +121,7 @@ export function Header({ lang, t, forWhom, studio, main, contact }: Props) {
                 href={`/${lang}/start`}
                 onClick={() => track("cta_click", { position: "header" })}
                 className={`meta group hidden items-center gap-2.5 px-4 py-2.5 transition-colors md:inline-flex ${
-                  light ? "bg-paper text-ink hover:bg-white" : "bg-ink text-paper hover:bg-ink-2"
+                  light ? "bg-warm text-graphite hover:bg-white" : "bg-ink text-paper hover:bg-ink-2"
                 }`}
               >
                 {t.start}
@@ -120,7 +130,7 @@ export function Header({ lang, t, forWhom, studio, main, contact }: Props) {
                 </svg>
               </Link>
               <button type="button" onClick={() => setOpen(true)} aria-expanded={open} aria-controls="site-menu" className="meta group flex items-center gap-3">
-                <span className="hidden sm:inline lg:hidden">{t.menu}</span>
+                <span className="hidden sm:inline xl:hidden">{t.menu}</span>
                 <span className="flex w-7 flex-col gap-[6px]" aria-hidden>
                   <span className="h-px w-full bg-current transition-all group-hover:w-4/5" />
                   <span className="h-px w-3/5 bg-current transition-all group-hover:w-full" />
@@ -139,7 +149,7 @@ export function Header({ lang, t, forWhom, studio, main, contact }: Props) {
             aria-modal="true"
             aria-label={t.menu}
             data-lenis-prevent
-            className="fixed inset-0 z-[60] overflow-y-auto bg-ink text-paper"
+            className="fixed inset-0 z-[60] overflow-y-auto bg-graphite text-warm"
             initial={{ clipPath: "inset(0 0 100% 0)" }}
             animate={{ clipPath: "inset(0 0 0% 0)" }}
             exit={{ clipPath: "inset(0 0 100% 0)" }}
@@ -215,7 +225,7 @@ export function Header({ lang, t, forWhom, studio, main, contact }: Props) {
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-end justify-between gap-6 border-t border-white/15 pt-6 text-sm text-paper/70">
+              <div className="flex flex-wrap items-end justify-between gap-6 border-t border-white/15 pt-6 text-sm text-warm/70">
                 <div className="flex flex-wrap gap-x-8 gap-y-2">
                   <a href={`mailto:${contact.email}`} className="link-u">{contact.email}</a>
                   <a href={`tel:${contact.phone.replace(/\s/g, "")}`} className="link-u">{contact.phone}</a>

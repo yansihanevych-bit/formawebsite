@@ -44,15 +44,20 @@ export function teamEmail(l: Lead, meta: { id: string; score: number; qualified:
 }
 
 export function clientEmail(l: Lead, id: string) {
-  const it = l.language === "it";
-  const subject = it ? `Abbiamo ricevuto la vostra richiesta (${id}) — FORMA BURO` : `We've received your request (${id}) — FORMA BURO`;
+  const x = (it: string, en: string, ru: string) => ({ it, en, ru })[l.language];
+  const first = esc(l.name.split(" ")[0]);
+  const subject = x(`Abbiamo ricevuto la vostra richiesta (${id}) — FORMA BURO`, `We've received your request (${id}) — FORMA BURO`, `Мы получили вашу заявку (${id}) — FORMA BURO`);
   const html = `
-  <div style="font-family:Arial,sans-serif;color:#151515;max-width:560px;line-height:1.6">
-    <p style="letter-spacing:.3em;font-size:11px;text-transform:uppercase;color:#85807a">FORMA BURO · Architecture</p>
-    <h2 style="font-weight:300;font-size:26px">${it ? `Grazie, ${esc(l.name.split(" ")[0])}.` : `Thank you, ${esc(l.name.split(" ")[0])}.`}</h2>
-    <p>${it ? "Abbiamo ricevuto la vostra richiesta e i file allegati." : "We've received your request and attached files."}</p>
-    <p>${it ? "<b>Cosa succede ora:</b> entro 24 ore lavorative vi inviamo un preventivo fisso con tempi di consegna. Se servono altre informazioni vi contatteremo." : "<b>What happens next:</b> within 24 working hours we'll send you a fixed quote with delivery times. If we need more information we'll get in touch."}</p>
-    <p style="color:#85807a;font-size:13px">${it ? "Riferimento" : "Reference"}: ${esc(id)}</p>
+  <div style="font-family:Arial,sans-serif;color:#171918;max-width:560px;line-height:1.6">
+    <p style="letter-spacing:.3em;font-size:11px;text-transform:uppercase;color:#7c806f">FORMA BURO · Architecture</p>
+    <h2 style="font-weight:400;font-size:26px">${x(`Grazie, ${first}.`, `Thank you, ${first}.`, `Спасибо, ${first}.`)}</h2>
+    <p>${x("Abbiamo ricevuto la vostra richiesta e i file allegati.", "We've received your request and attached files.", "Мы получили вашу заявку и приложенные файлы.")}</p>
+    <p>${x(
+      "<b>Cosa succede ora:</b> entro 24 ore lavorative vi inviamo un preventivo fisso con tempi di consegna. Se servono altre informazioni vi contatteremo.",
+      "<b>What happens next:</b> within 24 working hours we'll send you a fixed quote with delivery times. If we need more information we'll get in touch.",
+      "<b>Что дальше:</b> в течение 24 рабочих часов пришлём фиксированное предложение со сроками. Если понадобится больше информации — свяжемся с вами."
+    )}</p>
+    <p style="color:#7c806f;font-size:13px">${x("Riferimento", "Reference", "Номер заявки")}: ${esc(id)}</p>
   </div>`;
   return { subject, html };
 }

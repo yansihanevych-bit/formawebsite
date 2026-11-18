@@ -33,7 +33,7 @@ export function ServicesList({ items, eyebrow, title, lead, deliverables }: { it
                 <Image src={items[active].image.src} alt={items[active].image.alt} fill sizes="40vw" className="object-cover" />
               </motion.div>
             </AnimatePresence>
-            <span className="meta absolute bottom-4 left-4 z-10 bg-paper px-2.5 py-1.5">{items[active].n} / 0{items.length}</span>
+            <span className="meta absolute bottom-4 left-4 z-10 bg-warm px-2.5 py-1.5 text-graphite">{items[active].n} / 0{items.length}</span>
           </div>
         </div>
       </div>

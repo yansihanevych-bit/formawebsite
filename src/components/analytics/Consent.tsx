@@ -85,8 +85,8 @@ export function ConsentManager({ t, lang, gtmId }: { t: T; lang: string; gtmId?:
   if (!show) return null;
   return (
     <div role="dialog" aria-label="Cookie" className="fixed inset-x-3 bottom-3 z-[70] md:inset-x-auto md:right-6 md:bottom-6 md:max-w-md">
-      <div className="bg-ink p-6 text-paper shadow-2xl">
-        <p className="text-sm leading-relaxed text-paper/85">
+      <div className="bg-graphite p-6 text-warm shadow-2xl">
+        <p className="text-sm leading-relaxed text-warm/85">
           {t.text}{" "}
           <Link href={`/${lang}/cookies`} className="underline underline-offset-4">
             {t.policy}
@@ -124,7 +124,7 @@ export function ConsentManager({ t, lang, gtmId }: { t: T; lang: string; gtmId?:
             </>
           )}
           {!detail && (
-            <button type="button" onClick={() => setDetail(true)} className="eyebrow w-full pt-2 text-center text-[0.62rem] text-paper/60 hover:text-paper">
+            <button type="button" onClick={() => setDetail(true)} className="eyebrow w-full pt-2 text-center text-[0.62rem] text-warm/60 hover:text-warm">
               {t.settings}
             </button>
           )}

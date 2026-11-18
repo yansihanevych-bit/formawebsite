@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { locales, type Locale } from "./i18n";
+import { locales, ogLocale, type Locale } from "./i18n";
 import { site } from "@/content/misc";
 
 /** canonical + hreflang для пути без префикса языка, напр. "/projects" */
@@ -20,12 +20,12 @@ export function pageMeta(lang: Locale, path: string, title: string, description:
       description,
       url: `${site.url}/${lang}${path}`,
       siteName: "FORMA BURO",
-      locale: lang === "it" ? "it_IT" : "en_GB",
+      locale: ogLocale[lang],
       type: "website",
       ...(image ? { images: [{ url: image, width: 1200, height: 630 }] } : {}),
     },
   };
 }
 
-/** Удобно для <img> вне next/image (меню, OG): ресайз через параметры Unsplash */
-export const sized = (src: string, w = 1200) => (src.includes("unsplash") ? `${src}?w=${w}&q=70&auto=format&fit=crop` : src);
+/** Для <img> вне next/image (меню, OG): уменьшенная копия через оптимизатор Next.js (w — из стандартного набора: 640…3840) */
+export const sized = (src: string, w: 640 | 750 | 828 | 1080 | 1200 | 1920 = 1200) => (src.startsWith("/") ? `/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=75` : src);

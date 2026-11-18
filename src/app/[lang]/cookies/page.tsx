@@ -6,23 +6,23 @@ export const metadata = { title: "Cookie" };
 // TODO: заменить на юридически проверенный текст / iubenda cookie policy.
 export default async function Page({ params }: PageProps<"/[lang]/cookies">) {
   const lang = (await params).lang as Locale;
-  const it = lang === "it";
+  const x = (it: string, en: string, ru: string) => ({ it, en, ru })[lang];
   return (
-    <Legal title="Cookie policy" updated={it ? "Bozza — da validare" : "Draft — to be validated"}>
-      <h2>{it ? "Cookie tecnici (sempre attivi)" : "Technical cookies (always on)"}</h2>
+    <Legal title={x("Cookie policy", "Cookie policy", "Политика cookie")} updated={x("Bozza — da validare", "Draft — to be validated", "Черновик — требует проверки")}>
+      <h2>{x("Cookie tecnici (sempre attivi)", "Technical cookies (always on)", "Технические cookie (всегда включены)")}</h2>
       <ul>
-        <li><b>fb_locale</b> — {it ? "lingua scelta, 12 mesi" : "chosen language, 12 months"}</li>
-        <li><b>fb_first / fb_last / fb_segment</b> — {it ? "provenienza della visita e tipo di cliente, usati solo per gestire la richiesta inviata, 90 giorni" : "visit source and client type, used only to handle your request, 90 days"}</li>
-        <li><b>fb_consent_v1</b> (localStorage) — {it ? "le vostre preferenze sui cookie" : "your cookie preferences"}</li>
+        <li><b>fb_locale</b> — {x("lingua scelta, 12 mesi", "chosen language, 12 months", "выбранный язык, 12 месяцев")}</li>
+        <li><b>fb_first / fb_last / fb_segment</b> — {x("provenienza della visita e tipo di cliente, usati solo per gestire la richiesta inviata, 90 giorni", "visit source and client type, used only to handle your request, 90 days", "источник визита и тип клиента — только для обработки заявки, 90 дней")}</li>
+        <li><b>fb_consent_v1, fb_theme</b> (localStorage) — {x("preferenze su cookie e tema", "cookie and theme preferences", "настройки cookie и темы")}</li>
       </ul>
-      <h2>{it ? "Analisi (con consenso)" : "Analytics (with consent)"}</h2>
-      <p>Google Analytics 4 {it ? "tramite Google Tag Manager, con IP anonimizzato." : "via Google Tag Manager, with IP anonymisation."}</p>
-      <h2>{it ? "Marketing (con consenso)" : "Marketing (with consent)"}</h2>
-      <p>Google Ads, Meta Pixel — {it ? "misurazione delle conversioni e remarketing." : "conversion measurement and remarketing."}</p>
-      <h2>{it ? "Gestire il consenso" : "Managing consent"}</h2>
+      <h2>{x("Analisi (con consenso)", "Analytics (with consent)", "Аналитика (с согласия)")}</h2>
+      <p>Google Analytics 4 {x("tramite Google Tag Manager, con IP anonimizzato.", "via Google Tag Manager, with IP anonymisation.", "через Google Tag Manager, с анонимизацией IP.")}</p>
+      <h2>{x("Marketing (con consenso)", "Marketing (with consent)", "Маркетинг (с согласия)")}</h2>
+      <p>Google Ads, Meta Pixel — {x("misurazione delle conversioni e remarketing.", "conversion measurement and remarketing.", "измерение конверсий и ремаркетинг.")}</p>
+      <h2>{x("Gestire il consenso", "Managing consent", "Управление согласием")}</h2>
       <p>
-        {it ? "Potete modificare le preferenze in qualsiasi momento: " : "You can change your preferences at any time: "}
-        <button type="button" data-open-consent className="underline underline-offset-4">{it ? "apri preferenze" : "open preferences"}</button>.
+        {x("Potete modificare le preferenze in qualsiasi momento: ", "You can change your preferences at any time: ", "Изменить настройки можно в любой момент: ")}
+        <button type="button" data-open-consent className="underline underline-offset-4">{x("apri preferenze", "open preferences", "открыть настройки")}</button>.
       </p>
     </Legal>
   );

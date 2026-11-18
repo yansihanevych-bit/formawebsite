@@ -1,59 +1,143 @@
 /**
- * ВРЕМЕННЫЕ тематические заглушки (Unsplash).
- * Заменить на реальные фото кейсов: положить файлы в /public/projects/... или перенести в Sanity,
- * и поменять src в этом файле — остальной код менять не нужно.
+ * Изображения сайта. Рендеры FORMA BURO лежат в /public/work/<проект>/.
+ * sketch.jpg — эскиз, сгенерированный из первого кадра (тот же ракурс) — для слайдеров «до / после».
+ * Чтобы заменить кадр: положите файл с тем же именем или поменяйте путь здесь.
  */
 export type Img = { src: string; alt: string; w: number; h: number };
 
-const u = (id: string, alt: string, w = 2400, h = 1600): Img => ({
-  src: `https://images.unsplash.com/photo-${id}`,
-  alt,
-  w,
-  h,
-});
+const i = (src: string, alt: string, w: number, h: number): Img => ({ src, alt, w, h });
 
+/** Рендеры по проектам: [кадры…, эскиз последним] */
+export const WORK = {
+  "appartamento-corso-imperatrice": [
+    i("/work/appartamento-corso-imperatrice/01.jpg", "Render — soggiorno e cucina, appartamento d'epoca", 2000, 1125),
+    i("/work/appartamento-corso-imperatrice/02.jpg", "Render — soggiorno e cucina, appartamento d'epoca", 1600, 2000),
+    i("/work/appartamento-corso-imperatrice/03.jpg", "Render — soggiorno e cucina, appartamento d'epoca", 1600, 2000),
+    i("/work/appartamento-corso-imperatrice/04.jpg", "Render — soggiorno e cucina, appartamento d'epoca", 1600, 2000),
+    i("/work/appartamento-corso-imperatrice/05.jpg", "Render — soggiorno e cucina, appartamento d'epoca", 1600, 2000),
+    i("/work/appartamento-corso-imperatrice/06.jpg", "Render — soggiorno e cucina, appartamento d'epoca", 1600, 2000),
+    i("/work/appartamento-corso-imperatrice/07.jpg", "Render — camera da letto, appartamento d'epoca", 1600, 2000),
+    i("/work/appartamento-corso-imperatrice/08.jpg", "Render — camera da letto, appartamento d'epoca", 1600, 2000),
+    i("/work/appartamento-corso-imperatrice/09.jpg", "Render — camera da letto, appartamento d'epoca", 1600, 2000),
+    i("/work/appartamento-corso-imperatrice/10.jpg", "Render — camera da letto, appartamento d'epoca", 1600, 2000),
+    i("/work/appartamento-corso-imperatrice/11.jpg", "Render — camera da letto, appartamento d'epoca", 1600, 2000),
+    i("/work/appartamento-corso-imperatrice/12.jpg", "Render — bagno in travertino", 1600, 2000),
+    i("/work/appartamento-corso-imperatrice/13.jpg", "Render — bagno in travertino", 1600, 2000),
+    i("/work/appartamento-corso-imperatrice/14.jpg", "Render — bagno in travertino", 1600, 2000),
+    i("/work/appartamento-corso-imperatrice/sketch.jpg", "Schizzo di progetto — stesso punto di vista del render", 2000, 1125),
+  ],
+  "attico-porto-vecchio": [
+    i("/work/attico-porto-vecchio/01.jpg", "Render — zona giorno con vista mare al tramonto", 2000, 1116),
+    i("/work/attico-porto-vecchio/02.jpg", "Render — zona giorno con vista mare al tramonto", 1611, 2000),
+    i("/work/attico-porto-vecchio/03.jpg", "Render — zona giorno con vista mare al tramonto", 1611, 2000),
+    i("/work/attico-porto-vecchio/04.jpg", "Render — zona giorno con vista mare al tramonto", 1611, 2000),
+    i("/work/attico-porto-vecchio/05.jpg", "Render — zona giorno con vista mare al tramonto", 1611, 2000),
+    i("/work/attico-porto-vecchio/06.jpg", "Render — dettaglio arredo", 1611, 2000),
+    i("/work/attico-porto-vecchio/sketch.jpg", "Schizzo di progetto — stesso punto di vista del render", 2000, 1116),
+  ],
+  "appartamento-corso-inglesi": [
+    i("/work/appartamento-corso-inglesi/01.jpg", "Render — zona giorno con portefinestre sul mare", 2000, 1116),
+    i("/work/appartamento-corso-inglesi/02.jpg", "Render — zona giorno con portefinestre sul mare", 2000, 1116),
+    i("/work/appartamento-corso-inglesi/03.jpg", "Render — zona giorno con portefinestre sul mare", 1611, 2000),
+    i("/work/appartamento-corso-inglesi/04.jpg", "Render — zona giorno con portefinestre sul mare", 1611, 2000),
+    i("/work/appartamento-corso-inglesi/05.jpg", "Render — dettaglio arredo", 1611, 2000),
+    i("/work/appartamento-corso-inglesi/sketch.jpg", "Schizzo di progetto — stesso punto di vista del render", 2000, 1116),
+  ],
+  "casa-di-paese-ventimiglia": [
+    i("/work/casa-di-paese-ventimiglia/01.jpg", "Render — zona giorno con terrazza fiorita", 2000, 1116),
+    i("/work/casa-di-paese-ventimiglia/02.jpg", "Render — zona giorno con terrazza fiorita", 1611, 2000),
+    i("/work/casa-di-paese-ventimiglia/03.jpg", "Render — zona giorno con terrazza fiorita", 1611, 2000),
+    i("/work/casa-di-paese-ventimiglia/04.jpg", "Render — zona giorno con terrazza fiorita", 1611, 2000),
+    i("/work/casa-di-paese-ventimiglia/05.jpg", "Render — dettaglio arredo", 1611, 2000),
+    i("/work/casa-di-paese-ventimiglia/sketch.jpg", "Schizzo di progetto — stesso punto di vista del render", 2000, 1116),
+  ],
+  "appartamento-lungomare-bordighera": [
+    i("/work/appartamento-lungomare-bordighera/01.jpg", "Render — zona giorno fronte mare", 2000, 1116),
+    i("/work/appartamento-lungomare-bordighera/02.jpg", "Render — zona giorno fronte mare", 2000, 1116),
+    i("/work/appartamento-lungomare-bordighera/03.jpg", "Render — zona giorno fronte mare", 1611, 2000),
+    i("/work/appartamento-lungomare-bordighera/04.jpg", "Render — zona giorno fronte mare", 1611, 2000),
+    i("/work/appartamento-lungomare-bordighera/05.jpg", "Render — zona giorno fronte mare", 1611, 2000),
+    i("/work/appartamento-lungomare-bordighera/06.jpg", "Render — dettaglio arredo", 1611, 2000),
+    i("/work/appartamento-lungomare-bordighera/sketch.jpg", "Schizzo di progetto — stesso punto di vista del render", 2000, 1116),
+  ],
+  "residenza-collina-ospedaletti": [
+    i("/work/residenza-collina-ospedaletti/01.jpg", "Render — zona giorno sul giardino di ulivi", 2000, 1116),
+    i("/work/residenza-collina-ospedaletti/02.jpg", "Render — zona giorno sul giardino di ulivi", 2000, 1116),
+    i("/work/residenza-collina-ospedaletti/03.jpg", "Render — zona giorno sul giardino di ulivi", 1611, 2000),
+    i("/work/residenza-collina-ospedaletti/04.jpg", "Render — zona giorno sul giardino di ulivi", 1611, 2000),
+    i("/work/residenza-collina-ospedaletti/05.jpg", "Render — zona giorno sul giardino di ulivi", 1611, 2000),
+    i("/work/residenza-collina-ospedaletti/06.jpg", "Render — dettaglio arredo", 1611, 2000),
+    i("/work/residenza-collina-ospedaletti/sketch.jpg", "Schizzo di progetto — stesso punto di vista del render", 2000, 1116),
+  ],
+  "loft-ex-magazzino": [
+    i("/work/loft-ex-magazzino/01.jpg", "Render — zona giorno al tramonto", 2000, 1116),
+    i("/work/loft-ex-magazzino/02.jpg", "Render — zona giorno al tramonto", 1611, 2000),
+    i("/work/loft-ex-magazzino/03.jpg", "Render — zona giorno al tramonto", 1611, 2000),
+    i("/work/loft-ex-magazzino/04.jpg", "Render — zona giorno al tramonto", 1611, 2000),
+    i("/work/loft-ex-magazzino/05.jpg", "Render — dettaglio arredo", 1611, 2000),
+    i("/work/loft-ex-magazzino/sketch.jpg", "Schizzo di progetto — stesso punto di vista del render", 2000, 1116),
+  ],
+  "villa-mare-bordighera": [
+    i("/work/villa-mare-bordighera/01.jpg", "Render — zona giorno con vista mare", 2000, 1116),
+    i("/work/villa-mare-bordighera/02.jpg", "Render — zona giorno con vista mare", 1611, 2000),
+    i("/work/villa-mare-bordighera/03.jpg", "Render — zona giorno con vista mare", 1611, 2000),
+    i("/work/villa-mare-bordighera/04.jpg", "Render — zona giorno con vista mare", 1611, 2000),
+    i("/work/villa-mare-bordighera/05.jpg", "Render — dettaglio arredo", 1611, 2000),
+    i("/work/villa-mare-bordighera/sketch.jpg", "Schizzo di progetto — stesso punto di vista del render", 2000, 1116),
+  ],
+} satisfies Record<string, Img[]>;
+
+export type WorkSlug = keyof typeof WORK;
+/** кадры без эскиза */
+export const frames = (s: WorkSlug) => WORK[s].filter((x) => !x.src.endsWith("sketch.jpg"));
+export const sketchOf = (s: WorkSlug) => WORK[s].find((x) => x.src.endsWith("sketch.jpg"))!;
+
+const W = WORK;
+const S = (s: WorkSlug) => sketchOf(s);
+
+/**
+ * Семантические изображения для секций сайта (Hero, услуги, процесс, сегменты, журнал…).
+ * Имена исторические (от заглушек), содержимое — рендеры FORMA BURO.
+ */
 export const IMG = {
-  // экстерьеры / виллы
-  villaPool: u("1512917774080-9991f1c4c750", "Villa con piscina"),
-  houseModern: u("1600585154340-be6161a56a0c", "Casa contemporanea"),
-  houseDusk: u("1600596542815-ffad4c1539a9", "Villa al tramonto", 2400, 1592),
-  houseLuxury: u("1613490493576-7fde63acd811", "Residenza di pregio"),
-  houseWhite: u("1600047509807-ba8f99d2cdde", "Facciata bianca", 2400, 2012),
-  houseGarden: u("1580587771525-78b9dba3b914", "Casa con giardino", 2400, 1800),
-  houseFacade: u("1564013799919-ab600027ffc6", "Facciata residenziale"),
-  houseCube: u("1600585152220-90363fe7e115", "Volumi contemporanei"),
-  houseTerrace: u("1600563438938-a9a27216b4f5", "Terrazza esterna"),
-  houseSquare: u("1523217582562-09d0def993a6", "Casa unifamiliare", 2400, 2400),
-  houseClassic: u("1568605114967-8130f3a36994", "Casa con portico"),
-  building: u("1486406146926-c627a92ad1ab", "Edificio residenziale"),
-  architecture: u("1487958449943-2429e8be8625", "Dettaglio architettonico"),
-  // интерьеры
-  living1: u("1600210492486-724fe5c67fb0", "Soggiorno luminoso", 2400, 1800),
-  living2: u("1616486338812-3dadae4b4ace", "Living contemporaneo", 2400, 1352),
-  living3: u("1618221195710-dd6b41faaea6", "Zona giorno", 2400, 1264),
-  living4: u("1600607687939-ce8a6c25118c", "Interno open space", 2400, 1632),
-  living5: u("1502672260266-1c1ef2d93688", "Appartamento arredato", 2400, 1784),
-  living6: u("1493809842364-78817add7ffb", "Salotto"),
-  living7: u("1600494603989-9650cf6ddd3d", "Soggiorno con vista", 2400, 1800),
-  living8: u("1600607688969-a5bfcd646154", "Ambiente living"),
-  living9: u("1631679706909-1844bbd07221", "Interno minimal", 2400, 1756),
-  living10: u("1617806118233-18e1de247200", "Interno caldo", 2400, 1352),
-  kitchen1: u("1600566753190-17f0baa2a6c3", "Cucina"),
-  kitchen2: u("1484154218962-a197022b5858", "Cucina aperta", 2400, 1596),
-  kitchen3: u("1600121848594-d8644e57abab", "Cucina con isola"),
-  kitchen4: u("1600573472550-8090b5e0745e", "Cucina e pranzo"),
-  bedroom1: u("1505691938895-1758d7feb511", "Camera da letto"),
-  bedroom2: u("1560448204-e02f11c3d0e2", "Camera matrimoniale"),
-  bath: u("1600566752355-35792bedcfea", "Bagno", 1600, 2400),
-  chair: u("1586023492125-27b2c045efd7", "Dettaglio arredo", 2400, 2116),
-  detail: u("1615874959474-d609969a20ed", "Dettaglio materiali", 2400, 2400),
-  vertical: u("1600489000022-c2086d79f9d4", "Interno verticale", 1800, 2400),
-  office: u("1497366216548-37526070297c", "Spazio di lavoro", 2400, 1604),
-  // планы / процесс
-  plans: u("1503387762-592deb58ef4e", "Tavole di progetto e planimetrie", 2400, 1352),
-  sketch: u("1541123437800-1bb1317badc2", "Schizzo di progetto"),
-  site: u("1449844908441-8829872d2607", "Edificio da riqualificare"),
-  street: u("1494526585095-c41746248156", "Immobile residenziale"),
-  facade2: u("1558036117-15d82a90b9b1", "Facciata"),
-  interior11: u("1572120360610-d971b9d7767c", "Interno residenziale"),
+  hero: W["attico-porto-vecchio"][0],
+  villaPool: W["villa-mare-bordighera"][0],
+  houseDusk: W["loft-ex-magazzino"][0],
+  houseCube: W["residenza-collina-ospedaletti"][0],
+  building: W["residenza-collina-ospedaletti"][2],
+  houseTerrace: W["appartamento-lungomare-bordighera"][1],
+  houseFacade: W["residenza-collina-ospedaletti"][3],
+  facade2: W["appartamento-lungomare-bordighera"][2],
+  architecture: S("villa-mare-bordighera"),
+  living1: W["villa-mare-bordighera"][1],
+  living2: W["attico-porto-vecchio"][1],
+  living3: W["residenza-collina-ospedaletti"][1],
+  living4: W["loft-ex-magazzino"][1],
+  living5: W["appartamento-corso-imperatrice"][0],
+  living6: W["appartamento-corso-inglesi"][1],
+  living7: W["villa-mare-bordighera"][0],
+  living8: W["attico-porto-vecchio"][2],
+  living9: W["loft-ex-magazzino"][2],
+  living10: W["casa-di-paese-ventimiglia"][1],
+  kitchen1: W["appartamento-corso-imperatrice"][3],
+  kitchen2: W["appartamento-corso-inglesi"][2],
+  kitchen3: W["appartamento-corso-imperatrice"][2],
+  kitchen4: W["appartamento-lungomare-bordighera"][3],
+  bedroom1: W["appartamento-corso-imperatrice"][6],
+  bedroom2: W["appartamento-corso-imperatrice"][8],
+  bath: W["appartamento-corso-imperatrice"][11],
+  chair: W["casa-di-paese-ventimiglia"][4],
+  detail: W["appartamento-corso-imperatrice"][5],
+  vertical: W["appartamento-corso-imperatrice"][12],
+  office: W["appartamento-corso-inglesi"][0],
+  interior11: W["casa-di-paese-ventimiglia"][2],
+  plans: S("appartamento-corso-imperatrice"),
+  sketch: S("residenza-collina-ospedaletti"),
+  site: W["casa-di-paese-ventimiglia"][0],
+  street: W["casa-di-paese-ventimiglia"][0],
+  // крупные планы — для «Студии» и галерей
+  closeVelvet: W["attico-porto-vecchio"][5],
+  closeLeather: W["casa-di-paese-ventimiglia"][4],
+  closeWool: W["appartamento-lungomare-bordighera"][5],
+  closeEames: W["villa-mare-bordighera"][4],
 } satisfies Record<string, Img>;

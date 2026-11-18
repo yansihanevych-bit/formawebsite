@@ -3,6 +3,7 @@ import { t } from "@/lib/i18n";
 import { getDict } from "@/dictionaries";
 import { projects } from "@/content/projects";
 import { segments } from "@/content/segments";
+import { services } from "@/content/services";
 import { ProjectsFilter } from "@/components/sections/ProjectsFilter";
 import { PageIntro } from "@/components/sections/PageIntro";
 import { pageMeta } from "@/lib/seo";
@@ -18,13 +19,14 @@ export default async function Page({ params }: PageProps<"/[lang]/projects">) {
   const d = getDict(lang);
   return (
     <>
-      <PageIntro eyebrow={`${projects.length} ${d.projects.title.toLowerCase()}`} title={d.projects.title} lead={d.projects.lead} />
+      <PageIntro eyebrow={`${projects.length} ${d.explorer.results}`} title={d.projects.title} lead={d.projects.lead} />
       <section className="container-x pb-28 md:pb-40">
         <ProjectsFilter
-          allLabel={d.projects.all}
-          filters={segments.map((s) => ({ id: s.id, label: t(s.label, lang) }))}
           items={projects}
           lang={lang}
+          t={d.explorer}
+          segments={segments.map((s) => ({ id: s.id, label: t(s.label, lang) }))}
+          services={services.map((s) => ({ id: s.id, label: t(s.title, lang) }))}
         />
       </section>
     </>

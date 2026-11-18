@@ -27,22 +27,43 @@ export function Gallery({ images, labels }: { images: Img[]; labels: L }) {
     };
   }, [i, go]);
 
-  // ритм сетки: широкий, два узких, широкий...
-  const span = (k: number) => (k % 3 === 0 ? "md:col-span-12 aspect-[16/9]" : "md:col-span-6 aspect-[4/5]");
+  // раскладка по ориентации: горизонтальные — во всю ширину, вертикальные — рядами по 2 и по 3 (без обрезки)
+  type Cell = { img: Img; k: number; cls: string; sizes: string };
+  const cells: Cell[] = [];
+  const buf: { img: Img; k: number }[] = [];
+  let rowSize = 2;
+  const flush = (force = false) => {
+    while (buf.length >= rowSize || (force && buf.length)) {
+      const take = buf.splice(0, Math.min(rowSize, buf.length));
+      const span = take.length === 3 ? "md:col-span-4" : take.length === 2 ? "md:col-span-6" : "md:col-span-6 md:col-start-4";
+      take.forEach((t) => cells.push({ ...t, cls: `${span} aspect-[4/5]`, sizes: take.length === 3 ? "(min-width: 768px) 31vw, 100vw" : "(min-width: 768px) 46vw, 100vw" }));
+      rowSize = rowSize === 2 ? 3 : 2;
+    }
+  };
+  images.forEach((img, k) => {
+    if (img.w > img.h) {
+      flush(true);
+      cells.push({ img, k, cls: "md:col-span-12 aspect-[16/9]", sizes: "100vw" });
+    } else {
+      buf.push({ img, k });
+      flush();
+    }
+  });
+  flush(true);
 
   return (
     <>
       <div className="grid gap-4 md:grid-cols-12 md:gap-6">
-        {images.map((img, k) => (
+        {cells.map(({ img, k, cls, sizes }) => (
           <button
             key={img.src + k}
             type="button"
             onClick={() => setI(k)}
             aria-label={`${labels.enlarge} ${k + 1}/${n}`}
-            className={`group relative block w-full overflow-hidden bg-paper-2 ${span(k)}`}
+            className={`group relative block w-full overflow-hidden bg-paper-2 ${cls}`}
           >
-            <Image src={img.src} alt={img.alt} fill sizes={k % 3 === 0 ? "100vw" : "(min-width: 768px) 50vw, 100vw"} className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.03]" />
-            <span className="eyebrow absolute bottom-4 left-4 bg-paper/90 px-2.5 py-1.5 text-[0.55rem] opacity-0 transition-opacity group-hover:opacity-100">
+            <Image src={img.src} alt={img.alt} fill sizes={sizes} className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.03]" />
+            <span className="eyebrow absolute bottom-4 left-4 bg-warm/90 px-2.5 py-1.5 text-graphite text-[0.55rem] opacity-0 transition-opacity group-hover:opacity-100">
               {k + 1}/{n}
             </span>
           </button>
@@ -55,7 +76,7 @@ export function Gallery({ images, labels }: { images: Img[]; labels: L }) {
             role="dialog"
             aria-modal="true"
             data-lenis-prevent
-            className="fixed inset-0 z-[80] flex flex-col bg-ink/97 text-paper"
+            className="fixed inset-0 z-[80] flex flex-col bg-graphite/97 text-warm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

@@ -3,20 +3,25 @@ import type { Plan } from "@/content/misc";
 import { t, type Locale } from "@/lib/i18n";
 import { Reveal } from "@/components/ui/Reveal";
 import { Arrow } from "@/components/ui/Arrow";
+import { DrawLine } from "@/components/ui/DrawLine";
+import { Corners } from "@/components/ui/Corners";
 
 /** Pricing без тяжёлых карточек: тонкие разделители, цена — главный элемент */
 export function PricingCards({ items, lang, cta, popular }: { items: Plan[]; lang: Locale; cta: string; popular: string }) {
   const cols = items.length >= 4 ? "xl:grid-cols-4" : items.length === 3 ? "xl:grid-cols-3" : "xl:grid-cols-2";
   return (
-    <div className={`grid border-t border-ink md:grid-cols-2 ${cols}`}>
+    <>
+    <DrawLine strong />
+    <div className={`grid md:grid-cols-2 ${cols}`}>
       {items.map((p, k) => (
         <Reveal
           key={p.id}
           delay={k * 0.06}
-          className={`group flex flex-col border-b border-line px-0 py-10 transition-colors duration-500 md:px-8 md:[&:not(:first-child)]:border-l ${
+          className={`group relative flex flex-col border-b border-line px-0 py-10 transition-colors duration-500 md:px-8 md:[&:not(:first-child)]:border-l ${
             p.highlight ? "bg-concrete/45" : "hover:bg-concrete/25"
           }`}
         >
+          <Corners className="hidden md:block" />
           <div className="flex min-h-10 items-start justify-between gap-3">
             <h3 className="meta">{t(p.name, lang)}</h3>
             {p.highlight && <span className="meta text-accent">— {popular}</span>}
@@ -37,5 +42,6 @@ export function PricingCards({ items, lang, cta, popular }: { items: Plan[]; lan
         </Reveal>
       ))}
     </div>
+    </>
   );
 }

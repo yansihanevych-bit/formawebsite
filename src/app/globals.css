@@ -3,17 +3,49 @@
 @import "@fontsource-variable/inter";
 
 /* ───────── Design tokens ───────── */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ───────── Тема: светлая (по умолчанию) / тёмная ─────────
+   paper/ink/… — семантические токены, меняются с темой.
+   graphite/warm/stone — фиксированные цвета для всегда тёмных поверхностей (Hero, футер, оверлеи). */
+:root {
+  --paper: #f2f0ea; /* Warm white */
+  --paper-2: #d8d6cf; /* Concrete */
+  --concrete: #d8d6cf;
+  --ink: #171918; /* Graphite */
+  --ink-2: #2b2e2c;
+  --muted: #6c6f66;
+  --accent: #9c5235; /* лигурийская терракота — акцент линий и меток */
+  --line: rgb(23 25 24 / 0.12);
+  color-scheme: light;
+}
+[data-theme="dark"] {
+  --paper: #111312;
+  --paper-2: #242725;
+  --concrete: #2a2d2b;
+  --ink: #ecebe5;
+  --ink-2: #d2d1ca;
+  --muted: #9b9e93;
+  --accent: #d48a64;
+  --line: rgb(236 235 229 / 0.13);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-concrete: var(--concrete);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-line: var(--line);
+}
+
 @theme {
-  /* Палитра из рекомендаций по редизайну */
-  --color-ink: #171918; /* Graphite — тёмный фон и текст */
-  --color-ink-2: #2b2e2c;
-  --color-paper: #f2f0ea; /* Warm white — основной светлый фон */
-  --color-paper-2: #d8d6cf; /* Concrete — вторичные поверхности */
-  --color-concrete: #d8d6cf;
-  --color-stone: #a7aa9c; /* Stone — сдержанный акцент (на тёмном) */
-  --color-accent: #7c806f; /* Stone, затемнённый для текста на светлом */
-  --color-muted: #6c6f66; /* вторичный текст на светлом (контраст AA) */
-  --color-line: rgb(23 25 24 / 0.12);
+  --color-graphite: #171918;
+  --color-warm: #f2f0ea;
+  --color-stone: #a7aa9c;
 
   --font-display: "Manrope Variable", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
@@ -25,6 +57,7 @@
   html {
     background: var(--color-paper);
     color: var(--color-ink);
+    transition: background-color 0.4s ease, color 0.4s ease;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -86,7 +119,17 @@
     letter-spacing: 0.14em;
     text-transform: uppercase;
   }
+  /* Кнопки в инженерном стиле (DeLorean × FORMA BURO):
+     рамка 1px, срезанный угол, заливка шторкой при hover, акцентная линия снизу, стрелка смещается, клик — сжатие */
   .btn {
+    --btn-bg: transparent;
+    --btn-fg: currentColor;
+    --btn-bd: currentColor;
+    --btn-fill: var(--color-ink);
+    --btn-fill-fg: var(--color-paper);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     display: inline-flex;
     align-items: center;
     gap: 0.9rem;
@@ -96,38 +139,72 @@
     font-weight: 600;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    transition: background-color 0.35s var(--ease-out-expo), color 0.35s var(--ease-out-expo),
-      border-color 0.35s var(--ease-out-expo);
-    border: 1px solid currentColor;
+    color: var(--btn-fg);
+    /* диагональ срезанного угла дорисовывается градиентом, чтобы рамка не рвалась */
+    background: linear-gradient(225deg, transparent 7.9px, var(--btn-bd) 7.9px 8.9px, var(--btn-bg) 8.9px);
+    border: 1px solid var(--btn-bd);
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+    transition: color 0.45s var(--ease-out-expo), transform 0.2s ease, border-color 0.45s;
+  }
+  .btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--btn-fill);
+    transform: translateX(-101%);
+    transition: transform 0.6s var(--ease-out-expo);
+  }
+  .btn::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.7s var(--ease-out-expo);
+  }
+  .btn:hover {
+    color: var(--btn-fill-fg);
+  }
+  .btn:hover::before {
+    transform: translateX(0);
+  }
+  .btn:hover::after {
+    transform: scaleX(1);
+  }
+  .btn:active {
+    transform: scale(0.98);
   }
   .btn .arr {
     transition: transform 0.45s var(--ease-out-expo);
   }
   .btn:hover .arr {
-    transform: translate(3px, -3px);
+    transform: translateX(4px);
   }
   .btn-solid {
-    background: var(--color-ink);
-    color: var(--color-paper);
-    border-color: var(--color-ink);
+    --btn-bg: var(--color-ink);
+    --btn-fg: var(--color-paper);
+    --btn-bd: var(--color-ink);
+    --btn-fill: var(--color-accent);
+    --btn-fill-fg: #fff;
   }
-  .btn-solid:hover {
-    background: var(--color-ink-2);
-    border-color: var(--color-ink-2);
+  .btn-ghost {
+    --btn-fg: var(--color-ink);
+    --btn-bd: var(--color-ink);
+    --btn-fill: var(--color-ink);
+    --btn-fill-fg: var(--color-paper);
   }
-  .btn-ghost:hover {
-    background: var(--color-ink);
-    color: var(--color-paper);
-    border-color: var(--color-ink);
-  }
+  /* на тёмных поверхностях — не зависит от темы */
   .btn-light {
-    background: var(--color-paper);
-    color: var(--color-ink);
-    border-color: var(--color-paper);
-  }
-  .btn-light:hover {
-    background: transparent;
-    color: var(--color-paper);
+    --btn-bg: var(--color-warm);
+    --btn-fg: var(--color-graphite);
+    --btn-bd: var(--color-warm);
+    --btn-fill: var(--color-graphite);
+    --btn-fill-fg: var(--color-warm);
   }
   .link-u {
     background-image: linear-gradient(currentColor, currentColor);
@@ -191,4 +268,56 @@ html.lenis, html.lenis body { height: auto; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Бегущая строка в полоске над шапкой */
+@keyframes announce {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.announce-track {
+  animation: announce 38s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .announce-track { animation: none; }
+}
+
+/* Кастомный курсор: прячем системный только над целевыми элементами и только на мыши */
+html.custom-cursor [data-cursor],
+html.custom-cursor [data-cursor] * {
+  cursor: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn::before, .btn::after { transition: none; }
+}
+
+/* Range-слайдер калькулятора: акцентный трек */
+.range-accent {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 2px;
+  background: linear-gradient(to right, var(--color-accent) var(--p, 50%), var(--color-line) var(--p, 50%));
+  outline: none;
+}
+.range-accent::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--color-accent);
+  background: var(--color-paper);
+  cursor: grab;
+  transform: rotate(45deg);
+}
+.range-accent::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--color-accent);
+  background: var(--color-paper);
+  border-radius: 0;
+  cursor: grab;
+}
+.range-accent:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
 }

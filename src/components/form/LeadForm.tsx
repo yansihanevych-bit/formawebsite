@@ -45,11 +45,11 @@ const COUNTRIES = ["Italia", "France", "Monaco", "Switzerland", "Germany", "Unit
 const MESSENGERS = ["WhatsApp", "Telegram", "Signal", "Viber"];
 
 type Props = {
-  lang: "it" | "en";
+  lang: "it" | "en" | "ru";
   t: Dict["form"];
   clientTypes: Opt[];
   services: Opt[];
-  questions: Record<string, { it: string; en: string }[]>;
+  questions: Record<string, { it: string; en: string; ru: string }[]>;
   contactEmail: string;
 };
 
@@ -438,7 +438,7 @@ export function LeadForm({ lang, t, clientTypes, services, questions, contactEma
                 </div>
                 <div>
                   <Label>{t.language}</Label>
-                  <Chips opts={[{ id: "it", label: "Italiano" }, { id: "en", label: "English" }]} value={s.language} onPick={(id) => set("language", id)} />
+                  <Chips opts={[{ id: "it", label: "Italiano" }, { id: "en", label: "English" }, { id: "ru", label: "Русский" }]} value={s.language} onPick={(id) => set("language", id)} />
                 </div>
                 <div className="space-y-4 border-t border-line pt-8 text-sm">
                   <label className="flex cursor-pointer gap-3">

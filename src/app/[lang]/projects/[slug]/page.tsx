@@ -8,7 +8,7 @@ import { serviceById } from "@/content/services";
 import { MaskImage } from "@/components/ui/MaskImage";
 import { SplitText } from "@/components/ui/SplitText";
 import { CaseSection } from "@/components/sections/CaseSection";
-import { IMG } from "@/content/images";
+import { ProjectIcon } from "@/components/ui/ProjectIcon";
 import { Reveal } from "@/components/ui/Reveal";
 import { ReadMore } from "@/components/ui/ReadMore";
 import { Arrow } from "@/components/ui/Arrow";
@@ -59,7 +59,7 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
         about: t(p.intro, lang),
         locationCreated: { "@type": "Place", name: `${p.location}, Liguria` },
         creator: { "@type": "Organization", name: "FORMA BURO" },
-        image: p.gallery.map((g) => sized(g.src, 1600)),
+        image: p.gallery.map((g) => sized(g.src, 1920)),
       },
       {
         "@type": "BreadcrumbList",
@@ -75,19 +75,22 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
   return (
     <>
       {/* Hero: крупное фото с mask reveal + заголовок */}
-      <section data-hero-dark className="relative h-[86svh] min-h-[560px] overflow-hidden bg-ink text-paper">
+      <section data-hero-dark className="relative h-[86svh] min-h-[560px] overflow-hidden bg-graphite text-warm">
         <MaskImage img={p.hero[0]} priority sizes="100vw" quality={85} className="absolute inset-0" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-black/40" />
         <div className="container-x relative flex h-full flex-col justify-end pb-10 md:pb-14">
-          <Link href={`/${lang}/projects`} className="meta mb-8 inline-flex items-center gap-3 text-paper/70 hover:text-paper">
+          <Link href={`/${lang}/projects`} className="meta mb-8 inline-flex items-center gap-3 text-warm/70 hover:text-warm">
             <Arrow dir="left" /> {d.common.back}
           </Link>
-          <p className="meta mb-5 text-paper/70">— {p.location} · {t(p.propertyType, lang)}</p>
+          <div className="mb-5 flex items-center gap-4">
+            <ProjectIcon slug={p.slug} className="h-10 w-10 text-warm" />
+            <p className="meta text-warm/70">— {p.location} · {t(p.propertyType, lang)} · {p.status === "completed" ? d.explorer.completed : d.explorer.inProgress}</p>
+          </div>
           <SplitText as="h1" lines={[t(p.title, lang)]} onMount delay={0.4} className="h-display max-w-[16ch] normal-case" />
           <dl className="mt-10 grid grid-cols-2 gap-6 border-t border-white/20 pt-6 md:grid-cols-6">
             {facts.map(([k, v]) => (
               <div key={k}>
-                <dt className="meta text-paper/55">{k}</dt>
+                <dt className="meta text-warm/55">{k}</dt>
                 <dd className="mt-1 text-sm">{v}</dd>
               </div>
             ))}
@@ -107,7 +110,7 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
               <p className="mt-3 font-display text-2xl font-medium leading-snug tracking-tight">{t(p.challenge, lang)}</p>
             </div>
           </div>
-          <MaskImage img={p.before} sizes="(min-width: 768px) 45vw, 100vw" className="aspect-[4/3] md:col-span-5 md:col-start-8" />
+          <MaskImage img={p.gallery[2] ?? p.cover} sizes="(min-width: 768px) 45vw, 100vw" className="aspect-[4/3] md:col-span-5 md:col-start-8" />
         </div>
       </CaseSection>
 
@@ -125,7 +128,7 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
       {/* 03 — Планировка и ключевые решения */}
       <CaseSection n="03" title={d.projects.s3}>
         <div className="grid gap-10 md:grid-cols-12">
-          <MaskImage img={IMG.plans} sizes="(min-width: 768px) 50vw, 100vw" className="aspect-[16/10] md:col-span-6" />
+          <MaskImage img={p.before} sizes="(min-width: 768px) 50vw, 100vw" className="aspect-[16/10] md:col-span-6" />
           <ol className="border-t border-ink md:col-span-5 md:col-start-8">
             {p.decisions.map((x, k) => (
               <Reveal as="li" key={k} delay={k * 0.08} className="grid grid-cols-[3rem_1fr] gap-4 border-b border-line py-6">
